@@ -185,7 +185,7 @@ export default function StudentsPage() {
     const paymentPromises = paidEnries.map(([idStr, amt]) => {
             const courseId = parseInt(idStr);
             const period = coursePeriods[courseId];
-            return fetch("http://localhost:3001/payments", {
+            return fetch(`${API_BASE_URL}/payments`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({

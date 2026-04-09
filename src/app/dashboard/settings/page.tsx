@@ -27,6 +27,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
 import { Sidebar } from "@/components/Sidebar";
+import { API_BASE_URL } from "@/app/constants";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -72,7 +73,7 @@ export default function SettingsPage() {
   const fetchUsers = async () => {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch("http://localhost:3001/users", {
+      const res = await fetch(`${API_BASE_URL}/users`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (res.ok) setUsers(await res.json());
@@ -82,7 +83,7 @@ export default function SettingsPage() {
   const fetchGroups = async () => {
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch("http://localhost:3001/groups", {
+      const res = await fetch(`${API_BASE_URL}/groups`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (res.ok) setGroups(await res.json());
@@ -111,7 +112,7 @@ export default function SettingsPage() {
         return;
     }
     const token = localStorage.getItem("access_token");
-    const url = isEditingUser ? `http://localhost:3001/users/${editingUserId}` : "http://localhost:3001/users";
+    const url = isEditingUser ? `${API_BASE_URL}/users/${editingUserId}` : `${API_BASE_URL}/users`;
     const method = isEditingUser ? "PUT" : "POST";
     try {
       const res = await fetch(url, {
@@ -131,7 +132,7 @@ export default function SettingsPage() {
     if (!confirm("Ushbu xodimni o'chirishni xohlaysizmi?")) return;
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch(`http://localhost:3001/users/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/users/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -144,7 +145,7 @@ export default function SettingsPage() {
     setSendingNotification(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch("http://localhost:3001/notifications/send", {
+      const res = await fetch(`${API_BASE_URL}/notifications/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify(notificationForm)
@@ -174,7 +175,7 @@ export default function SettingsPage() {
     setUpdatingCredentials(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch("http://localhost:3001/centers/me/credentials", {
+      const res = await fetch(`${API_BASE_URL}/centers/me/credentials`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ login: credentialsForm.login, password: credentialsForm.password })
@@ -200,7 +201,7 @@ export default function SettingsPage() {
     setUpdatingProfile(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch("http://kw6980oiw8rts2o7p2h03f7i.178.104.171.171.sslip.io/centers/me/profile", {
+      const res = await fetch(`${API_BASE_URL}/centers/me/profile`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify(profileForm)

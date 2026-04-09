@@ -20,6 +20,7 @@ import {
   Edit3
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { API_BASE_URL } from "@/app/constants";
 
 export default function SetupDashboard() {
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function SetupDashboard() {
   const fetchCenters = async () => {
     const token = localStorage.getItem("access_token");
     try {
-      const response = await fetch("http://localhost:3001/centers", {
+      const response = await fetch(`${API_BASE_URL}/centers`, {
         headers: { "Authorization": `Bearer ${token}` },
       });
       if (response.ok) {
@@ -54,8 +55,8 @@ export default function SetupDashboard() {
     if (!newCenter.name || !newCenter.login || !newCenter.pass) return;
     const token = localStorage.getItem("access_token");
     const url = isEditing 
-      ? `http://localhost:3001/centers/${editingId}` 
-      : "http://localhost:3001/centers";
+      ? `${API_BASE_URL}/centers/${editingId}` 
+      : `${API_BASE_URL}/centers`;
 
     try {
       const response = await fetch(url, {
