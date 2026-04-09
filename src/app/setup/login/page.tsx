@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, User, CheckCircle, AlertCircle } from "lucide-react";
-import { API_BASE_URL } from "@/app/constants";
+import { getApiBaseUrl } from "@/app/constants";
 
 export default function SetupLogin() {
   const [login, setLogin] = useState("");
@@ -18,7 +18,7 @@ export default function SetupLogin() {
     setError("");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetch(`${getApiBaseUrl()}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ login, password }),

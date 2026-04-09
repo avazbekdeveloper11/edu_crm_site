@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { 
-  Settings, 
-  Terminal, 
-  Database, 
-  MessageSquare, 
-  AlertCircle, 
-  CheckCircle2, 
+import {
+  Settings,
+  Terminal,
+  Database,
+  MessageSquare,
+  AlertCircle,
+  CheckCircle2,
   Activity,
   HardDrive,
   Cpu,
@@ -20,7 +20,7 @@ import {
   Edit3
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { API_BASE_URL } from "@/app/constants";
+import { getApiBaseUrl } from "@/app/constants";
 
 export default function SetupDashboard() {
   const router = useRouter();
@@ -35,11 +35,17 @@ export default function SetupDashboard() {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [apiUrl, setApiUrl] = useState("");
+
+  useEffect(() => {
+    setApiUrl(getApiBaseUrl());
+  }, []);
 
   const fetchCenters = async () => {
     const token = localStorage.getItem("access_token");
+    const currentApiUrl = getApiBaseUrl();
     try {
-      const response = await fetch(`${API_BASE_URL}/centers`, {
+      const response = await fetch(`${currentApiUrl}/centers`, {
         headers: { "Authorization": `Bearer ${token}` },
       });
       if (response.ok) {
@@ -54,14 +60,15 @@ export default function SetupDashboard() {
   const handleCreateOrUpdate = async () => {
     if (!newCenter.name || !newCenter.login || !newCenter.pass) return;
     const token = localStorage.getItem("access_token");
-    const url = isEditing 
-      ? `${API_BASE_URL}/centers/${editingId}` 
-      : `${API_BASE_URL}/centers`;
+    const currentApiUrl = getApiBaseUrl();
+    const url = isEditing
+      ? `${currentApiUrl}/centers/${editingId}`
+      : `${currentApiUrl}/centers`;
 
     try {
       const response = await fetch(url, {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
@@ -78,11 +85,11 @@ export default function SetupDashboard() {
   };
 
   const openEdit = (center: any) => {
-    setNewCenter({ 
-      name: center.name, 
-      login: center.login, 
+    setNewCenter({
+      name: center.name,
+      login: center.login,
       pass: center.password || center.pass,
-      botToken: center.botToken || "" 
+      botToken: center.botToken || ""
     });
     setEditingId(center.id);
     setIsEditing(true);
@@ -100,7 +107,7 @@ export default function SetupDashboard() {
     const token = localStorage.getItem("access_token");
     const userData = localStorage.getItem("user");
     const user = userData ? JSON.parse(userData) : null;
-    
+
     if (!token || user?.role !== "SUPER_ADMIN") {
       router.push("/setup/login");
     } else {
@@ -115,13 +122,13 @@ export default function SetupDashboard() {
     <div className="min-h-screen bg-[#050505] text-gray-100 flex font-sans relative">
       <AnimatePresence>
         {showModal && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
@@ -131,36 +138,36 @@ export default function SetupDashboard() {
                 {isEditing ? "Markazni Tahrirlash" : "Yangi Markaz Qo'shish"}
               </h2>
               <div className="space-y-4">
-                <InputField 
-                  label="Markaz Nomi" 
-                  value={newCenter.name} 
-                  onChange={(e: any) => setNewCenter({...newCenter, name: e.target.value})}
+                <InputField
+                  label="Markaz Nomi"
+                  value={newCenter.name}
+                  onChange={(e: any) => setNewCenter({ ...newCenter, name: e.target.value })}
                 />
-                <InputField 
-                  label="Login" 
+                <InputField
+                  label="Login"
                   value={newCenter.login}
-                  onChange={(e: any) => setNewCenter({...newCenter, login: e.target.value})}
+                  onChange={(e: any) => setNewCenter({ ...newCenter, login: e.target.value })}
                 />
-                <InputField 
-                  label="Parol" 
+                <InputField
+                  label="Parol"
                   value={newCenter.pass}
-                  onChange={(e: any) => setNewCenter({...newCenter, pass: e.target.value})}
+                  onChange={(e: any) => setNewCenter({ ...newCenter, pass: e.target.value })}
                 />
-                <InputField 
-                  label="Telegram Bot Token" 
+                <InputField
+                  label="Telegram Bot Token"
                   value={newCenter.botToken}
-                  onChange={(e: any) => setNewCenter({...newCenter, botToken: e.target.value})}
+                  onChange={(e: any) => setNewCenter({ ...newCenter, botToken: e.target.value })}
                   placeholder="7483...:AAH... (optional)"
                 />
               </div>
               <div className="flex gap-3 mt-8">
-                <button 
+                <button
                   onClick={closeModal}
                   className="flex-1 px-4 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold transition-all text-gray-300"
                 >
                   Bekor qilish
                 </button>
-                <button 
+                <button
                   onClick={handleCreateOrUpdate}
                   className="flex-1 px-4 py-3 bg-purple-600 hover:bg-purple-500 rounded-xl font-bold transition-all text-white"
                 >
@@ -188,7 +195,7 @@ export default function SetupDashboard() {
         </nav>
 
         <div className="mt-auto">
-          <button 
+          <button
             onClick={() => { localStorage.clear(); router.push("/setup/login"); }}
             className="w-full p-4 rounded-xl border border-red-500/20 bg-red-500/5 text-red-500 text-sm font-bold hover:bg-red-500/10 transition-all flex items-center justify-center gap-2"
           >
@@ -227,7 +234,7 @@ export default function SetupDashboard() {
                 <p className="text-sm text-gray-500">Yangi o'quv markazlari qo'shish va ularga kirish huquqini berish.</p>
               </div>
             </div>
-            <button 
+            <button
               onClick={() => setShowModal(true)}
               className="px-5 py-2 bg-purple-600 rounded-xl font-bold text-sm tracking-tight hover:bg-purple-500 transition-all flex items-center gap-2"
             >
@@ -249,11 +256,11 @@ export default function SetupDashboard() {
               </thead>
               <tbody className="text-sm font-medium">
                 {centers.map(center => (
-                  <CenterRow 
-                    key={center.id} 
-                    {...center} 
+                  <CenterRow
+                    key={center.id}
+                    {...center}
                     pass={center.password}
-                    onEdit={() => openEdit(center)} 
+                    onEdit={() => openEdit(center)}
                   />
                 ))}
               </tbody>
@@ -270,10 +277,10 @@ export default function SetupDashboard() {
             </div>
             <div className="space-y-4">
               <InputField label="Bot Token (Telegram)" value={config.botToken} disabled />
-              <InputField label="Webhook URL" value="https://api.edumarkaz.uz/bot" />
+              <InputField label="Webhook URL" value={`${apiUrl}/bot`} disabled />
             </div>
-            <button className="px-6 py-3 bg-purple-600 rounded-xl font-bold hover:bg-purple-500 transition-all">
-              Update Bot Token
+            <button className="px-6 py-3 bg-purple-600 rounded-xl font-bold hover:bg-purple-500 transition-all opacity-50 cursor-not-allowed">
+              Update Bot Token (Coming Soon)
             </button>
           </div>
 
@@ -283,14 +290,14 @@ export default function SetupDashboard() {
               <h2 className="text-xl font-bold">Database & Backend</h2>
             </div>
             <div className="space-y-4">
-              <InputField label="Database URL" value={config.dbUrl} type="password" />
+              <InputField label="Backend URL" value={apiUrl} disabled />
               <div className="grid grid-cols-2 gap-4">
-                <InputField label="Port" value={config.port} />
-                <InputField label="Environment" value="Production" />
+                <InputField label="Port" value={config.port} disabled />
+                <InputField label="Environment" value="Production" disabled />
               </div>
             </div>
-            <button className="px-6 py-3 bg-blue-600 rounded-xl font-bold hover:bg-blue-500 transition-all">
-              Save Changes
+            <button className="px-6 py-3 bg-blue-600 rounded-xl font-bold hover:bg-blue-500 transition-all opacity-50 cursor-not-allowed">
+              Save Changes (Coming Soon)
             </button>
           </div>
         </section>
@@ -317,15 +324,14 @@ function CenterRow({ name, login, pass, status, onEdit }: any) {
       <td className="py-4 text-gray-400 font-mono text-xs">{login}</td>
       <td className="py-4 text-gray-400 font-mono text-xs">{pass}</td>
       <td className="py-4">
-        <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${
-          status === "Active" ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"
-        }`}>
+        <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${status === "Active" ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"
+          }`}>
           {status}
         </span>
       </td>
       <td className="py-4 pr-4 transition-all lg:opacity-0 group-hover:opacity-100">
         <div className="flex justify-end gap-2">
-          <button 
+          <button
             onClick={onEdit}
             className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-all text-gray-400 hover:text-white"
           >
@@ -377,8 +383,8 @@ function InputField({ label, value, type = "text", disabled = false, onChange }:
   return (
     <div className="space-y-1.5">
       <label className="text-xs text-gray-500 uppercase tracking-widest font-bold ml-1">{label}</label>
-      <input 
-        type={type} 
+      <input
+        type={type}
         value={value}
         onChange={onChange}
         disabled={disabled}
