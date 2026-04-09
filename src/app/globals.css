@@ -1,26 +1,103 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --crm-bg: #f8fafc; /* slate-100 */
+  --crm-sidebar: #ffffff;
+  --crm-card: #ffffff;
+  --crm-text: #0f172a; /* slate-900 */
+  --crm-text-muted: #64748b; /* slate-500 */
+  --crm-border: #e2e8f0; /* slate-200 */
+  --crm-accent: #7c3aed; /* violet-600 */
+  --crm-accent-soft: rgba(124, 58, 237, 0.1);
+  --crm-success: #22c55e; /* green-500 */
+  --crm-success-soft: rgba(34, 197, 94, 0.1);
+  --crm-error: #ef4444; /* red-500 */
+  --crm-error-soft: rgba(239, 68, 68, 0.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --crm-bg: #0b0e14; /* refined deep charcoal */
+  --crm-sidebar: #0f121a; /* slightly lighter than bg */
+  --crm-card: #131721; /* distinct from bg/sidebar */
+  --crm-text: #e2e8f0; /* softer white (slate-200) */
+  --crm-text-muted: #64748b; /* balanced slate-500 */
+  --crm-border: rgba(255, 255, 255, 0.04); /* subtle depth */
+  --crm-accent: #9333ea; /* optimized purple-600 */
+  --crm-accent-soft: rgba(147, 51, 234, 0.08); /* soft glow */
+  --crm-success: #22c55e;
+  --crm-success-soft: rgba(34, 197, 94, 0.08);
+  --crm-error: #ef4444;
+  --crm-error-soft: rgba(239, 68, 68, 0.08);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--crm-bg);
+  color: var(--crm-text);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+}
+
+/* 
+   ONLY APPLY TRANSITIONS WHEN THEME-SWITCHING IS ACTIVE
+   Corrected syntax for multiple transitions with !important.
+*/
+.theme-switching, .theme-switching * {
+    transition-property: background, border-color, color !important;
+    transition-duration: 0.4s !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Date/Time Picker Icon Visibility */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5) opacity(0.5); /* Default subtle */
+  cursor: pointer;
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(2) contrast(1.2); /* High visibility in dark mode */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  filter: invert(0.5) opacity(1);
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator:hover,
+.dark input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  filter: invert(1) brightness(3);
+}
+
+/* GLOBAL SLEEK SCROLLBARS */
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--crm-border) !important;
+  border-radius: 20px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--crm-text-muted) !important;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--crm-border) transparent !important;
+}
+
+/* Specific Modal Scroll Fix */
+.custom-modal-scroll::-webkit-scrollbar {
+    width: 4px !important;
+}
+.custom-modal-scroll::-webkit-scrollbar-thumb {
+    background: var(--crm-text-muted) !important;
 }
