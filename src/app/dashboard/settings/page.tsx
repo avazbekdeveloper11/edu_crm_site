@@ -200,7 +200,7 @@ export default function SettingsPage() {
     setUpdatingProfile(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch("http://localhost:3001/centers/me/profile", {
+      const res = await fetch("http://kw6980oiw8rts2o7p2h03f7i.178.104.171.171.sslip.io/centers/me/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify(profileForm)
