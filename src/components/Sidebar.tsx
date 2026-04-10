@@ -59,7 +59,7 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           <span className="hidden lg:block text-[15px] font-black uppercase leading-[1.1] text-[var(--crm-text)] line-clamp-2 max-w-[180px] break-words">{centerName}</span>
         </div>
 
-        <nav className="flex-1 w-full space-y-2">
+        <nav className="flex-1 w-full space-y-2 overflow-y-auto no-scrollbar py-4">
           {isOwner && <NavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Boshqaruv" href="/dashboard" active={pathname === "/dashboard"} />}
           {isOwner && <NavItem icon={<Target className="w-5 h-5" />} label="Leadlar" href="/dashboard/leads" active={pathname === "/dashboard/leads"} />}
           <NavItem icon={<Users className="w-5 h-5" />} label="Talabalar" href="/dashboard/students" active={pathname === "/dashboard/students"} />
@@ -71,11 +71,11 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           {isOwner && <NavItem icon={<Settings className="w-5 h-5" />} label="Sozlamalar" href="/dashboard/settings" active={pathname === "/dashboard/settings"} />}
         </nav>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-auto pt-8 space-y-4 shrink-0">
           {/* Compact Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="w-full h-14 rounded-2xl bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] hover:text-[var(--crm-accent)] transition-all flex items-center justify-center lg:justify-start lg:px-5 gap-4 group relative overflow-hidden shadow-inner"
+            className="w-full h-14 rounded-2xl bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] hover:text-[var(--crm-accent)] transition-all flex items-center justify-center lg:justify-start lg:px-5 gap-4 group relative overflow-hidden shadow-inner shrink-0"
           >
             <div className="relative w-6 h-6 flex items-center justify-center">
               {theme === "dark"
@@ -83,7 +83,7 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
                 : <Moon className="w-5 h-5 transition-all group-hover:-rotate-12 group-hover:scale-125" />
               }
             </div>
-            <span className="hidden lg:block font-black text-[9px] uppercase tracking-[0.15em] opacity-80 group-hover:opacity-100">
+            <span className="hidden lg:block font-black text-[9px] uppercase tracking-[0.15em] opacity-80 group-hover:opacity-100 whitespace-nowrap">
               {theme === "dark" ? "KUNDUZGI MODE" : "TUNGI MODE"}
             </span>
             <div className="absolute inset-0 bg-[var(--crm-accent)] opacity-0 group-hover:opacity-[0.03] transition-opacity" />
@@ -91,10 +91,10 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
 
           <button
             onClick={() => setShowLogoutConfirm(true)}
-            className="w-full h-14 rounded-2xl hover:bg-red-500/10 text-[var(--crm-text-muted)] hover:text-red-500 transition-all flex items-center justify-center lg:justify-start lg:px-5 gap-4 group"
+            className="w-full h-14 rounded-2xl hover:bg-red-500/10 text-[var(--crm-text-muted)] hover:text-red-500 transition-all flex items-center justify-center lg:justify-start lg:px-5 gap-4 group shrink-0"
           >
             <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            <span className="hidden lg:block font-black text-[9px] uppercase tracking-[0.15em]">Chiqish</span>
+            <span className="hidden lg:block font-black text-[9px] uppercase tracking-[0.15em] whitespace-nowrap">Chiqish</span>
           </button>
         </div>
       </aside>
