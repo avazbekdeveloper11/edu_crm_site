@@ -524,7 +524,26 @@ export default function LeadsPage() {
                      </div>
                      <div className="space-y-3">
                         <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Eslatma (Qachon telefon qilish?)</label>
-                        <input type="datetime-local" value={formData.callbackAt} onChange={(e) => setFormData({...formData, callbackAt: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none transition-all" />
+                        <div className="grid grid-cols-2 gap-4">
+                           <input 
+                             type="date" 
+                             value={formData.callbackAt ? formData.callbackAt.split('T')[0] : ''} 
+                             onChange={(e) => {
+                               const time = formData.callbackAt?.split('T')[1] || '09:00';
+                               setFormData({...formData, callbackAt: e.target.value + 'T' + time});
+                             }} 
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none transition-all" 
+                           />
+                           <input 
+                             type="time" 
+                             value={formData.callbackAt ? formData.callbackAt.split('T')[1] : ''} 
+                             onChange={(e) => {
+                               const date = formData.callbackAt?.split('T')[0] || new Date().toISOString().split('T')[0];
+                               setFormData({...formData, callbackAt: date + 'T' + e.target.value});
+                             }} 
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none transition-all" 
+                           />
+                        </div>
                      </div>
                      <div className="space-y-3">
                         <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Izohlar</label>
