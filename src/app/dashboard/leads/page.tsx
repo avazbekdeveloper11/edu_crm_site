@@ -62,7 +62,10 @@ export default function LeadsPage() {
     groupId: "",
     courseId: "",
     name: "",
-    phone: ""
+    phone: "",
+    parentPhone: "998",
+    dob: "",
+    address: ""
   });
   const [submittingConvert, setSubmittingConvert] = useState(false);
   const [groups, setGroups] = useState<any[]>([]);
@@ -179,7 +182,10 @@ export default function LeadsPage() {
         },
         body: JSON.stringify({
           groupId: convertForm.groupId ? Number(convertForm.groupId) : null,
-          courseId: convertForm.courseId ? Number(convertForm.courseId) : null
+          courseId: convertForm.courseId ? Number(convertForm.courseId) : null,
+          parentPhone: convertForm.parentPhone,
+          dob: convertForm.dob,
+          address: convertForm.address
         })
       });
       if (res.ok) {
@@ -348,7 +354,19 @@ export default function LeadsPage() {
                        <div className="flex items-center gap-3 w-full md:w-auto">
                           {lead.status !== 'Student' && lead.status !== 'Rejected' && (
                              <button 
-                               onClick={() => { setConvertingLead(lead); setConvertForm({ name: lead.name, phone: lead.phone, groupId: "", courseId: lead.courseId?.toString() || "" }); setIsConvertModalOpen(true); }}
+                               onClick={() => { 
+                                 setConvertingLead(lead); 
+                                 setConvertForm({ 
+                                   name: lead.name, 
+                                   phone: lead.phone, 
+                                   groupId: "", 
+                                   courseId: lead.courseId?.toString() || "", 
+                                   parentPhone: "998",
+                                   dob: "",
+                                   address: ""
+                                 }); 
+                                 setIsConvertModalOpen(true); 
+                               }}
                                className="flex-1 md:flex-none h-12 px-6 bg-green-500 text-white rounded-2xl font-black text-[9px] uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-500/20"
                              >
                                <UserPlus className="w-4 h-4" />
@@ -463,34 +481,67 @@ export default function LeadsPage() {
                         <p className="text-xs font-bold opacity-60">{convertForm.phone}</p>
                      </div>
 
-                     <div className="space-y-4">
-                        <div className="space-y-3">
-                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Kursni Tanlang</label>
-                           <select 
-                             value={convertForm.courseId} 
-                             onChange={(e) => setConvertForm({...convertForm, courseId: e.target.value})} 
-                             required
-                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none"
-                           >
-                              <option value="">Tanlang...</option>
-                              {courses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                           </select>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                           <div className="space-y-3">
+                              <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Kursni Tanlang</label>
+                              <select 
+                                value={convertForm.courseId} 
+                                onChange={(e) => setConvertForm({...convertForm, courseId: e.target.value})} 
+                                required
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none"
+                              >
+                                 <option value="">Tanlang...</option>
+                                 {courses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                              </select>
+                           </div>
+
+                           <div className="space-y-3">
+                              <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Guruh (Ixtiyoriy)</label>
+                              <select 
+                                value={convertForm.groupId} 
+                                onChange={(e) => setConvertForm({...convertForm, groupId: e.target.value})} 
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none"
+                              >
+                                 <option value="">Guruhga qo'shmaslik</option>
+                                 {groups.filter(g => !convertForm.courseId || g.courseId === Number(convertForm.courseId)).map(g => (
+                                    <option key={g.id} value={g.id}>{g.name} ({g.time})</option>
+                                 ))}
+                              </select>
+                           </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                           <div className="space-y-3">
+                              <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Ota-onasi telefoni</label>
+                              <input 
+                                type="text" 
+                                value={formatPhoneNumber(convertForm.parentPhone)} 
+                                onChange={(e) => setConvertForm({...convertForm, parentPhone: e.target.value.replace(/[^\d]/g, '').slice(0, 12)})}
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" 
+                                placeholder="+998" 
+                              />
+                           </div>
+                           <div className="space-y-3">
+                              <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Tug'ilgan sanasi</label>
+                              <input 
+                                type="date" 
+                                value={convertForm.dob} 
+                                onChange={(e) => setConvertForm({...convertForm, dob: e.target.value})}
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" 
+                              />
+                           </div>
                         </div>
 
                         <div className="space-y-3">
-                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Guruhni Tanlang (Ixtiyoriy)</label>
-                           <select 
-                             value={convertForm.groupId} 
-                             onChange={(e) => setConvertForm({...convertForm, groupId: e.target.value})} 
-                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none"
-                           >
-                              <option value="">Guruhga qo'shmaslik</option>
-                              {groups.filter(g => !convertForm.courseId || g.courseId === Number(convertForm.courseId)).map(g => (
-                                 <option key={g.id} value={g.id}>{g.name} ({g.time})</option>
-                              ))}
-                           </select>
+                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Manzil</label>
+                           <input 
+                             type="text" 
+                             value={convertForm.address} 
+                             onChange={(e) => setConvertForm({...convertForm, address: e.target.value})}
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" 
+                             placeholder="Masalan: Toshkent sh, Yunusobod tumani" 
+                           />
                         </div>
-                     </div>
 
                      <div className="flex gap-4 pt-4">
                         <button type="button" onClick={() => setIsConvertModalOpen(false)} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
