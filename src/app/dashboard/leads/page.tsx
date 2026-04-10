@@ -56,6 +56,16 @@ export default function LeadsPage() {
     courseId: "",
     notes: ""
   });
+  const [isConvertModalOpen, setIsConvertModalOpen] = useState(false);
+  const [convertingLead, setConvertingLead] = useState<Lead | null>(null);
+  const [convertForm, setConvertForm] = useState({
+    groupId: "",
+    courseId: "",
+    name: "",
+    phone: ""
+  });
+  const [submittingConvert, setSubmittingConvert] = useState(false);
+  const [groups, setGroups] = useState<any[]>([]);
 
   const formatPhoneNumber = (value: string) => {
     if (!value) return value;
@@ -83,12 +93,14 @@ export default function LeadsPage() {
     setLoading(true);
     const token = localStorage.getItem("access_token");
     try {
-      const [lRes, cRes] = await Promise.all([
+      const [lRes, cRes, gRes] = await Promise.all([
         fetch(`${API_BASE_URL}/leads`, { headers: { "Authorization": `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/courses`, { headers: { "Authorization": `Bearer ${token}` } })
+        fetch(`${API_BASE_URL}/courses`, { headers: { "Authorization": `Bearer ${token}` } }),
+        fetch(`${API_BASE_URL}/groups`, { headers: { "Authorization": `Bearer ${token}` } })
       ]);
       if (lRes.ok) setLeads(await lRes.json());
       if (cRes.ok) setCourses(await cRes.json());
+      if (gRes.ok) setGroups(await gRes.json());
     } catch (err) {
       console.error("Fetch failed", err);
     } finally {
@@ -152,21 +164,33 @@ export default function LeadsPage() {
     }
   };
 
-  const convertToStudent = async (lead: Lead) => {
-    if (!confirm(`${lead.name} talabalikka qabul qilinsinmi?`)) return;
+  const handleConvertSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!convertingLead) return;
     
+    setSubmittingConvert(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch(`${API_BASE_URL}/leads/${lead.id}/convert`, {
+      const res = await fetch(`${API_BASE_URL}/leads/${convertingLead.id}/convert`, {
         method: "POST",
-        headers: { "Authorization": `Bearer ${token}` }
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` 
+        },
+        body: JSON.stringify({
+          groupId: convertForm.groupId ? Number(convertForm.groupId) : null,
+          courseId: convertForm.courseId ? Number(convertForm.courseId) : null
+        })
       });
       if (res.ok) {
-          alert("Talaba muvaffaqiyatli qo'shildi!");
+          setIsConvertModalOpen(false);
+          setConvertingLead(null);
           fetchData();
       }
     } catch (err) {
       console.error("Conversion failed", err);
+    } finally {
+      setSubmittingConvert(false);
     }
   };
 
@@ -324,7 +348,7 @@ export default function LeadsPage() {
                        <div className="flex items-center gap-3 w-full md:w-auto">
                           {lead.status !== 'Student' && lead.status !== 'Rejected' && (
                              <button 
-                               onClick={() => convertToStudent(lead)}
+                               onClick={() => { setConvertingLead(lead); setConvertForm({ name: lead.name, phone: lead.phone, groupId: "", courseId: lead.courseId?.toString() || "" }); setIsConvertModalOpen(true); }}
                                className="flex-1 md:flex-none h-12 px-6 bg-green-500 text-white rounded-2xl font-black text-[9px] uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2 shadow-lg shadow-green-500/20"
                              >
                                <UserPlus className="w-4 h-4" />
@@ -409,6 +433,75 @@ export default function LeadsPage() {
                      <button type="submit" className="w-full py-5 bg-purple-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-purple-600/20 hover:scale-[1.02] active:scale-95 transition-all">
                         {editingLead ? "O'zgarishlarni Saqlash" : "Lead Yaratish"}
                      </button>
+                  </form>
+               </motion.div>
+            </div>
+         )}
+      </AnimatePresence>
+
+      {/* Convert Modal - Accepting Lead */}
+      <AnimatePresence>
+         {isConvertModalOpen && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-10 backdrop-blur-xl bg-black/60">
+               <motion.div 
+                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                 animate={{ opacity: 1, scale: 1, y: 0 }}
+                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                 className="bg-[var(--crm-card)] border border-[var(--crm-border)] w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden"
+               >
+                  <header className="p-8 border-b border-[var(--crm-border)] flex items-center justify-between">
+                     <div>
+                        <h2 className="text-xl font-black uppercase tracking-tight italic">Talabalikka Qabul</h2>
+                        <p className="text-[9px] font-bold uppercase text-[var(--crm-text-muted)] tracking-widest mt-1 opacity-60">Leadni studentga aylantirish</p>
+                     </div>
+                     <button onClick={() => setIsConvertModalOpen(false)} className="p-3 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-5 h-5"/></button>
+                  </header>
+                  <form onSubmit={handleConvertSubmit} className="p-8 space-y-6">
+                     <div className="p-6 bg-purple-600/5 border border-purple-600/10 rounded-2xl space-y-2">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-purple-600">Mijoz ma'lumotlari</p>
+                        <h4 className="text-lg font-black">{convertForm.name}</h4>
+                        <p className="text-xs font-bold opacity-60">{convertForm.phone}</p>
+                     </div>
+
+                     <div className="space-y-4">
+                        <div className="space-y-3">
+                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Kursni Tanlang</label>
+                           <select 
+                             value={convertForm.courseId} 
+                             onChange={(e) => setConvertForm({...convertForm, courseId: e.target.value})} 
+                             required
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none"
+                           >
+                              <option value="">Tanlang...</option>
+                              {courses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                           </select>
+                        </div>
+
+                        <div className="space-y-3">
+                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Guruhni Tanlang (Ixtiyoriy)</label>
+                           <select 
+                             value={convertForm.groupId} 
+                             onChange={(e) => setConvertForm({...convertForm, groupId: e.target.value})} 
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none"
+                           >
+                              <option value="">Guruhga qo'shmaslik</option>
+                              {groups.filter(g => !convertForm.courseId || g.courseId === Number(convertForm.courseId)).map(g => (
+                                 <option key={g.id} value={g.id}>{g.name} ({g.time})</option>
+                              ))}
+                           </select>
+                        </div>
+                     </div>
+
+                     <div className="flex gap-4 pt-4">
+                        <button type="button" onClick={() => setIsConvertModalOpen(false)} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
+                        <button 
+                          type="submit" 
+                          disabled={submittingConvert}
+                          className="flex-[2] py-5 bg-green-500 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-green-500/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                        >
+                           {submittingConvert ? "Qilinmoqda..." : "Qabul Qilish"}
+                        </button>
+                     </div>
                   </form>
                </motion.div>
             </div>
