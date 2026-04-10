@@ -155,7 +155,7 @@ export default function ReportsPage() {
     sheet.getColumn(4).width = 20;
 
     const studentSheet = workbook.addWorksheet('Talabalar Statistikasi');
-    studentSheet.addRow([`${center.centerName.toUpperCase()} - TALABALAR TAHLILI`]).font = { bold: true, size: 14 };
+    studentSheet.addRow([`${(center?.centerName || "MARKAZ").toUpperCase()} - TALABALAR TAHLILI`]).font = { bold: true, size: 14 };
     studentSheet.addRow([]);
     const sHeader = studentSheet.addRow(['STATUS', 'TALABALAR SONI', 'ULUSHI (%)']);
     sHeader.eachCell(c => {

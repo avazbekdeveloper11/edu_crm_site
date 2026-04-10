@@ -180,6 +180,17 @@ export default function CenterDashboard() {
     fetchStats();
   }, []);
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return (
+    <div className="min-h-screen bg-[var(--crm-bg)] flex items-center justify-center">
+      <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+
   return (
     <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-4">
@@ -211,16 +222,39 @@ export default function CenterDashboard() {
                 unit="UZS" 
                 color="green-500" 
                 trend="+12.5%"
+                onClick={() => router.push("/dashboard/payments")}
                 action={(
                     <div className="flex items-center gap-1">
-                        <button onClick={() => changeMonth(-1)} className="w-6 h-6 rounded-lg bg-[var(--crm-bg)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all text-[8px] text-[var(--crm-text-muted)]">{"<"}</button>
-                        <button onClick={() => changeMonth(1)} className="w-6 h-6 rounded-lg bg-[var(--crm-bg)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all text-[8px] text-[var(--crm-text-muted)]">{">"}</button>
+                        <button onClick={(e) => { e.stopPropagation(); changeMonth(-1); }} className="w-6 h-6 rounded-lg bg-[var(--crm-bg)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all text-[8px] text-[var(--crm-text-muted)]">{"<"}</button>
+                        <button onClick={(e) => { e.stopPropagation(); changeMonth(1); }} className="w-6 h-6 rounded-lg bg-[var(--crm-bg)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all text-[8px] text-[var(--crm-text-muted)]">{">"}</button>
                     </div>
                 )}
             />
-            <StatCard icon={<Zap className="w-5 h-5 sm:w-6 h-6" />} label="Bugungi Tushum" value={`${formatMoney(stats.todayIncome)}`} unit="UZS" color="blue-500" trend="+5.2%" />
-            <StatCard icon={<Users className="w-5 h-5 sm:w-6 h-6" />} label="Jami Talabalar" value={stats.students} color="purple-600" trend="+24 ta" />
-            <StatCard icon={<Calendar className="w-5 h-5 sm:w-6 h-6" />} label="Faol Guruhlar" value={stats.groups} color="orange-500" trend="0" />
+            <StatCard 
+                icon={<Zap className="w-5 h-5 sm:w-6 h-6" />} 
+                label="Bugungi Tushum" 
+                value={`${formatMoney(stats.todayIncome)}`} 
+                unit="UZS" 
+                color="blue-500" 
+                trend="+5.2%" 
+                onClick={() => router.push("/dashboard/payments")}
+            />
+            <StatCard 
+                icon={<Users className="w-5 h-5 sm:w-6 h-6" />} 
+                label="Jami Talabalar" 
+                value={stats.students} 
+                color="purple-600" 
+                trend="+24 ta" 
+                onClick={() => router.push("/dashboard/students")}
+            />
+            <StatCard 
+                icon={<Calendar className="w-5 h-5 sm:w-6 h-6" />} 
+                label="Faol Guruhlar" 
+                value={stats.groups} 
+                color="orange-500" 
+                trend="0" 
+                onClick={() => router.push("/dashboard/groups")}
+            />
           </div>
 
           <div className="space-y-6 sm:space-y-8 mb-12 sm:mb-16">
@@ -325,9 +359,9 @@ export default function CenterDashboard() {
   );
 }
 
-function StatCard({ icon, label, value, unit = "", highlight = false, action, trend }: any) {
+function StatCard({ icon, label, value, unit = "", highlight = false, action, trend, onClick }: any) {
   return (
-    <div className={`p-6 sm:p-10 bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.8rem] sm:rounded-[3.8rem] flex flex-col gap-6 sm:gap-10 relative group overflow-hidden ${highlight ? 'hover:border-red-500/30' : 'hover:border-[var(--crm-accent)]/50'} transition-all shadow-[0_30px_60px_rgba(0,0,0,0.1)] active:scale-[0.98]`}>
+    <div onClick={onClick} className={`p-6 sm:p-10 bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.8rem] sm:rounded-[3.8rem] flex flex-col gap-6 sm:gap-10 relative group overflow-hidden ${highlight ? 'hover:border-red-500/30' : 'hover:border-[var(--crm-accent)]/50'} transition-all shadow-[0_30px_60px_rgba(0,0,0,0.1)] active:scale-[0.98] cursor-pointer`}>
       <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--crm-accent-soft)] blur-[40px] -mr-16 -mt-16 rounded-full group-hover:opacity-[0.12] transition-all" />
       
       <div className="flex items-center justify-between relative z-10">

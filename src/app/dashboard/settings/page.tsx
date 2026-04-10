@@ -30,8 +30,20 @@ import { API_BASE_URL } from "@/app/constants";
 
 export default function SettingsPage() {
   const router = useRouter();
-  const [center, setCenter] = useState<any>(null);
-  const [role, setRole] = useState("");
+  const [center, setCenter] = useState<any>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem("center_user");
+      return saved ? JSON.parse(saved) : null;
+    }
+    return null;
+  });
+  const [role, setRole] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem("center_user");
+      if (saved) return JSON.parse(saved).role || "OWNER";
+    }
+    return "";
+  });
   const [users, setUsers] = useState<any[]>([]);
   const [groups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -90,12 +102,6 @@ export default function SettingsPage() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    if (userData) {
-      const parsed = JSON.parse(userData);
-      setCenter(parsed);
-      setRole(parsed.role || "OWNER");
-    }
     fetchUsers();
     fetchGroups();
   }, []);
@@ -223,8 +229,17 @@ export default function SettingsPage() {
       setUpdatingProfile(false);
     }
   };
+  
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  if (!center) return null;
+  if (!mounted || !center) return (
+    <div className="min-h-screen bg-[var(--crm-bg)] flex items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+    </div>
+  );
 
   return (
     <>
@@ -236,7 +251,7 @@ export default function SettingsPage() {
           <div className="flex items-center gap-3 sm:gap-6">
               <div className="flex flex-col items-end">
                   <span className="text-[7px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] opacity-60 leading-none mb-0.5">Sessiya</span>
-                  <span className="text-xs sm:text-xl font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[100px] sm:max-w-[150px]">{center.displayName || center.login}</span>
+                  <span className="text-xs sm:text-xl font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[100px] sm:max-w-[150px]">{center?.displayName || center?.login}</span>
               </div>
               <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-[1.25rem] bg-[var(--crm-accent)]/10 border border-[var(--crm-accent)]/10 flex items-center justify-center text-[var(--crm-accent)] shadow-xl shrink-0">
                   <User className="w-4 h-4 sm:w-6 sm:h-6" />
@@ -246,10 +261,10 @@ export default function SettingsPage() {
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-12 sm:mb-20 px-2 sm:px-0">
-                <SettingsCard onClick={() => { setProfileForm({ name: center.centerName || center.name, botToken: center.botToken || "" }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
-                <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
+                <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "" }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
+                <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
                 <SettingsCard onClick={() => setShowNotificationModal(true)} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />
-                <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Sizual sozlamalar" />
+                <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual sozlamalar" />
             </div>
 
             <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[4rem] p-8 sm:p-12 relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.2)] mb-12 sm:mb-20">
