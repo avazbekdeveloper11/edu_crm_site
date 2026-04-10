@@ -57,8 +57,8 @@ export default function CenterDashboard() {
 
   const chartData = useMemo(() => {
     const pays = stats.allPayments || [];
-    const monthsLabels = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-    const daysLabels = ["YAK", "DUSH", "SESH", "CHORS", "PAY", "JUM", "SHAN"];
+    const monthsLabels = ["Yan", "Fev", "Mar", "Apr", "May", "Iyun", "Iyul", "Avg", "Sen", "Okt", "Noy", "Dek"];
+    const daysLabels = ["Yak", "Dush", "Sesh", "Chor", "Pay", "Jum", "Shan"];
 
     if (viewPeriod === "DAY") {
         return Array(7).fill(0).map((_, i) => {
@@ -67,7 +67,7 @@ export default function CenterDashboard() {
             const dateStr = d.toDateString();
             const sum = pays.filter((p: any) => new Date(p.createdAt).toDateString() === dateStr)
                             .reduce((acc: number, p: any) => acc + (p.amount || 0), 0);
-            return { month: daysLabels[d.getDay()], amount: sum };
+            return { month: `${d.getDate()} ${monthsLabels[d.getMonth()]}`, amount: sum };
         });
     }
 
@@ -516,8 +516,13 @@ function PaymentTrendChart({ data, viewPeriod, setViewPeriod }: { data: { month:
     
     const fillPath = `${curvePath} L ${points[points.length - 1].x},${height - padding} L ${points[0].x},${height - padding} Z`;
 
+    const [activeDot, setActiveDot] = useState<number | null>(null);
+
     return (
-        <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[4rem] p-6 sm:p-12 shadow-[0_30px_100px_rgba(0,0,0,0.2)] relative overflow-hidden group min-h-[350px] sm:min-h-[400px] flex flex-col justify-between">
+        <div 
+            className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[4rem] p-6 sm:p-12 shadow-[0_30px_100px_rgba(0,0,0,0.2)] relative overflow-hidden group min-h-[350px] sm:min-h-[400px] flex flex-col justify-between"
+            onClick={() => setActiveDot(null)}
+        >
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--crm-accent)] opacity-[0.03] blur-[120px] -mr-48 -mt-48 rounded-full" />
             <header className="flex flex-col lg:flex-row lg:items-center justify-between relative z-10 gap-6">
                 <div>
@@ -536,7 +541,7 @@ function PaymentTrendChart({ data, viewPeriod, setViewPeriod }: { data: { month:
                     ].map((p) => (
                         <button
                             key={p.id}
-                            onClick={() => setViewPeriod(p.id as any)}
+                            onClick={(e) => { e.stopPropagation(); setViewPeriod(p.id as any); }}
                             className={`px-3 sm:px-6 py-2 sm:py-2.5 rounded-lg sm:rounded-xl text-[7px] sm:text-[9px] font-black uppercase tracking-widest transition-all relative flex-shrink-0 ${viewPeriod === p.id ? 'text-white' : 'text-[var(--crm-text-muted)] hover:text-[var(--crm-text)]'}`}
                         >
                             {viewPeriod === p.id && (
@@ -589,11 +594,18 @@ function PaymentTrendChart({ data, viewPeriod, setViewPeriod }: { data: { month:
                     {/* Data points */}
                     {points.map((p, i) => (
                         <g key={`${viewPeriod}-${i}`} className="group/dot outline-none">
-                            <circle cx={p.x} cy={p.y} r="25" fill="transparent" className="cursor-pointer" />
+                            <circle 
+                                cx={p.x} 
+                                cy={p.y} 
+                                r="30" 
+                                fill="transparent" 
+                                className="cursor-pointer" 
+                                onClick={(e) => { e.stopPropagation(); setActiveDot(activeDot === i ? null : i); }}
+                            />
                             <motion.circle 
                                 initial={{ r: 0 }}
-                                animate={{ r: 6 }}
-                                transition={{ delay: 0.2 + i * 0.05 }}
+                                animate={{ r: activeDot === i ? 9 : 6 }}
+                                transition={{ delay: 0.2 + i * 0.05, duration: 0.2 }}
                                 whileHover={{ scale: 1.5, strokeWidth: 6 }}
                                 cx={p.x} 
                                 cy={p.y} 
@@ -603,9 +615,9 @@ function PaymentTrendChart({ data, viewPeriod, setViewPeriod }: { data: { month:
                                 strokeWidth="4" 
                                 className="pointer-events-none shadow-lg" 
                             />
-                            <text x={p.x} y={height - padding + 35} textAnchor="middle" className="text-[11px] font-black fill-[var(--crm-text-muted)] opacity-40 italic uppercase tracking-tighter pointer-events-none lowercase first-letter:uppercase">{data[i].month}</text>
+                            <text x={p.x} y={height - padding + 35} textAnchor="middle" className={`text-[11px] font-black italic uppercase tracking-tighter pointer-events-none lowercase first-letter:uppercase transition-colors ${activeDot === i ? 'fill-[var(--crm-accent)] opacity-100' : 'fill-[var(--crm-text-muted)] opacity-40'}`}>{data[i].month}</text>
                             
-                            <g className="opacity-0 group-hover/dot:opacity-100 transition-opacity pointer-events-none">
+                            <g className={`transition-all duration-300 pointer-events-none ${activeDot === i ? 'opacity-100 translate-y-0' : 'opacity-0 group-hover/dot:opacity-100 translate-y-1 group-hover/dot:translate-y-0'}`}>
                                 <rect x={p.x - 60} y={p.y - 70} width="120" height="40" rx="20" fill="var(--crm-accent)" className="shadow-2xl" />
                                 <text x={p.x} y={p.y - 45} textAnchor="middle" className="text-[11px] font-black fill-white italic tracking-tighter">{Number(data[i].amount).toLocaleString("ru-RU")} UZS</text>
                             </g>

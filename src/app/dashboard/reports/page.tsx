@@ -42,6 +42,7 @@ export default function ReportsPage() {
   // Filter state
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [activeBar, setActiveBar] = useState<number | null>(null);
 
   const fetchData = async () => {
     setLoading(true);
@@ -318,7 +319,7 @@ export default function ReportsPage() {
                <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] p-10 space-y-10 shadow-2xl relative overflow-hidden group">
                   <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/5 blur-[100px] -mr-64 -mt-64 rounded-full pointer-events-none" />
                   
-                  <div className="h-64 flex items-end justify-between gap-3 px-4 border-b border-[var(--crm-border)]/50 pb-6 relative z-10">
+                  <div className="h-64 flex items-end justify-between gap-3 px-4 border-b border-[var(--crm-border)]/50 pb-6 relative z-10" onClick={() => setActiveBar(null)}>
                     {(finance?.dailyStats?.length > 0 ? finance.dailyStats : Array(7).fill({_sum:{amount:0}})).slice(-7).map((day: any, i: number) => {
                       const maxVal = Math.max(...(finance?.dailyStats?.map((d:any) => d._sum.amount) || [1]));
                       const currentVal = day._sum.amount || 0;
@@ -331,17 +332,18 @@ export default function ReportsPage() {
                                initial={{ height: 0 }}
                                animate={{ height: `${heightPercent}%` }}
                                transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                               className="w-full bg-gradient-to-t from-purple-600 to-indigo-500 rounded-t-2xl group-hover/bar:from-purple-400 group-hover/bar:to-indigo-300 transition-all cursor-pointer min-h-[4px] relative shadow-[0_5px_15px_rgba(124,58,237,0.2)]" 
+                               onClick={(e) => { e.stopPropagation(); setActiveBar(activeBar === i ? null : i); }}
+                               className={`w-full bg-gradient-to-t ${activeBar === i ? 'from-purple-400 to-indigo-300' : 'from-purple-600 to-indigo-500'} rounded-t-2xl group-hover/bar:from-purple-400 group-hover/bar:to-indigo-300 transition-all cursor-pointer min-h-[4px] relative shadow-[0_5px_15px_rgba(124,58,237,0.2)]`} 
                              >
                                 <div className="absolute inset-0 bg-white/20 opacity-0 group-hover/bar:opacity-30 transition-opacity rounded-t-2xl" />
                              </motion.div>
                              {currentVal > 0 && (
-                               <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md text-white text-[9px] font-black px-3 py-1.5 rounded-xl opacity-0 group-hover/bar:opacity-100 transition-all -translate-y-2 group-hover/bar:translate-y-0 whitespace-nowrap z-20 border border-white/10 shadow-2xl">
+                               <div className={`absolute -top-12 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md text-white text-[9px] font-black px-3 py-1.5 rounded-xl transition-all whitespace-nowrap z-20 border border-white/10 shadow-2xl ${activeBar === i ? 'opacity-100 translate-y-0' : 'opacity-0 group-hover/bar:opacity-100 -translate-y-2 group-hover/bar:translate-y-0'}`}>
                                  {currentVal.toLocaleString()}
                                </div>
                              )}
                           </div>
-                          <span className="text-[8px] font-black uppercase text-[var(--crm-text-muted)] opacity-50 text-center leading-tight">
+                          <span className={`text-[8px] font-black uppercase transition-colors text-center leading-tight ${activeBar === i ? 'text-[var(--crm-accent)] opacity-100' : 'text-[var(--crm-text-muted)] opacity-50'}`}>
                             {day.paymentDate ? new Date(day.paymentDate).toLocaleDateString(undefined, {day:'2-digit', month:'short'}) : `KUN ${i+1}`}
                           </span>
                         </div>

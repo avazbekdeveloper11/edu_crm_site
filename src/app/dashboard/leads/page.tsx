@@ -20,12 +20,14 @@ import {
   Hash,
   Trash2,
   Edit2,
-  BookOpen
+  BookOpen,
+  CalendarClock,
+  BellRing
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { API_BASE_URL } from "@/app/constants";
 
-type LeadStatus = 'New' | 'Contacted' | 'Trial' | 'Student' | 'Rejected';
+type LeadStatus = 'New' | 'RECONTACT' | 'INFO_GIVEN' | 'Trial' | 'Student' | 'Rejected';
 
 interface Lead {
   id: number;
@@ -34,6 +36,7 @@ interface Lead {
   source?: string;
   status: LeadStatus;
   notes?: string;
+  callbackAt?: string;
   courseId?: number;
   course?: { name: string };
   createdAt: string;
@@ -54,8 +57,10 @@ export default function LeadsPage() {
     phone: "",
     source: "",
     courseId: "",
-    notes: ""
+    notes: "",
+    callbackAt: ""
   });
+  const [reminders, setReminders] = useState<Lead[]>([]);
   const [isConvertModalOpen, setIsConvertModalOpen] = useState(false);
   const [convertingLead, setConvertingLead] = useState<Lead | null>(null);
   const [convertForm, setConvertForm] = useState({
@@ -104,6 +109,9 @@ export default function LeadsPage() {
       if (lRes.ok) setLeads(await lRes.json());
       if (cRes.ok) setCourses(await cRes.json());
       if (gRes.ok) setGroups(await gRes.json());
+
+      const rRes = await fetch(`${API_BASE_URL}/leads/reminders`, { headers: { "Authorization": `Bearer ${token}` } });
+      if (rRes.ok) setReminders(await rRes.json());
     } catch (err) {
       console.error("Fetch failed", err);
     } finally {
@@ -135,14 +143,15 @@ export default function LeadsPage() {
         },
         body: JSON.stringify({
           ...formData,
-          courseId: formData.courseId ? Number(formData.courseId) : null
+          courseId: formData.courseId ? Number(formData.courseId) : null,
+          callbackAt: formData.callbackAt ? new Date(formData.callbackAt).toISOString() : null
         })
       });
 
       if (res.ok) {
         setIsModalOpen(false);
         setEditingLead(null);
-        setFormData({ name: "", phone: "", source: "", courseId: "", notes: "" });
+        setFormData({ name: "", phone: "", source: "", courseId: "", notes: "", callbackAt: "" });
         fetchData();
       }
     } catch (err) {
@@ -223,7 +232,8 @@ export default function LeadsPage() {
   const getStatusColor = (status: LeadStatus) => {
     switch (status) {
       case 'New': return 'text-purple-500 bg-purple-500/10 border-purple-500/20';
-      case 'Contacted': return 'text-blue-500 bg-blue-500/10 border-blue-500/20';
+      case 'RECONTACT': return 'text-blue-500 bg-blue-500/10 border-blue-500/20';
+      case 'INFO_GIVEN': return 'text-cyan-500 bg-cyan-500/10 border-cyan-500/20';
       case 'Trial': return 'text-orange-500 bg-orange-500/10 border-orange-500/20';
       case 'Student': return 'text-green-500 bg-green-500/10 border-green-500/20';
       case 'Rejected': return 'text-red-500 bg-red-500/10 border-red-500/20';
@@ -245,7 +255,7 @@ export default function LeadsPage() {
            </div>
 
            <button 
-             onClick={() => { setEditingLead(null); setFormData({ name: "", phone: "", source: "", courseId: "", notes: "" }); setIsModalOpen(true); }}
+             onClick={() => { setEditingLead(null); setFormData({ name: "", phone: "", source: "", courseId: "", notes: "", callbackAt: "" }); setIsModalOpen(true); }}
              className="h-10 sm:h-[52px] px-4 sm:px-8 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl sm:rounded-2xl font-black text-[9px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.2em] shadow-lg shadow-purple-600/20 active:scale-95 transition-all flex items-center justify-center gap-1.5 sm:gap-3 shrink-0"
            >
               <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -254,8 +264,43 @@ export default function LeadsPage() {
            </button>
         </header>
 
-        <div className="p-4 sm:p-10 max-w-7xl mx-auto space-y-10">
+        <div className="p-4 sm:p-10 max-w-7xl mx-auto space-y-12">
           
+          {reminders.length > 0 && (
+            <section className="bg-gradient-to-br from-purple-600/10 to-indigo-600/10 border border-purple-600/20 rounded-[2.5rem] p-8 sm:p-10 relative overflow-hidden shadow-2xl">
+               <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/10 blur-[60px] -mr-32 -mt-32 rounded-full" />
+               <div className="flex items-center gap-4 mb-8">
+                  <div className="p-3 bg-purple-600 text-white rounded-xl shadow-lg shadow-purple-600/30">
+                     <BellRing className="w-5 h-5 animate-bounce" />
+                  </div>
+                  <div>
+                     <h3 className="text-xl font-black uppercase tracking-tighter italic">Bugungi Eslatmalar</h3>
+                     <p className="text-[9px] font-bold uppercase tracking-widest text-purple-600/60">Qayta aloqaga chiqilishi kerak bo'lgan leadlar</p>
+                  </div>
+               </div>
+               
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+                  {reminders.map(rem => (
+                    <div key={rem.id} className="bg-[var(--crm-card)] border border-purple-600/20 p-6 rounded-3xl flex items-center justify-between group hover:border-purple-600 transition-all shadow-xl">
+                       <div className="min-w-0">
+                          <h4 className="text-sm font-black truncate uppercase">{rem.name}</h4>
+                          <div className="flex items-center gap-3 mt-1 underline-offset-4 overflow-x-auto no-scrollbar">
+                             <span className="text-[10px] font-bold opacity-60 flex items-center gap-1.5 shrink-0"><Phone className="w-3 h-3" /> {rem.phone}</span>
+                             <span className="text-[10px] font-black text-purple-600 flex items-center gap-1.5 shrink-0"><Clock className="w-3 h-3" /> {new Date(rem.callbackAt!).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                          </div>
+                       </div>
+                       <button 
+                         onClick={() => { setEditingLead(rem); setFormData({ name: rem.name, phone: rem.phone, source: rem.source || "", courseId: rem.courseId?.toString() || "", notes: rem.notes || "", callbackAt: rem.callbackAt ? new Date(rem.callbackAt).toISOString().slice(0, 16) : "" }); setIsModalOpen(true); }}
+                         className="p-3 bg-purple-600/10 text-purple-600 rounded-xl hover:bg-purple-600 hover:text-white transition-all shadow-inner shrink-0 ml-2"
+                       >
+                          <Phone className="w-4 h-4" />
+                       </button>
+                    </div>
+                  ))}
+               </div>
+            </section>
+          )}
+
           {/* Stats Bar */}
           <section className="grid grid-cols-2 md:grid-cols-4 gap-6">
              <LeadStatCard label="Jami" value={leads.length} icon={<Target className="w-5 h-5" />} color="text-purple-600" />
@@ -277,7 +322,7 @@ export default function LeadsPage() {
                 />
              </div>
              <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto no-scrollbar pb-2 md:pb-0">
-                {["All", "New", "Contacted", "Trial", "Rejected", "Student"].map((st) => (
+                {["All", "New", "RECONTACT", "INFO_GIVEN", "Trial", "Rejected", "Student"].map((st) => (
                    <button 
                      key={st}
                      onClick={() => setStatusFilter(st)}
@@ -286,7 +331,7 @@ export default function LeadsPage() {
                          ? "bg-purple-600 text-white border-transparent shadow-lg shadow-purple-600/20" 
                          : "bg-[var(--crm-card)] text-[var(--crm-text-muted)] border-[var(--crm-border)] hover:border-purple-600/30"}`}
                    >
-                     {st === 'All' ? 'Barchas' : st === 'New' ? 'Yangi' : st === 'Contacted' ? 'Bog\'langan' : st === 'Trial' ? 'Sinov' : st === 'Student' ? 'Talaba' : 'Rad etilgan'}
+                     {st === 'All' ? 'Barchasi' : st === 'New' ? 'Yangi' : st === 'RECONTACT' ? 'Qayta aloqa' : st === 'INFO_GIVEN' ? 'Ma\'lumot berilgan' : st === 'Trial' ? 'Sinov' : st === 'Student' ? 'Talaba' : 'Rad etilgan'}
                    </button>
                 ))}
              </div>
@@ -316,13 +361,18 @@ export default function LeadsPage() {
                           </div>
                           <div className="min-w-0">
                              <h3 className="text-sm font-black uppercase tracking-tight truncate">{lead.name}</h3>
-                             <div className="flex items-center gap-4 mt-1 opacity-60">
+                             <div className="flex flex-wrap items-center gap-4 mt-1 opacity-60">
                                 <span className="text-[10px] font-bold text-[var(--crm-text-muted)] flex items-center gap-2">
                                    <Phone className="w-3 h-3" /> {lead.phone}
                                 </span>
                                 {lead.source && (
                                    <span className="text-[10px] font-bold text-[var(--crm-text-muted)] flex items-center gap-2">
                                       <Hash className="w-3 h-3" /> {lead.source}
+                                   </span>
+                                )}
+                                {lead.callbackAt && (
+                                   <span className="text-[10px] font-black text-purple-600 flex items-center gap-2">
+                                      <CalendarClock className="w-3 h-3" /> {new Date(lead.callbackAt).toLocaleString([], {day: '2-digit', month: 'short', hour: '2-digit', minute:'2-digit'})}
                                    </span>
                                 )}
                              </div>
@@ -344,7 +394,8 @@ export default function LeadsPage() {
                             className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest border outline-none cursor-pointer transition-all ${getStatusColor(lead.status)}`}
                           >
                              <option value="New">Yangi</option>
-                             <option value="Contacted">Bog'lanilgan</option>
+                             <option value="RECONTACT">Qayta aloqa</option>
+                             <option value="INFO_GIVEN">Ma'lumot berilgan</option>
                              <option value="Trial">Sinovda</option>
                              <option value="Student">Talaba bo'ldi</option>
                              <option value="Rejected">Rad etildi</option>
@@ -374,7 +425,7 @@ export default function LeadsPage() {
                              </button>
                           )}
                           <button 
-                            onClick={() => { setEditingLead(lead); setFormData({ name: lead.name, phone: lead.phone, source: lead.source || "", courseId: lead.courseId?.toString() || "", notes: lead.notes || "" }); setIsModalOpen(true); }}
+                            onClick={() => { setEditingLead(lead); setFormData({ name: lead.name, phone: lead.phone, source: lead.source || "", courseId: lead.courseId?.toString() || "", notes: lead.notes || "", callbackAt: lead.callbackAt ? new Date(lead.callbackAt).toISOString().slice(0, 16) : "" }); setIsModalOpen(true); }}
                             className="w-12 h-12 bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-2xl flex items-center justify-center text-[var(--crm-text-muted)] hover:text-purple-600 hover:border-purple-600/30 transition-all"
                           >
                              <Edit2 className="w-4 h-4" />
@@ -443,6 +494,10 @@ export default function LeadsPage() {
                            <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Manba (Source)</label>
                            <input type="text" value={formData.source} onChange={(e) => setFormData({...formData, source: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" placeholder="Masalan: Instagram" />
                         </div>
+                     </div>
+                     <div className="space-y-3">
+                        <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Eslatma (Qachon telefon qilish?)</label>
+                        <input type="datetime-local" value={formData.callbackAt} onChange={(e) => setFormData({...formData, callbackAt: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none transition-all" />
                      </div>
                      <div className="space-y-3">
                         <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Izohlar</label>

@@ -210,7 +210,7 @@ export default function CoursesPage() {
                             {crs.duration} Oylik
                         </span>
                     </div>
-                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 duration-300">
+                    <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all translate-y-0 sm:translate-y-2 sm:group-hover:translate-y-0 duration-300">
                        <button onClick={() => openEdit(crs)} className="p-4 bg-[var(--crm-bg)]/80 rounded-2xl hover:bg-blue-600/10 hover:text-blue-500 transition-all text-[var(--crm-text-muted)] shadow-xl border border-[var(--crm-border)]"><Edit3 className="w-5 h-5" /></button>
                        <button onClick={() => { setDeleteData({ id: crs.id, name: crs.name }); setShowDeleteModal(true); }} className="p-4 bg-[var(--crm-bg)]/80 rounded-2xl hover:bg-red-600/10 hover:text-red-500 transition-all text-[var(--crm-text-muted)] shadow-xl border border-[var(--crm-border)]"><Trash2 className="w-5 h-5" /></button>
                     </div>
