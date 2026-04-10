@@ -23,7 +23,6 @@ import {
   BookOpen
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 type LeadStatus = 'New' | 'Contacted' | 'Trial' | 'Student' | 'Rejected';
@@ -98,14 +97,8 @@ export default function LeadsPage() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    if (!userData) {
-      router.push("/login");
-    } else {
-      setCenter(JSON.parse(userData));
-      fetchData();
-    }
-  }, [router]);
+    fetchData();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -203,13 +196,8 @@ export default function LeadsPage() {
     }
   };
 
-  if (!center) return null;
-
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={center.centerName} role={center.role} />
-
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0 relative">
+    <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-3 sm:gap-6">
            <div className="flex items-center gap-3 sm:gap-4">
               <div className="p-2 sm:p-3 bg-purple-600/10 rounded-xl shrink-0">
@@ -363,7 +351,6 @@ export default function LeadsPage() {
             </div>
           )}
         </div>
-      </main>
 
       {/* Modal */}
       <AnimatePresence>
@@ -422,7 +409,7 @@ export default function LeadsPage() {
             </div>
          )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
 

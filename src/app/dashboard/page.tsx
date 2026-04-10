@@ -19,7 +19,6 @@ import {
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 const formatMoney = (val: any) => {
@@ -172,25 +171,11 @@ export default function CenterDashboard() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    const token = localStorage.getItem("access_token");
-    if (!token || !userData) {
-      router.push("/login");
-    } else {
-      const parsed = JSON.parse(userData);
-      setCenter(parsed);
-      setRole(parsed.role || "OWNER");
-      fetchStats();
-    }
-  }, [router]);
-
-  if (!center) return null;
+    fetchStats();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={center.centerName} role={role} />
-
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0">
+    <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-4">
           <div className="flex flex-col items-start">
               <h1 className="text-xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-10">Boshqaruv</h1>
@@ -330,8 +315,7 @@ export default function CenterDashboard() {
             <PaymentTrendChart data={chartData} viewPeriod={viewPeriod} setViewPeriod={setViewPeriod} />
           </div>
         </section>
-      </main>
-    </div>
+    </>
   );
 }
 

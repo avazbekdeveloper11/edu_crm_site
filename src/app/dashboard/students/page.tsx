@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 const formatMoney = (val: any) => {
@@ -96,17 +95,8 @@ export default function StudentsPage() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    const token = localStorage.getItem("access_token");
-    if (!token || !userData) {
-      router.push("/login");
-    } else {
-      const parsed = JSON.parse(userData);
-      setCenter(parsed);
-      setRole(parsed.role || "OWNER");
-      fetchData();
-    }
-  }, [router]);
+    fetchData();
+  }, []);
 
   const toggleCourse = (id: string) => {
     setFormData(prev => ({
@@ -225,13 +215,8 @@ export default function StudentsPage() {
     return nameMatch && courseMatch && groupMatch;
   });
 
-  if (!center) return null;
-
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={center.centerName} role={role} />
-
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0">
+    <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-3 sm:gap-6">
           <div className="relative group flex-1 max-w-[200px] sm:max-w-md">
             <Search className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--crm-text-muted)] group-focus-within:text-[var(--crm-accent)] transition-colors" />
@@ -365,7 +350,6 @@ export default function StudentsPage() {
             </div>
           )}
         </section>
-      </main>
 
       {/* Premium Student Modal */}
       <AnimatePresence>
@@ -592,6 +576,6 @@ export default function StudentsPage() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
