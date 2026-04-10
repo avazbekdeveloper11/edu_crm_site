@@ -75,7 +75,10 @@ export default function SettingsPage() {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profileForm, setProfileForm] = useState({
     name: "",
-    botToken: ""
+    botToken: "",
+    eskizEmail: "",
+    eskizPassword: "",
+    smsEnabled: false
   });
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [showSystemModal, setShowSystemModal] = useState(false);
@@ -215,8 +218,12 @@ export default function SettingsPage() {
         if (userData) {
             const parsed = JSON.parse(userData);
             parsed.centerName = profileForm.name;
+            parsed.botToken = profileForm.botToken;
+            parsed.eskizEmail = profileForm.eskizEmail;
+            parsed.eskizPassword = profileForm.eskizPassword;
+            parsed.smsEnabled = profileForm.smsEnabled;
             localStorage.setItem("center_user", JSON.stringify(parsed));
-            setCenter({...center, centerName: profileForm.name});
+            setCenter(parsed);
         }
       } else {
         const error = await res.json();
@@ -261,7 +268,7 @@ export default function SettingsPage() {
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-12 sm:mb-20 px-2 sm:px-0">
-                <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "" }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
+                <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
                 <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
                 <SettingsCard onClick={() => setShowNotificationModal(true)} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />
                 <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual sozlamalar" />
@@ -623,6 +630,48 @@ export default function SettingsPage() {
                                     className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner"
                                 />
                                 <p className="px-4 text-[9px] text-[var(--crm-text-muted)] italic">Token xabarnomalar va davomat alertlari uchun zarur.</p>
+                            </div>
+
+                            <div className="space-y-6 pt-4 border-t border-[var(--crm-border)]">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <h4 className="text-sm font-black uppercase tracking-tighter">SMS Xizmati</h4>
+                                        <p className="text-[8px] text-[var(--crm-text-muted)] uppercase font-bold tracking-widest mt-1">Eskiz.uz orqali SMS yuborish</p>
+                                    </div>
+                                    <button 
+                                        type="button"
+                                        onClick={() => setProfileForm({...profileForm, smsEnabled: !profileForm.smsEnabled})}
+                                        className={`w-12 h-6 rounded-full relative transition-all duration-300 ${profileForm.smsEnabled ? 'bg-green-500' : 'bg-[var(--crm-border)]'}`}
+                                    >
+                                        <motion.div 
+                                            animate={{ x: profileForm.smsEnabled ? 26 : 4 }}
+                                            className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-md"
+                                        />
+                                    </button>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Eskiz.uz Email</label>
+                                        <input 
+                                            type="email" 
+                                            placeholder="example@mail.uz" 
+                                            value={profileForm.eskizEmail} 
+                                            onChange={(e) => setProfileForm({...profileForm, eskizEmail: e.target.value})} 
+                                            className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-4 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Eskiz.uz Parol</label>
+                                        <input 
+                                            type="password" 
+                                            placeholder="••••••••" 
+                                            value={profileForm.eskizPassword} 
+                                            onChange={(e) => setProfileForm({...profileForm, eskizPassword: e.target.value})} 
+                                            className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-4 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner"
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="flex gap-4 pt-4">

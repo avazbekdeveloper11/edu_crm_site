@@ -338,13 +338,22 @@ export default function CenterDashboard() {
             {/* Quick Actions & Center Info */}
             <div className="space-y-12">
 
-                <div className="p-10 bg-gradient-to-br from-[var(--crm-accent)] to-indigo-600 rounded-[3.5rem] shadow-[0_30px_70px_rgba(139,92,246,0.3)] relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 cursor-pointer">
+                <div 
+                    onClick={() => router.push("/dashboard/settings")}
+                    className={`p-10 ${center?.smsEnabled ? 'bg-gradient-to-br from-green-500 to-emerald-600' : 'bg-gradient-to-br from-[var(--crm-accent)] to-indigo-600'} rounded-[3.5rem] shadow-[0_30px_70px_rgba(0,0,0,0.2)] relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 cursor-pointer`}
+                >
                     <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 blur-[50px] -mr-24 -mt-24 rounded-full group-hover:scale-110 transition-transform" />
                     <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white mb-10 shadow-inner"><TrendingUp className="w-7 h-7" /></div>
                     <h3 className="text-3xl font-black text-white mb-3 leading-tight tracking-tighter uppercase">SMS Xizmati</h3>
-                    <p className="text-purple-100/60 text-[10px] font-black uppercase tracking-[0.2em] mb-8 leading-relaxed">To'lovlar haqida avtomatik xabarnomalar tizimi faollashmoqda.</p>
+                    <p className="text-purple-100/60 text-[10px] font-black uppercase tracking-[0.2em] mb-8 leading-relaxed">
+                        {center?.smsEnabled 
+                          ? "To'lovlar haqida SMS xabarnomalar tizimi faol. Eskiz.uz balansini tekshirishni unutmang." 
+                          : "To'lovlar haqida avtomatik xabarnomalar tizimi. Sozlash uchun bosing."}
+                    </p>
                     <div className="flex items-center gap-3 text-white/50 group-hover:text-white transition-colors">
-                        <span className="text-[9px] font-black tracking-widest uppercase">Tez Kunda</span>
+                        <span className="text-[9px] font-black tracking-widest uppercase">
+                            {center?.smsEnabled ? "XIZMAT FAOL" : "SOZLANMAGAN"}
+                        </span>
                         <ArrowUpRight className="w-4 h-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
                     </div>
                 </div>
