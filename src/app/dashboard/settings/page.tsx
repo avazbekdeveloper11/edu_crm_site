@@ -105,6 +105,11 @@ export default function SettingsPage() {
   };
 
   useEffect(() => {
+    const userData = localStorage.getItem("center_user");
+    if (!userData) {
+      router.push("/login");
+      return;
+    }
     fetchUsers();
     fetchGroups();
   }, []);
@@ -339,7 +344,7 @@ export default function SettingsPage() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-3 w-full sm:w-auto justify-end sm:translate-x-4 sm:opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                    <div className="flex items-center gap-3 w-full sm:w-auto justify-end sm:translate-x-4 opacity-100 sm:opacity-0 group-hover:opacity-100 sm:group-hover:translate-x-0 transition-all duration-300">
                                         <button 
                                             onClick={() => { 
                                                 setEditingUserId(u.id); 

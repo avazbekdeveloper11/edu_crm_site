@@ -14,7 +14,11 @@ import {
   LayoutDashboard,
   ShieldCheck,
   Zap,
-  ArrowRight
+  ArrowRight,
+  CreditCard,
+  Banknote,
+  Repeat,
+  X
 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -43,6 +47,11 @@ export default function CenterDashboard() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [loading, setLoading] = useState(true);
+  const [showIncomeModal, setShowIncomeModal] = useState(false);
+  const [incomeBreakdown, setIncomeBreakdown] = useState({
+    today: { cash: 0, card: 0, transfer: 0 },
+    total: { cash: 0, card: 0, transfer: 0 }
+  });
   const [role, setRole] = useState("");
   const { theme } = useTheme();
 
@@ -153,6 +162,32 @@ export default function CenterDashboard() {
 
       const debtors = stds.filter((s: any) => calculateDebt(s) > 0);
 
+      // Income Breakdown
+      const today = new Date().toDateString();
+      const breakdown = {
+        today: { cash: 0, card: 0, transfer: 0 },
+        total: { cash: 0, card: 0, transfer: 0 }
+      };
+
+      pays.forEach((p: any) => {
+        const isToday = new Date(p.createdAt).toDateString() === today;
+        const type = String(p.paymentType || "CASH").toUpperCase();
+        const amount = Number(p.amount || 0);
+
+        if (type === "CASH") {
+            breakdown.total.cash += amount;
+            if (isToday) breakdown.today.cash += amount;
+        } else if (type === "TRANSFER" || type === "CLICK" || type === "PAYME") {
+            breakdown.total.transfer += amount;
+            if (isToday) breakdown.today.transfer += amount;
+        } else { // CARD, HUMO, UZCARD
+            breakdown.total.card += amount;
+            if (isToday) breakdown.today.card += amount;
+        }
+      });
+
+      setIncomeBreakdown(breakdown);
+
       setStats({
         students: stds.length,
         courses: rawCrss.length,
@@ -237,7 +272,7 @@ export default function CenterDashboard() {
                 unit="UZS" 
                 color="blue-500" 
                 trend="+5.2%" 
-                onClick={() => router.push("/dashboard/payments")}
+                onClick={() => setShowIncomeModal(true)}
             />
             <StatCard 
                 icon={<Users className="w-5 h-5 sm:w-6 h-6" />} 
@@ -364,6 +399,51 @@ export default function CenterDashboard() {
             <PaymentTrendChart data={chartData} viewPeriod={viewPeriod} setViewPeriod={setViewPeriod} />
           </div>
         </section>
+
+        <AnimatePresence>
+            {showIncomeModal && (
+                <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowIncomeModal(false)} className="absolute inset-0 bg-black/70" />
+                    <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
+                        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
+                        
+                        <header className="mb-10 relative flex items-center justify-between">
+                            <div>
+                                <h2 className="text-4xl font-black tracking-tighter uppercase leading-none italic">Tushum Tahlili</h2>
+                                <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-3 italic opacity-60">To'lov turlari bo'yicha taqsimot</p>
+                            </div>
+                            <button onClick={() => setShowIncomeModal(false)} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
+                                <X className="w-6 h-6" />
+                            </button>
+                        </header>
+
+                        <div className="space-y-12 relative">
+                            {/* Today Section */}
+                            <div className="space-y-6">
+                                <div className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--crm-accent)] border-l-4 border-[var(--crm-accent)] pl-4">Bugungi holat</div>
+                                <div className="grid grid-cols-1 gap-4">
+                                    <BreakdownItem icon={<Banknote className="w-5 h-5" />} label="Naqd pul" value={incomeBreakdown.today.cash} color="emerald-500" />
+                                    <BreakdownItem icon={<CreditCard className="w-5 h-5" />} label="Plastik karta" value={incomeBreakdown.today.card} color="blue-500" />
+                                    <BreakdownItem icon={<Repeat className="w-5 h-5" />} label="O'tkazma / Click" value={incomeBreakdown.today.transfer} color="purple-500" />
+                                </div>
+                            </div>
+
+                            {/* Total Section */}
+                            <div className="space-y-6">
+                                <div className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--crm-text-muted)] border-l-4 border-[var(--crm-border)] pl-4">Umumiy ko'rsatkich</div>
+                                <div className="grid grid-cols-1 gap-4">
+                                    <BreakdownItem icon={<Banknote className="w-5 h-5" />} label="Jami naqd" value={incomeBreakdown.total.cash} color="emerald-500" opacity />
+                                    <BreakdownItem icon={<CreditCard className="w-5 h-5" />} label="Jami plastik" value={incomeBreakdown.total.card} color="blue-500" opacity />
+                                    <BreakdownItem icon={<Repeat className="w-5 h-5" />} label="Jami o'tkazma" value={incomeBreakdown.total.transfer} color="purple-500" opacity />
+                                </div>
+                            </div>
+
+                            <button onClick={() => { setShowIncomeModal(false); router.push("/dashboard/payments"); }} className="w-full py-5 bg-[var(--crm-accent)] text-white rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all text-center">Batafsil ko'rish</button>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
+        </AnimatePresence>
     </>
   );
 }
@@ -532,6 +612,25 @@ function PaymentTrendChart({ data, viewPeriod, setViewPeriod }: { data: { month:
                         </g>
                     ))}
                 </svg>
+            </div>
+        </div>
+    );
+}
+
+function BreakdownItem({ icon, label, value, color, opacity = false }: any) {
+    return (
+        <div className={`flex items-center justify-between p-6 bg-[var(--crm-bg)]/80 border border-[var(--crm-border)] rounded-3xl ${opacity ? 'opacity-70' : ''}`}>
+            <div className="flex items-center gap-4">
+                <div 
+                    className="w-10 h-10 rounded-xl flex items-center justify-center" 
+                    style={{ backgroundColor: `${color}10`, color: color }}
+                >
+                    {icon}
+                </div>
+                <div className="text-[10px] font-black uppercase tracking-widest text-[var(--crm-text-muted)]">{label}</div>
+            </div>
+            <div className="text-xl font-black tracking-tighter">
+                {formatMoney(value)} <span className="text-[9px] opacity-30">UZS</span>
             </div>
         </div>
     );

@@ -228,7 +228,7 @@ export default function ReportsPage() {
                         <div className="space-y-3">
                             <label className="text-[9px] font-black uppercase text-[var(--crm-text-muted)] tracking-[0.2em] ml-1 opacity-60">Boshlanish sanasi</label>
                             <div className="relative group">
-                                <div className="absolute inset-0 bg-purple-600/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-purple-600/5 rounded-2xl blur-xl sm:opacity-0 sm:group-hover:opacity-100 transition-opacity" />
                                 <CalendarDays className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-500" />
                                 <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full relative bg-[var(--crm-card)]/50 border border-[var(--crm-border)] rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold focus:border-purple-500 focus:bg-[var(--crm-card)] outline-none transition-all" />
                             </div>
@@ -236,7 +236,7 @@ export default function ReportsPage() {
                         <div className="space-y-3">
                             <label className="text-[9px] font-black uppercase text-[var(--crm-text-muted)] tracking-[0.2em] ml-1 opacity-60">Tugash sanasi</label>
                             <div className="relative group">
-                                <div className="absolute inset-0 bg-purple-600/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-purple-600/5 rounded-2xl blur-xl sm:opacity-0 sm:group-hover:opacity-100 transition-opacity" />
                                 <CalendarDays className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-500" />
                                 <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full relative bg-[var(--crm-card)]/50 border border-[var(--crm-border)] rounded-2xl py-4.5 pl-14 pr-6 text-sm font-bold focus:border-purple-500 focus:bg-[var(--crm-card)] outline-none transition-all" />
                             </div>
@@ -553,7 +553,7 @@ export default function ReportsPage() {
                                 </div>
 
                                 <div className="p-10 bg-black/20 border border-dashed border-[var(--crm-border)] rounded-[3rem] text-center space-y-6 relative overflow-hidden group">
-                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-600 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-600 to-transparent sm:opacity-0 sm:group-hover:opacity-100 transition-opacity" />
                                      <TrendingUp className="w-14 h-14 text-purple-500 mx-auto opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
                                      <p className="text-[11px] font-black text-[var(--crm-text-muted)] italic leading-relaxed uppercase tracking-[0.25em] px-10">
                                          Tahlillar natijasiga ko'ra markaz o'sish dinamikasi <span className="text-green-500">IJOBIY</span> darajadadir.

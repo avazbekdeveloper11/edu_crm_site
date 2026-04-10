@@ -331,7 +331,7 @@ export default function StudentsPage() {
                                                 <span className="text-[9px] text-[var(--crm-text)] font-black truncate group-hover/badge:text-[var(--crm-accent)]">{c.name}</span>
                                                 <div className="flex flex-col">
                                                     <span className="text-[8px] text-[var(--crm-text-muted)] font-bold italic truncate opacity-60">{grp ? grp.name : 'Guruhsiz'}</span>
-                                                    {grp && <span className="text-[7px] text-[var(--crm-accent)] font-black uppercase tracking-tighter opacity-0 group-hover/badge:opacity-100 transition-opacity leading-none mt-0.5">{grp.teacher || 'Ustozsiz'}</span>}
+                                                    {grp && <span className="text-[7px] text-[var(--crm-accent)] font-black uppercase tracking-tighter sm:opacity-0 sm:group-hover/badge:opacity-100 transition-opacity leading-none mt-0.5">{grp.teacher || 'Ustozsiz'}</span>}
                                                 </div>
                                             </div>
                                         );
@@ -344,7 +344,7 @@ export default function StudentsPage() {
                                 </div>
                             </td>
                             <td className="py-8 pr-12 text-right">
-                                <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                <div className="flex justify-end gap-3 sm:translate-x-4 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:translate-x-0 transition-all duration-300">
                                     {debt > 0 && (
                                         <button onClick={() => openPayment(std)} className="p-4 bg-green-600/10 border border-green-500/10 text-green-500 hover:bg-green-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
                                             <Wallet className="w-5 h-5 shadow-lg" />

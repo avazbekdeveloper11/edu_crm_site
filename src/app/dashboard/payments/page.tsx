@@ -180,8 +180,8 @@ export default function PaymentsPage() {
              </div>
              <button onClick={() => setShowAddModal(true)} className="bg-green-600 hover:scale-105 transition-all text-white px-4 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-green-600/30 active:scale-95 uppercase whitespace-nowrap">
                 <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
-                <span className="hidden xs:inline">To'lov</span>
-                <span className="xs:hidden">T-v</span>
+                <span className="hidden xs:inline">To'lov Qabul</span>
+                <span className="xs:hidden">To'lov</span>
              </button>
           </div>
         </header>
@@ -270,7 +270,7 @@ export default function PaymentsPage() {
                              {new Date(p.paymentDate).toLocaleDateString("ru-RU")}
                         </td>
                         <td className="py-8 pr-12 text-right">
-                           <div className="flex items-center justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                           <div className="flex items-center justify-end gap-3 sm:translate-x-4 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:translate-x-0 transition-all duration-300">
                                 <div className="flex items-center gap-2 px-3 py-1.5 bg-[var(--crm-success-soft)] border border-[var(--crm-success-soft)] rounded-full text-green-500 text-[9px] font-black uppercase tracking-widest">
                                     <CheckCircle2 className="w-3.5 h-3.5" />
                                     Muvaffaqiyatli

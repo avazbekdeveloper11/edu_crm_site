@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -17,8 +17,11 @@ import {
   Users2,
   Building2,
   BarChart3,
-  Target
+  Target,
+  X,
+  AlertTriangle
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "./ThemeContext";
 
 export function Sidebar({ centerName, role }: { centerName: string; role: string }) {
@@ -26,6 +29,7 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const isOwner = role === 'OWNER' || role === 'SUPER_ADMIN';
   const isTeacher = role === 'TEACHER';
@@ -39,6 +43,11 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
       }
     }
   }, [pathname]);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    router.push("/login");
+  };
 
   return (
     <>
@@ -81,7 +90,7 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           </button>
 
           <button
-            onClick={() => { localStorage.clear(); router.push("/login"); }}
+            onClick={() => setShowLogoutConfirm(true)}
             className="w-full h-14 rounded-2xl hover:bg-red-500/10 text-[var(--crm-text-muted)] hover:text-red-500 transition-all flex items-center justify-center lg:justify-start lg:px-5 gap-4 group"
           >
             <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -107,7 +116,7 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
           <button 
-            onClick={() => { localStorage.clear(); router.push("/login"); }} 
+            onClick={() => setShowLogoutConfirm(true)} 
             className="w-11 h-11 rounded-2xl flex items-center justify-center text-red-500 bg-red-500/10 border border-red-500/20 shrink-0 active:scale-90 transition-all"
             title="Tizimdan chiqish"
           >
@@ -115,6 +124,53 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           </button>
         </div>
       </div>
+
+      {/* Logout Confirmation Modal */}
+      <AnimatePresence>
+        {showLogoutConfirm && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md">
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }} 
+              onClick={() => setShowLogoutConfirm(false)} 
+              className="absolute inset-0 bg-black/70" 
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }} 
+              animate={{ scale: 1, opacity: 1, y: 0 }} 
+              exit={{ scale: 0.9, opacity: 0, y: 20 }} 
+              className="w-full max-w-sm bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3rem] p-8 sm:p-10 relative z-10 shadow-[0_30px_100px_rgba(0,0,0,0.5)] overflow-hidden text-center"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500 opacity-5 blur-3xl -mr-16 -mt-16 rounded-full" />
+              
+              <div className="w-20 h-20 bg-red-500/10 border border-red-500/10 rounded-3xl flex items-center justify-center text-red-500 mx-auto mb-8 shadow-inner">
+                <LogOut className="w-10 h-10" />
+              </div>
+              
+              <h3 className="text-2xl font-black uppercase tracking-tighter italic mb-4">Tizimdan chiqish?</h3>
+              <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-widest opacity-60 leading-relaxed mb-10 px-4">
+                Haqiqatan ham o'z hisobingizdan chiqmoqchimisiz? Barcha ochilgan seanslar tozalanishi mumkin.
+              </p>
+              
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={handleLogout}
+                  className="w-full py-5 bg-red-500 text-white rounded-2xl font-black text-[11px] uppercase tracking-widest shadow-xl shadow-red-500/20 hover:scale-[1.02] active:scale-95 transition-all"
+                >
+                  Ha, chiqish
+                </button>
+                <button 
+                  onClick={() => setShowLogoutConfirm(false)}
+                  className="w-full py-5 bg-[var(--crm-bg)] text-[var(--crm-text-muted)] border border-[var(--crm-border)] rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all"
+                >
+                  Bekor qilish
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
