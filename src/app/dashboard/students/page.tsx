@@ -29,16 +29,23 @@ const formatMoney = (val: any) => {
     return Number(val).toLocaleString("ru-RU").replace(/,/g, " ");
 };
 
-const formatPhone = (val: string) => {
-    const raw = val.replace(/\D/g, "");
-    if (!raw) return "";
-    if (raw.startsWith("998") && raw.length >= 12) {
-        return `+998 ${raw.slice(3, 5)} ${raw.slice(5, 8)} ${raw.slice(8, 10)} ${raw.slice(10, 12)}`;
+const formatPhone = (value: string) => {
+    if (!value) return value;
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+    
+    // Always keep +998 even if empty or just digits
+    if (phoneNumberLength <= 3) return `+${phoneNumber}`;
+    if (phoneNumberLength <= 5) {
+        return `+${phoneNumber.slice(0, 3)} (${phoneNumber.slice(3, 5)})`;
     }
-    if (raw.length === 9) {
-        return `+998 ${raw.slice(0, 2)} ${raw.slice(2, 5)} ${raw.slice(5, 7)} ${raw.slice(7, 9)}`;
+    if (phoneNumberLength <= 8) {
+        return `+${phoneNumber.slice(0, 3)} (${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5, 8)}`;
     }
-    return "+" + raw;
+    if (phoneNumberLength <= 10) {
+        return `+${phoneNumber.slice(0, 3)} (${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5, 8)} ${phoneNumber.slice(8, 10)}`;
+    }
+    return `+${phoneNumber.slice(0, 3)} (${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5, 8)} ${phoneNumber.slice(8, 10)} ${phoneNumber.slice(10, 12)}`;
 };
 
 export default function StudentsPage() {
@@ -361,7 +368,7 @@ export default function StudentsPage() {
                 
                 <header className="mb-12 relative flex items-center justify-between">
                     <div>
-                        <h2 className="text-4xl font-black tracking-tighter uppercase leading-none">{isEditing ? "Tahrirlash" : "Yangi Talaba"}</h2>
+                        <h2 className="text-4xl font-black tracking-tighter leading-none">{isEditing ? "Tahrirlash" : "Yangi Talaba"}</h2>
                         <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">Ma'lumotlar va yo'nalishlar sozlamasi</p>
                     </div>
                     <button onClick={closeModal} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
@@ -372,21 +379,21 @@ export default function StudentsPage() {
                 <form onSubmit={handleSubmit} className="space-y-8 relative">
                     <div className="space-y-2">
                         <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Ism Familiya</label>
-                        <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner uppercase" placeholder="F.I.SH" required />
+                        <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="F.I.SH" required />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-2">
                             <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Talaba Telefoni</label>
                             <input type="text" value={formatPhone(formData.phone)} onChange={(e) => {
-                                const raw = e.target.value.replace(/\+/g, "").replace(/\s/g, "");
-                                if (/^\d*$/.test(raw) && raw.length <= 12) setFormData({...formData, phone: raw});
+                                const raw = e.target.value.replace(/[^\d]/g, "");
+                                if (raw.length <= 12) setFormData({...formData, phone: raw});
                             }} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="+998" required />
                         </div>
                         <div className="space-y-2">
                             <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Ota-Onasi Telefoni</label>
                             <input type="text" value={formatPhone(formData.parentPhone)} onChange={(e) => {
-                                const raw = e.target.value.replace(/\+/g, "").replace(/\s/g, "");
-                                if (/^\d*$/.test(raw) && raw.length <= 12) setFormData({...formData, parentPhone: raw});
+                                const raw = e.target.value.replace(/[^\d]/g, "");
+                                if (raw.length <= 12) setFormData({...formData, parentPhone: raw});
                             }} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="+998" />
                         </div>
                     </div>
@@ -442,7 +449,7 @@ export default function StudentsPage() {
                     {isEditing && (
                         <div className="space-y-2">
                              <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">O'quvchi Holati</label>
-                             <select value={formData.status} onChange={(e) => setFormData({...formData, status: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-black uppercase appearance-none cursor-pointer">
+                             <select value={formData.status} onChange={(e) => setFormData({...formData, status: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-black appearance-none cursor-pointer">
                                 <option value="Active" className="bg-[var(--crm-card)]">AKTIV O'QUVCHI (O'QIYAPTI)</option>
                                 <option value="Passive" className="bg-[var(--crm-card)]">KETGAN O'QUVCHI (ARKHIVED)</option>
                              </select>
@@ -469,7 +476,7 @@ export default function StudentsPage() {
                    <div className="flex items-center gap-5">
                       <div className="w-16 h-16 rounded-[1.5rem] bg-green-500/10 border border-green-500/10 flex items-center justify-center text-green-500 shadow-xl"><Wallet className="w-8 h-8 shrink-0" /></div>
                       <div>
-                          <h2 className="text-3xl font-black tracking-tighter uppercase leading-none">To'lov Qabul Qilish</h2>
+                          <h2 className="text-3xl font-black tracking-tighter leading-none">To'lov Qabul Qilish</h2>
                           <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">{paymentData?.name}</p>
                       </div>
                    </div>

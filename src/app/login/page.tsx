@@ -67,8 +67,8 @@ export default function CenterLogin() {
                 type="text" 
                 value={login}
                 onChange={(e) => setLogin(e.target.value)}
-                placeholder="LOGININGIZNI YOZING"
-                className="w-full bg-white/10 border border-white/20 rounded-[1.5rem] py-5 pl-14 pr-6 focus:outline-none focus:border-purple-500 transition-all text-white font-bold placeholder:text-gray-600 uppercase text-xs"
+                placeholder="Loginingizni yozing"
+                className="w-full bg-white/10 border border-white/20 rounded-[1.5rem] py-5 pl-14 pr-6 focus:outline-none focus:border-purple-500 transition-all text-white font-bold placeholder:text-gray-600 text-xs"
                 required
               />
             </div>
