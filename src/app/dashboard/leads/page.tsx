@@ -223,10 +223,20 @@ export default function LeadsPage() {
     }
   };
 
-  const filteredLeads = leads.filter(l => {
+   const filteredLeads = leads.filter(l => {
     const matchesSearch = l.name.toLowerCase().includes(search.toLowerCase()) || l.phone.includes(search);
     const matchesStatus = statusFilter === "All" || l.status === statusFilter;
     return matchesSearch && matchesStatus;
+  }).sort((a, b) => {
+    // Sort by callbackAt if both exist
+    if (a.callbackAt && b.callbackAt) {
+      return new Date(a.callbackAt).getTime() - new Date(b.callbackAt).getTime();
+    }
+    // Leads with callbackAt always come first
+    if (a.callbackAt) return -1;
+    if (b.callbackAt) return 1;
+    // Otherwise sort by creation date (newest first)
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
   });
 
   const getStatusColor = (status: LeadStatus) => {
@@ -353,14 +363,26 @@ export default function LeadsPage() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       key={lead.id}
-                      className="bg-[var(--crm-card)] border border-[var(--crm-border)] p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-2xl hover:border-purple-600/20 transition-all group"
+                      className="bg-[var(--crm-card)] border border-[var(--crm-border)] p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-2xl hover:border-purple-600/20 transition-all group relative overflow-hidden"
                     >
-                       <div className="flex items-center gap-6 flex-1 w-full">
-                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${getStatusColor(lead.status)}`}>
+                       {lead.callbackAt && new Date(lead.callbackAt) <= new Date() && lead.status !== 'Student' && lead.status !== 'Rejected' && (
+                          <div className="absolute top-0 right-0 w-32 h-32 -mr-16 -mt-16 bg-red-500/10 blur-3xl animate-pulse pointer-events-none" />
+                       )}
+                       
+                       <div className="flex items-center gap-6 flex-1 w-full relative z-10">
+                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-inner relative ${getStatusColor(lead.status)}`}>
                              <Target className="w-6 h-6" />
+                             {lead.callbackAt && new Date(lead.callbackAt) <= new Date() && lead.status !== 'Student' && lead.status !== 'Rejected' && (
+                                <span className="absolute -top-1 -right-1 block w-4 h-4 bg-red-500 rounded-full border-2 border-[var(--crm-card)] animate-bounce shadow-lg shadow-red-500/40" />
+                             )}
                           </div>
-                          <div className="min-w-0">
-                             <h3 className="text-sm font-black uppercase tracking-tight truncate">{lead.name}</h3>
+                          <div className="min-w-0 flex-1">
+                             <div className="flex items-center gap-3">
+                                <h3 className="text-sm font-black uppercase tracking-tight truncate">{lead.name}</h3>
+                                {lead.callbackAt && new Date(lead.callbackAt) <= new Date() && lead.status !== 'Student' && lead.status !== 'Rejected' && (
+                                   <span className="px-2 py-0.5 bg-red-500/10 text-red-500 text-[8px] font-black uppercase tracking-widest rounded-full animate-pulse border border-red-500/20">Kechikkan</span>
+                                )}
+                             </div>
                              <div className="flex flex-wrap items-center gap-4 mt-1 opacity-60">
                                 <span className="text-[10px] font-bold text-[var(--crm-text-muted)] flex items-center gap-2">
                                    <Phone className="w-3 h-3" /> {lead.phone}
@@ -371,15 +393,20 @@ export default function LeadsPage() {
                                    </span>
                                 )}
                                 {lead.callbackAt && (
-                                   <span className="text-[10px] font-black text-purple-600 flex items-center gap-2">
+                                   <span className={`text-[10px] font-black flex items-center gap-2 ${new Date(lead.callbackAt) <= new Date() ? 'text-red-500' : 'text-purple-600'}`}>
                                       <CalendarClock className="w-3 h-3" /> {new Date(lead.callbackAt).toLocaleString([], {day: '2-digit', month: 'short', hour: '2-digit', minute:'2-digit'})}
                                    </span>
                                 )}
                              </div>
+                             {lead.notes && (
+                                <p className="text-[10px] font-medium text-[var(--crm-text-muted)] mt-2 line-clamp-1 max-w-xl italic opacity-70 group-hover:opacity-100 transition-opacity">
+                                   "{lead.notes.length > 80 ? lead.notes.slice(0, 80) + '...' : lead.notes}"
+                                </p>
+                             )}
                           </div>
                        </div>
 
-                       <div className="flex items-center gap-8 w-full md:w-auto">
+                       <div className="flex items-center gap-8 w-full md:w-auto relative z-10">
                           <div className="flex-1 md:flex-none text-center md:text-left">
                              <p className="text-[9px] font-black uppercase tracking-widest text-[var(--crm-text-muted)] mb-1 opacity-50">Qiziqqan kursi</p>
                              <p className="text-[11px] font-black uppercase tracking-tight flex items-center gap-2">
@@ -402,7 +429,7 @@ export default function LeadsPage() {
                           </select>
                        </div>
 
-                       <div className="flex items-center gap-3 w-full md:w-auto">
+                       <div className="flex items-center gap-3 w-full md:w-auto relative z-10">
                           {lead.status !== 'Student' && lead.status !== 'Rejected' && (
                              <button 
                                onClick={() => { 
