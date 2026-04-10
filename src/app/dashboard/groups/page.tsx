@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 export default function GroupsPage() {
@@ -77,17 +76,8 @@ export default function GroupsPage() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    const token = localStorage.getItem("access_token");
-    if (!token || !userData) {
-      router.push("/login");
-    } else {
-      const parsed = JSON.parse(userData);
-      setCenter(parsed);
-      setRole(parsed.role || "OWNER");
-      fetchData();
-    }
-  }, [router]);
+    fetchData();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -268,13 +258,8 @@ export default function GroupsPage() {
 
   const filteredGroups = groups.filter(g => g.name.toLowerCase().includes(search.toLowerCase()) || (g.course?.name || "").toLowerCase().includes(search.toLowerCase()));
 
-  if (!center) return null;
-
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={center.centerName} role={role} />
-
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0">
+    <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-3 sm:gap-6">
           <div className="relative group flex-1 max-w-[200px] sm:max-w-md">
             <Search className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--crm-text-muted)] group-focus-within:text-[var(--crm-accent)] transition-colors" />
@@ -385,7 +370,6 @@ export default function GroupsPage() {
             </div>
           )}
         </section>
-      </main>
 
       {/* Premium Group Modal */}
       <AnimatePresence>
@@ -409,13 +393,13 @@ export default function GroupsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-[8px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2 opacity-50">Guruh Nomi</label>
-                    <input type="text" placeholder="MATEMATEKA 1" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-2xl px-6 py-3.5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-xs font-bold shadow-inner uppercase transition-all" />
+                    <input type="text" placeholder="Matematika 1" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-2xl px-6 py-3.5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-xs font-bold shadow-inner transition-all" />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[8px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2 opacity-50">O'qituvchi</label>
                     <div className="relative group">
                       <Users2 className="absolute left-5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--crm-text-muted)] z-10" />
-                      <select value={formData.teacher} onChange={(e) => setFormData({ ...formData, teacher: e.target.value })} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-2xl pl-12 pr-6 py-3.5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-bold shadow-inner appearance-none cursor-pointer uppercase transition-all">
+                      <select value={formData.teacher} onChange={(e) => setFormData({ ...formData, teacher: e.target.value })} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-2xl pl-12 pr-6 py-3.5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-bold shadow-inner appearance-none cursor-pointer transition-all">
                         <option value="" className={theme === 'dark' ? 'bg-black' : 'bg-white'}>USTOZNI TANLANG...</option>
                         {teachers.map(t => (
                           <option key={t.id} value={t.name} className={theme === 'dark' ? 'bg-black' : 'bg-white'}>
@@ -638,6 +622,6 @@ export default function GroupsPage() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

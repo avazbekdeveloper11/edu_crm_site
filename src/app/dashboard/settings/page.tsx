@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 export default function SettingsPage() {
@@ -91,19 +90,9 @@ export default function SettingsPage() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    if (!userData) {
-      router.push("/login");
-    } else {
-      const parsed = JSON.parse(userData);
-      setCenter(parsed);
-      setRole(parsed.role || "OWNER");
-      if (parsed.role === 'OWNER' || parsed.role === 'SUPER_ADMIN') {
-          fetchUsers();
-          fetchGroups();
-      }
-    }
-  }, [router]);
+    fetchUsers();
+    fetchGroups();
+  }, []);
 
   const handleUserSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -229,12 +218,8 @@ export default function SettingsPage() {
     }
   };
 
-  if (!center) return null;
-
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={center.centerName} role={role} />
-
+    <>
       <main className="flex-1 min-w-0 pb-32 sm:pb-0">
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-4">
           <div className="flex flex-col items-start">
@@ -372,7 +357,7 @@ export default function SettingsPage() {
                         <form onSubmit={handleUserSubmit} className="space-y-8 relative">
                             <div className="space-y-2">
                                 <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Xodim FISH</label>
-                                <input type="text" placeholder="MASALAN: AKMAL TOIROV" value={userForm.name} onChange={(e) => setUserForm({...userForm, name: e.target.value})} required className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner uppercase" />
+                                <input type="text" placeholder="Masalan: Akmal Toirov" value={userForm.name} onChange={(e) => setUserForm({...userForm, name: e.target.value})} required className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Xizmat Logini</label>
@@ -391,14 +376,14 @@ export default function SettingsPage() {
                             {userForm.role === 'TEACHER' && (
                                 <div className="space-y-2">
                                     <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Mutaxassisligi (Fani)</label>
-                                    <input type="text" placeholder="MASALAN: INGLIZ TILI" value={userForm.specialization} onChange={(e) => setUserForm({...userForm, specialization: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner uppercase" />
+                                    <input type="text" placeholder="Masalan: Ingliz tili" value={userForm.specialization} onChange={(e) => setUserForm({...userForm, specialization: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" />
                                 </div>
                             )}
                             {(!isEditingUser || (isEditingUser && editingUserId !== center.id)) && (
                                 <div className="space-y-2">
                                     <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Lavozim Huquqi</label>
                                     <div className="relative group">
-                                        <select value={userForm.role} onChange={(e) => setUserForm({...userForm, role: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-black uppercase appearance-none cursor-pointer shadow-inner pr-16 translate-y-[-1px]">
+                                        <select value={userForm.role} onChange={(e) => setUserForm({...userForm, role: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-black appearance-none cursor-pointer shadow-inner pr-16 translate-y-[-1px]">
                                             <option value="CASHIER" className={theme === "dark" ? "bg-black" : "bg-white"}>KASSIR (CHЕKLANGAN HUQUQLAR)</option>
                                             <option value="TEACHER" className={theme === "dark" ? "bg-black" : "bg-white"}>O'QITUVCHI (DAVOMAT VA GURUHLAR)</option>
                                             <option value="OWNER" className={theme === "dark" ? "bg-black" : "bg-white"}>ADMINISTRATOR (TО'LIQ BOSHQUV)</option>
@@ -602,7 +587,7 @@ export default function SettingsPage() {
                                     value={profileForm.name} 
                                     onChange={(e) => setProfileForm({...profileForm, name: e.target.value})} 
                                     required 
-                                    className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner uppercase"
+                                    className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner"
                                 />
                             </div>
 
@@ -690,7 +675,7 @@ export default function SettingsPage() {
             )}
         </AnimatePresence>
       </main>
-    </div>
+    </>
   );
 }
 

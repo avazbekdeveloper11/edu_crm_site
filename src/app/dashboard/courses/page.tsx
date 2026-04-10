@@ -20,7 +20,6 @@ import {
   X
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 const formatMoney = (val: any) => {
@@ -64,17 +63,8 @@ export default function CoursesPage() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    const token = localStorage.getItem("access_token");
-    if (!token || !userData) {
-      router.push("/login");
-    } else {
-      const parsed = JSON.parse(userData);
-      setCenter(parsed);
-      setRole(parsed.role || "OWNER");
-      fetchData();
-    }
-  }, [router]);
+    fetchData();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -155,13 +145,8 @@ export default function CoursesPage() {
       }
   };
 
-  if (!center) return null;
-
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={center.centerName} role={role} />
-
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0">
+    <>
         <header className="min-h-[70px] sm:min-h-24 border-b border-[var(--crm-border)] flex flex-col md:flex-row items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-4 md:py-0 gap-4 sm:gap-6">
           <div className="relative group w-full max-w-md">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--crm-text-muted)] group-focus-within:text-[var(--crm-accent)] transition-colors" />
@@ -244,7 +229,6 @@ export default function CoursesPage() {
             </div>
           )}
         </section>
-      </main>
 
       {/* Modern Detailed Course Modal */}
       <AnimatePresence>
@@ -271,7 +255,7 @@ export default function CoursesPage() {
                         type="text" 
                         value={formData.name} 
                         onChange={(e) => setFormData({...formData, name: e.target.value})} 
-                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold transition-all shadow-inner uppercase" 
+                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold transition-all shadow-inner" 
                         placeholder="Masalan: Web Dasturlash" 
                         required 
                     />
@@ -347,6 +331,6 @@ export default function CoursesPage() {
           </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

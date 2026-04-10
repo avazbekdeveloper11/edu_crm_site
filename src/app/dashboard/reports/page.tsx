@@ -26,7 +26,6 @@ import {
   Sparkles
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 export default function ReportsPage() {
@@ -69,15 +68,8 @@ export default function ReportsPage() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    if (!userData) {
-      router.push("/login");
-    } else {
-      const parsed = JSON.parse(userData);
-      setCenter(parsed);
-      fetchData();
-    }
-  }, [router]);
+    fetchData();
+  }, []);
 
   const exportToExcel = async () => {
     if (!finance || !studentsReport || !center) return;
@@ -184,12 +176,8 @@ export default function ReportsPage() {
       fetchData();
   };
 
-  if (!center) return null;
-
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={center.centerName} role={center.role} />
-
+    <>
       <main className="flex-1 min-w-0 pb-32 sm:pb-0 relative">
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0">
           <div className="flex items-center gap-3 sm:gap-4">
@@ -585,7 +573,7 @@ export default function ReportsPage() {
             </div>
         )}
       </AnimatePresence>
-    </div>
+    </>
   );
 }
 

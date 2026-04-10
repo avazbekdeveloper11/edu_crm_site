@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 export default function TeachersPage() {
@@ -58,16 +57,8 @@ export default function TeachersPage() {
   };
 
   useEffect(() => {
-    const userData = localStorage.getItem("center_user");
-    if (!userData) {
-      router.push("/login");
-    } else {
-      const parsed = JSON.parse(userData);
-      setCenter(parsed);
-      setRole(parsed.role || "OWNER");
-      fetchData();
-    }
-  }, [router]);
+    fetchData();
+  }, []);
 
   const teachers = allUsers.filter(u => u.role === "TEACHER").filter(u => 
     u.name?.toLowerCase().includes(search.toLowerCase()) || 
@@ -125,13 +116,8 @@ export default function TeachersPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  if (!center) return null;
-
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={center.centerName} role={role} />
-
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0">
+    <>
         <header className="min-h-[70px] sm:min-h-24 border-b border-[var(--crm-border)] flex flex-col md:flex-row items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-4 md:py-0 gap-4 sm:gap-6">
           <div className="relative group w-full max-w-md">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--crm-text-muted)] group-focus-within:text-[var(--crm-accent)] transition-colors" />
@@ -277,11 +263,11 @@ export default function TeachersPage() {
                         <form onSubmit={handleSubmit} className="space-y-8 relative">
                             <div className="space-y-2">
                                 <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Ustoz FISH</label>
-                                <input type="text" placeholder="MASALAN: JASUR HAMIDOV" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} required className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner uppercase" />
+                                <input type="text" placeholder="Masalan: Jasur Hamidov" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} required className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Mutaxassisligi (Fani)</label>
-                                <input type="text" placeholder="MASALAN: INGLIZ TILI (IELTS)" value={form.specialization} onChange={(e) => setForm({...form, specialization: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner uppercase" />
+                                <input type="text" placeholder="Masalan: Ingliz tili (IELTS)" value={form.specialization} onChange={(e) => setForm({...form, specialization: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Tizimdagi Logini</label>
@@ -298,7 +284,7 @@ export default function TeachersPage() {
                                 </div>
                             </div>
                             <div className="flex gap-4 pt-4">
-                                <button type="button" onClick={() => setShowModal(false)} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor Dak</button>
+                                <button type="button" onClick={() => setShowModal(false)} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
                                 <button type="submit" className="flex-[2] py-5 bg-[var(--crm-accent)] text-white rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all">Saqlash</button>
                             </div>
                         </form>
@@ -306,7 +292,6 @@ export default function TeachersPage() {
                 </div>
             )}
         </AnimatePresence>
-      </main>
-    </div>
+    </>
   );
 }

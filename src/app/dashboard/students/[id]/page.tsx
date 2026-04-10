@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
-import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
 
 const formatMoney = (val: any) => {
@@ -74,13 +73,7 @@ export default function StudentProfilePage() {
     };
 
     useEffect(() => {
-        const userData = localStorage.getItem("center_user");
-        if (!userData) {
-            router.push("/login");
-        } else {
-            setCenterUser(JSON.parse(userData));
-            fetchStudent();
-        }
+        fetchStudent();
     }, [id]);
 
     if (loading) return (
@@ -95,10 +88,7 @@ export default function StudentProfilePage() {
     const balance = 0; // Simplified for now
 
     return (
-        <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-            <Sidebar centerName={centerUser?.centerName} role={centerUser?.role} />
-
-            <main className="flex-1 min-w-0 pb-32 sm:pb-0">
+        <>
                 <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 gap-4 sm:gap-6 py-2 sm:py-0">
                     <button onClick={() => router.back()} className="w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-[var(--crm-bg)] border border-[var(--crm-border)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all shadow-lg active:scale-95 group shrink-0">
                         <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-1 transition-transform" />
@@ -223,8 +213,7 @@ export default function StudentProfilePage() {
 
                     </div>
                 </div>
-            </main>
-        </div>
+        </>
     );
 }
 
