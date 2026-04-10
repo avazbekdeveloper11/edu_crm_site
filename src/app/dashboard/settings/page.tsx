@@ -90,6 +90,12 @@ export default function SettingsPage() {
   };
 
   useEffect(() => {
+    const userData = localStorage.getItem("center_user");
+    if (userData) {
+      const parsed = JSON.parse(userData);
+      setCenter(parsed);
+      setRole(parsed.role || "OWNER");
+    }
     fetchUsers();
     fetchGroups();
   }, []);
@@ -218,9 +224,10 @@ export default function SettingsPage() {
     }
   };
 
+  if (!center) return null;
+
   return (
     <>
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0">
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-4">
           <div className="flex flex-col items-start">
               <h1 className="text-xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-10">Sozlamalar</h1>
@@ -674,7 +681,6 @@ export default function SettingsPage() {
                 </div>
             )}
         </AnimatePresence>
-      </main>
     </>
   );
 }

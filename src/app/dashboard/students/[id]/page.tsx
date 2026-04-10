@@ -73,6 +73,8 @@ export default function StudentProfilePage() {
     };
 
     useEffect(() => {
+        const userData = localStorage.getItem("center_user");
+        if (userData) setCenterUser(JSON.parse(userData));
         fetchStudent();
     }, [id]);
 

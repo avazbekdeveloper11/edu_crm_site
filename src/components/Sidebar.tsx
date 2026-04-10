@@ -106,6 +106,13 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           <button onClick={toggleTheme} className="w-11 h-11 rounded-2xl flex items-center justify-center text-[var(--crm-text-muted)] bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] shrink-0">
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
+          <button 
+            onClick={() => { localStorage.clear(); router.push("/login"); }} 
+            className="w-11 h-11 rounded-2xl flex items-center justify-center text-red-500 bg-red-500/10 border border-red-500/20 shrink-0 active:scale-90 transition-all"
+            title="Tizimdan chiqish"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </>

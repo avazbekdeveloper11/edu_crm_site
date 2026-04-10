@@ -76,6 +76,12 @@ export default function GroupsPage() {
   };
 
   useEffect(() => {
+    const userData = localStorage.getItem("center_user");
+    if (userData) {
+      const parsed = JSON.parse(userData);
+      setCenter(parsed);
+      setRole(parsed.role || "OWNER");
+    }
     fetchData();
   }, []);
 

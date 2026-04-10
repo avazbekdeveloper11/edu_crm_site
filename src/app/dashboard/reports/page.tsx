@@ -68,6 +68,10 @@ export default function ReportsPage() {
   };
 
   useEffect(() => {
+    const userData = localStorage.getItem("center_user");
+    if (userData) {
+      setCenter(JSON.parse(userData));
+    }
     fetchData();
   }, []);
 
@@ -178,7 +182,6 @@ export default function ReportsPage() {
 
   return (
     <>
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0 relative">
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="p-2 sm:p-3 bg-purple-600/10 rounded-xl shrink-0">
@@ -431,7 +434,6 @@ export default function ReportsPage() {
           )}
 
         </div>
-      </main>
 
       {/* Analysis Modal */}
       <AnimatePresence>
