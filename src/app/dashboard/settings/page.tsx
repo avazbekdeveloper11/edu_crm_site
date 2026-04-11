@@ -22,7 +22,11 @@ import {
   Users2,
   X,
   ChevronDown,
-  User
+  User,
+  HelpCircle,
+  Phone,
+  MessageCircle,
+  ExternalLink
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
@@ -83,6 +87,7 @@ export default function SettingsPage() {
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [showSystemModal, setShowSystemModal] = useState(false);
   const [showTariffsModal, setShowTariffsModal] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
   const [requestingUpgrade, setRequestingUpgrade] = useState(false);
   const [fullCenter, setFullCenter] = useState<any>(null);
@@ -311,12 +316,13 @@ export default function SettingsPage() {
         </header>
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
                 <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
                 <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
                 <SettingsCard onClick={() => setShowNotificationModal(true)} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />
                 <SettingsCard onClick={() => setShowTariffsModal(true)} icon={<Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />} title="Tarif" desc="Subscription plan" />
                 <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual sozlamalar" />
+                <SettingsCard onClick={() => setShowHelpModal(true)} icon={<HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />} title="Yordam" desc="Qo'llab-quvvatlash" />
             </div>
 
             <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[4rem] p-8 sm:p-12 relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.2)] mb-12 sm:mb-20">
@@ -876,6 +882,86 @@ export default function SettingsPage() {
                             </div>
 
                             <button onClick={() => setShowSystemModal(false)} className="w-full py-5 bg-[var(--crm-accent)] text-white rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all">Yopish</button>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
+        {/* Help / Support Modal */}
+        <AnimatePresence>
+            {showHelpModal && (
+                <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowHelpModal(false)} className="absolute inset-0 bg-black/70" />
+                    <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
+                        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-green-500 opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
+                        
+                        <header className="mb-10 relative flex items-center justify-between">
+                            <div>
+                                <h2 className="text-4xl font-black tracking-tighter uppercase leading-none italic">Yordam</h2>
+                                <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-3 italic opacity-60">Qo'llab-quvvatlash markazi</p>
+                            </div>
+                            <button onClick={() => setShowHelpModal(false)} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
+                                <X className="w-6 h-6" />
+                            </button>
+                        </header>
+
+                        <div className="space-y-6 relative">
+                            <div className="p-6 bg-[var(--crm-bg)] rounded-[1.8rem] border border-[var(--crm-border)] space-y-3">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center">
+                                        <HelpCircle className="w-6 h-6 text-green-500" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg font-black uppercase tracking-tighter">Savol bormi?</h4>
+                                        <p className="text-[9px] text-[var(--crm-text-muted)] uppercase font-bold tracking-widest">Biz sizga yordam berishga tayyormiz</p>
+                                    </div>
+                                </div>
+                                <p className="text-sm text-[var(--crm-text-muted)] leading-relaxed">
+                                    CRM tizimi bo'yicha har qanday savol, taklif yoki muammolar bo'lsa, 
+                                    bizning qo'llab-quvvatlash xizmatiga murojaat qiling. Biz tez orada javob beramiz.
+                                </p>
+                            </div>
+
+                            <a 
+                                href="https://t.me/unex_admin" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-between p-5 bg-[var(--crm-bg)] rounded-[1.5rem] border border-[var(--crm-border)] hover:border-blue-500/30 transition-all group active:scale-[0.98]"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+                                        <MessageCircle className="w-5 h-5 text-blue-500" />
+                                    </div>
+                                    <div>
+                                        <div className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-50">Telegram</div>
+                                        <div className="text-lg font-black tracking-tighter text-blue-500">@unex_admin</div>
+                                    </div>
+                                </div>
+                                <ExternalLink className="w-4 h-4 text-[var(--crm-text-muted)] opacity-30 group-hover:opacity-60 transition-opacity" />
+                            </a>
+
+                            <a 
+                                href="tel:+998934449963" 
+                                className="flex items-center justify-between p-5 bg-[var(--crm-bg)] rounded-[1.5rem] border border-[var(--crm-border)] hover:border-green-500/30 transition-all group active:scale-[0.98]"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+                                        <Phone className="w-5 h-5 text-green-500" />
+                                    </div>
+                                    <div>
+                                        <div className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-50">Telefon raqam</div>
+                                        <div className="text-lg font-black tracking-tighter text-green-500">+998 93 444 99 63</div>
+                                    </div>
+                                </div>
+                                <ExternalLink className="w-4 h-4 text-[var(--crm-text-muted)] opacity-30 group-hover:opacity-60 transition-opacity" />
+                            </a>
+
+                            <div className="pt-2 text-center">
+                                <p className="text-[9px] text-[var(--crm-text-muted)] font-bold uppercase tracking-widest opacity-40">
+                                    Ish vaqti: Dushanba — Shanba, 09:00 — 18:00
+                                </p>
+                            </div>
+
+                            <button onClick={() => setShowHelpModal(false)} className="w-full py-5 bg-[var(--crm-accent)] text-white rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all">Yopish</button>
                         </div>
                     </motion.div>
                 </div>
