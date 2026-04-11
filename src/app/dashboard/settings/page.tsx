@@ -316,7 +316,7 @@ export default function SettingsPage() {
         </header>
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
-            <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
                 <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
                 <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
                 <SettingsCard onClick={() => setShowNotificationModal(true)} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />
@@ -978,14 +978,14 @@ export default function SettingsPage() {
 
 function SettingsCard({ icon, title, desc, onClick }: any) {
     return (
-        <div onClick={onClick} className={`bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-10 hover:border-[var(--crm-accent)] transition-all group cursor-pointer active:scale-95 shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative overflow-hidden min-h-[160px] sm:min-h-[220px] flex flex-col justify-between`}>
+        <div onClick={onClick} className={`bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-8 hover:border-[var(--crm-accent)] transition-all group cursor-pointer active:scale-[0.97] shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative overflow-hidden flex items-center gap-4 sm:gap-5`}>
             <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--crm-accent-soft)] blur-[30px] -mr-12 -mt-12 rounded-full group-hover:opacity-[0.08] transition-all" />
-            <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-[var(--crm-accent-soft)] rounded-xl sm:rounded-[1.5rem] flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-inner`}>
+            <div className={`w-11 h-11 sm:w-14 sm:h-14 bg-[var(--crm-accent-soft)] rounded-xl sm:rounded-2xl flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-inner shrink-0`}>
                 {icon}
             </div>
-            <div>
-                <h4 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-[var(--crm-text)] leading-none mb-2 sm:mb-3">{title}</h4>
-                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest leading-relaxed opacity-60 line-clamp-1 sm:line-clamp-2 italic">{desc}</p>
+            <div className="min-w-0">
+                <h4 className="text-base sm:text-lg font-black uppercase tracking-tight text-[var(--crm-text)] leading-none mb-1">{title}</h4>
+                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider leading-snug opacity-50 italic">{desc}</p>
             </div>
         </div>
     );
