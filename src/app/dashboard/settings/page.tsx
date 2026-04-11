@@ -732,20 +732,20 @@ export default function SettingsPage() {
             {showProfileModal && (
                 <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowProfileModal(false)} className="absolute inset-0 bg-black/70" />
-                    <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
-                        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
-                        
-                        <header className="mb-10 relative flex items-center justify-between">
+                    <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] relative z-10 shadow-2xl flex flex-col max-h-[92vh] overflow-hidden">
+                        <header className="p-6 sm:p-12 pb-0 sm:pb-0 relative flex items-center justify-between shrink-0 z-10">
                             <div>
-                                <h2 className="text-4xl font-black tracking-tighter uppercase leading-none italic">Markaz Profili</h2>
-                                <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-3 italic opacity-60">Brend va tizim sozlamalari</p>
+                                <h2 className="text-xl sm:text-4xl font-black tracking-tighter uppercase leading-none italic">Markaz Profili</h2>
+                                <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mt-1.5 sm:mt-2 italic opacity-60">Brend va tizim sozlamalari</p>
                             </div>
-                            <button onClick={() => setShowProfileModal(false)} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
-                                <X className="w-6 h-6" />
+                            <button onClick={() => setShowProfileModal(false)} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
+                                <X className="w-5 h-5 sm:w-6 sm:h-6" />
                             </button>
                         </header>
+
+                        <div className="flex-1 overflow-y-auto custom-modal-scroll p-6 sm:p-12 pt-8 sm:pt-12">
     
-                        <form onSubmit={handleUpdateProfile} className="space-y-8 relative">
+                        <form onSubmit={handleUpdateProfile} className="space-y-8 relative pb-10">
                             <div className="space-y-2">
                                 <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Markaz Nomi</label>
                                 <input 
@@ -823,6 +823,7 @@ export default function SettingsPage() {
                                 </button>
                             </div>
                         </form>
+                        </div>
                     </motion.div>
                 </div>
             )}
@@ -1055,6 +1056,7 @@ export default function SettingsPage() {
                             </div>
 
                             <button onClick={() => setShowHelpModal(false)} className="w-full py-5 bg-[var(--crm-accent)] text-white rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all">Yopish</button>
+                        </div>
                         </div>
                     </motion.div>
                 </div>
