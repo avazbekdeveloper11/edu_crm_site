@@ -109,9 +109,10 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           {isOwner && <MobileNavItem icon={<Layers className="w-5 h-5" />} href="/dashboard/courses" active={pathname === "/dashboard/courses"} label="Kurslar" />}
           {isAdminOrTeacher && <MobileNavItem icon={<Calendar className="w-5 h-5" />} href="/dashboard/groups" active={pathname === "/dashboard/groups"} label="Guruhlar" />}
           {isOwner && <MobileNavItem icon={<Wallet className="w-5 h-5" />} href="/dashboard/payments" active={pathname === "/dashboard/payments"} label="Kassa" />}
+          {isOwner && <MobileNavItem icon={<BarChart3 className="w-5 h-5" />} href="/dashboard/reports" active={pathname === "/dashboard/reports"} label="Hisobotlar" />}
           {isOwner && <MobileNavItem icon={<Settings className="w-5 h-5" />} href="/dashboard/settings" active={pathname === "/dashboard/settings"} label="Sozlamalar" />}
 
-          <div className="w-[1px] h-6 bg-[var(--crm-border)] mx-2 opacity-30" />
+          <div className="w-[1px] h-6 bg-[var(--crm-border)] mx-2 opacity-30 shrink-0" />
 
           <button onClick={toggleTheme} className="w-10 h-10 rounded-xl flex items-center justify-center text-[var(--crm-text-muted)] hover:text-[var(--crm-accent)] transition-all">
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
