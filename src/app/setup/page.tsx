@@ -326,7 +326,8 @@ export default function SetupDashboard() {
                   <th className="pb-4 pl-4">Markaz Nomi</th>
                   <th className="pb-4">Admin Login</th>
                   <th className="pb-4">Tarif</th>
-                  <th className="pb-4">Amal qilish</th>
+                  <th className="pb-4">Muddat</th>
+                  <th className="pb-4">Status</th>
                   <th className="pb-4 pr-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -393,6 +394,19 @@ export default function SetupDashboard() {
 }
 
 function CenterRow({ name, login, tariff, tariffType, tariffExpiresAt, onEdit }: any) {
+  const getStatus = () => {
+    if (!tariffExpiresAt) return { label: "Noma'lum", color: "bg-gray-500/10 text-gray-500" };
+    const expiry = new Date(tariffExpiresAt);
+    const now = new Date();
+    const diffDays = Math.ceil((expiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) return { label: "Muddati o'tgan", color: "bg-red-500/10 text-red-500" };
+    if (diffDays <= 3) return { label: "Tugash arafasida", color: "bg-orange-500/10 text-orange-500 animate-pulse" };
+    return { label: "Faol", color: "bg-green-500/10 text-green-500" };
+  };
+
+  const status = getStatus();
+
   return (
     <tr className="group border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
       <td className="py-4 pl-4 font-bold">{name}</td>
@@ -406,8 +420,18 @@ function CenterRow({ name, login, tariff, tariffType, tariffExpiresAt, onEdit }:
           {tariff || "Standart"} <span className="opacity-40 ml-1 text-[8px] italic">({tariffType === 'Monthly' ? 'M' : 'Y'})</span>
         </span>
       </td>
-      <td className="py-4 text-gray-400 font-mono text-[10px]">
-        {tariffExpiresAt ? new Date(tariffExpiresAt).toLocaleDateString() : "No Date"}
+      <td className="py-4">
+         <div className="text-[10px] font-bold text-gray-400">
+            {tariffExpiresAt ? new Date(tariffExpiresAt).toLocaleDateString() : "Sana yo'q"}
+         </div>
+         <div className="text-[8px] opacity-40 uppercase tracking-tighter">
+            {tariffExpiresAt && Math.ceil((new Date(tariffExpiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} kun qoldi
+         </div>
+      </td>
+      <td className="py-4">
+        <span className={`px-2 py-1 rounded-md text-[9px] font-black uppercase tracking-widest border border-current opacity-80 ${status.color}`}>
+          {status.label}
+        </span>
       </td>
       <td className="py-4 pr-4 transition-all lg:opacity-0 group-hover:opacity-100">
         <div className="flex justify-end gap-2">
