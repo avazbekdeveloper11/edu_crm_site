@@ -99,7 +99,7 @@ export default function SetupDashboard() {
 
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: isEditing ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
@@ -107,7 +107,8 @@ export default function SetupDashboard() {
         body: JSON.stringify({
            ...newCenter,
            tariffStartedAt: newCenter.tariffStartedAt || new Date().toISOString(),
-           tariffExpiresAt: newCenter.tariffExpiresAt || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+           tariffExpiresAt: newCenter.tariffExpiresAt || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+           tariffType: newCenter.tariffType || "Monthly"
         }),
       });
 
@@ -397,6 +398,30 @@ export default function SetupDashboard() {
             </div>
           </section>
         )}
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          <StatCard 
+            title="Jami Markazlar" 
+            value={centers.length} 
+            icon={<Building2 className="w-5 h-5 text-purple-500" />} 
+          />
+          <StatCard 
+            title="Faol Obunalar" 
+            value={centers.filter(c => c.tariffExpiresAt && new Date(c.tariffExpiresAt) > new Date()).length} 
+            icon={<CheckCircle2 className="w-5 h-5 text-green-500" />} 
+          />
+          <StatCard 
+            title="Muddati Tugagan" 
+            value={centers.filter(c => c.tariffExpiresAt && new Date(c.tariffExpiresAt) <= new Date()).length} 
+            icon={<AlertTriangle className="w-5 h-5 text-red-500" />} 
+          />
+          <StatCard 
+            title="Yangi So'rovlar" 
+            value={upgradeRequests.length} 
+            icon={<PlusCircle className="w-5 h-5 text-blue-500" />} 
+          />
+        </div>
 
         {/* Upgrade Requests */}
         {upgradeRequests.length > 0 && (

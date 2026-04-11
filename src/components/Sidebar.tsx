@@ -70,7 +70,6 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           {isOwner && <NavItem icon={<Wallet className="w-5 h-5" />} label="To'lovlar" href="/dashboard/payments" active={pathname === "/dashboard/payments"} />}
           {isOwner && <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Hisobotlar" href="/dashboard/reports" active={pathname === "/dashboard/reports"} />}
           {isOwner && <NavItem icon={<Settings className="w-5 h-5" />} label="Sozlamalar" href="/dashboard/settings" active={pathname === "/dashboard/settings"} />}
-          {isOwner && <NavItem icon={<Zap className="w-5 h-5" />} label="Tariflar" href="/dashboard/billing" active={pathname === "/dashboard/billing"} />}
         </nav>
 
         <div className="mt-auto pt-8 space-y-4 shrink-0">
@@ -113,7 +112,6 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           {isOwner && <MobileNavItem icon={<Wallet className="w-5 h-5" />} href="/dashboard/payments" active={pathname === "/dashboard/payments"} label="Kassa" />}
           {isOwner && <MobileNavItem icon={<BarChart3 className="w-5 h-5" />} href="/dashboard/reports" active={pathname === "/dashboard/reports"} label="Hisobotlar" />}
           {isOwner && <MobileNavItem icon={<Settings className="w-5 h-5" />} href="/dashboard/settings" active={pathname === "/dashboard/settings"} label="Sozlamalar" />}
-          {isOwner && <MobileNavItem icon={<Zap className="w-5 h-5" />} href="/dashboard/billing" active={pathname === "/dashboard/billing"} label="Tariflar" />}
 
           <button onClick={toggleTheme} className="w-11 h-11 rounded-2xl flex items-center justify-center text-[var(--crm-text-muted)] bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] shrink-0">
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}

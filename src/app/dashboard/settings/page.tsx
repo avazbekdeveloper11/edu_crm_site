@@ -83,6 +83,7 @@ export default function SettingsPage() {
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [showSystemModal, setShowSystemModal] = useState(false);
   const [showTariffsModal, setShowTariffsModal] = useState(false);
+  const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
   const [requestingUpgrade, setRequestingUpgrade] = useState(false);
   const [fullCenter, setFullCenter] = useState<any>(null);
   const { theme, toggleTheme } = useTheme();
@@ -102,8 +103,8 @@ export default function SettingsPage() {
   }, []);
 
   const handleRequestUpgrade = async (tariff: string) => {
-    if (fullCenter?.tariff === tariff) {
-        alert("Siz allaqachon ushbu tarifdasiz!");
+    if (fullCenter?.tariff === tariff && fullCenter?.tariffType === billingCycle) {
+        alert("Siz allaqachon ushbu tarif va muddatdasiz!");
         return;
     }
     setRequestingUpgrade(true);
@@ -112,7 +113,7 @@ export default function SettingsPage() {
         const res = await fetch(`${API_BASE_URL}/centers/request-upgrade`, {
             method: "POST",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-            body: JSON.stringify({ tariff })
+            body: JSON.stringify({ tariff, billingCycle })
         });
         if (res.ok) {
             alert("So'rov yuborildi! Tez orada Super Admin siz bilan bog'lanadi.");
@@ -740,14 +741,34 @@ export default function SettingsPage() {
                 <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6 backdrop-blur-2xl">
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowTariffsModal(false)} className="absolute inset-0 bg-black/80" />
                     <motion.div initial={{ scale: 0.9, opacity: 0, y: 50 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 50 }} className="w-full max-w-6xl bg-[#0a0a0a]/90 border border-white/10 rounded-[3rem] sm:rounded-[4rem] p-8 sm:p-14 relative z-10 shadow-[0_0_150px_rgba(139,92,246,0.15)] overflow-y-auto max-h-[92vh] no-scrollbar">
-                        <header className="mb-14 text-center">
+                        <header className="mb-10 text-center">
                             <h2 className="text-4xl sm:text-6xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-4">FAOL TARIFLAR</h2>
                             <p className="text-[var(--crm-text-muted)] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] opacity-60">Markazingiz uchun mukammal rejani tanlang</p>
                             
+                            {/* Billing Cycle Toggle */}
+                            <div className="mt-10 flex items-center justify-center gap-6">
+                                <span className={`text-[10px] font-black uppercase tracking-widest transition-all ${billingCycle === 'Monthly' ? 'text-white' : 'text-gray-500'}`}>Oylik</span>
+                                <button 
+                                    onClick={() => setBillingCycle(billingCycle === 'Monthly' ? 'Yearly' : 'Monthly')}
+                                    className="w-16 h-8 rounded-full bg-white/5 border border-white/10 relative p-1"
+                                >
+                                    <motion.div 
+                                        animate={{ x: billingCycle === 'Monthly' ? 0 : 32 }}
+                                        className="w-6 h-6 bg-purple-600 rounded-full shadow-lg shadow-purple-600/30"
+                                    />
+                                </button>
+                                <div className="flex items-center gap-3">
+                                    <span className={`text-[10px] font-black uppercase tracking-widest transition-all ${billingCycle === 'Yearly' ? 'text-purple-500' : 'text-gray-500'}`}>Yillik</span>
+                                    <span className="px-2 py-0.5 bg-green-500/10 border border-green-500/20 text-green-500 text-[8px] font-black rounded-full uppercase italic">-2 OY SOVG'A</span>
+                                </div>
+                            </div>
+
                             {fullCenter && (
-                                <div className="mt-8 inline-flex items-center gap-4 px-6 py-2 bg-purple-600/10 border border-purple-500/20 rounded-full">
+                                <div className="mt-10 inline-flex items-center gap-4 px-6 py-2 bg-purple-600/10 border border-purple-500/20 rounded-full">
                                     <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">Hozirgi Tarif:</span>
-                                    <span className="text-sm font-black text-purple-500 uppercase italic">{fullCenter.tariff}</span>
+                                    <span className="text-sm font-black text-purple-500 uppercase italic">
+                                        {fullCenter.tariff} ({fullCenter.tariffType === 'Yearly' ? 'Yillik' : 'Oylik'})
+                                    </span>
                                 </div>
                             )}
                         </header>
@@ -755,22 +776,22 @@ export default function SettingsPage() {
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <TariffCard 
                                 name="Standart"
-                                price="299 000"
+                                price={billingCycle === 'Monthly' ? "299 000" : "2 990 000"}
                                 students="100"
                                 staff="5"
                                 features={["CRM Lead boshqaruv", "To'lovlar va Kassa", "Telegram Bot xabarnomalari", "SMS xizmati (Eskiz)"]}
-                                active={fullCenter?.tariff === "Standart"}
+                                active={fullCenter?.tariff === "Standart" && fullCenter?.tariffType === billingCycle}
                                 themeColor="blue"
                                 icon={<Plus className="w-8 h-8" />}
                                 onSelect={() => handleRequestUpgrade("Standart")}
                             />
                             <TariffCard 
                                 name="Premium"
-                                price="499 000"
+                                price={billingCycle === 'Monthly' ? "499 000" : "4 990 000"}
                                 students="400"
                                 staff="25"
                                 features={["Barcha Standart imkoniyatlar", "Kengaytirilgan Statistika", "Davomat va Jurnallar", "Prioritetli qo'llab-quvvatlash"]}
-                                active={fullCenter?.tariff === "Premium"}
+                                active={fullCenter?.tariff === "Premium" && fullCenter?.tariffType === billingCycle}
                                 themeColor="purple"
                                 popular
                                 icon={<CheckCircle2 className="w-8 h-8" />}
@@ -778,11 +799,11 @@ export default function SettingsPage() {
                             />
                             <TariffCard 
                                 name="VIP"
-                                price="999 000"
+                                price={billingCycle === 'Monthly' ? "999 000" : "9 990 000"}
                                 students="CHEKSIZ"
                                 staff="CHEKSIZ"
                                 features={["Barcha Premium imkoniyatlar", "Shaxsiy menejer", "Brand xabarlar", "Maxsus funksiyalar (Custom)"]}
-                                active={fullCenter?.tariff === "VIP"}
+                                active={fullCenter?.tariff === "VIP" && fullCenter?.tariffType === billingCycle}
                                 themeColor="orange"
                                 icon={<ShieldCheck className="w-8 h-8" />}
                                 onSelect={() => handleRequestUpgrade("VIP")}
@@ -790,7 +811,9 @@ export default function SettingsPage() {
                         </div>
 
                         <div className="mt-16 text-center text-gray-500">
-                             <p className="text-[10px] uppercase font-black tracking-[.2em] opacity-40 italic">Barcha to'lovlar oylik asosda amalga oshiriladi</p>
+                             <p className="text-[10px] uppercase font-black tracking-[.2em] opacity-40 italic">
+                                {billingCycle === 'Monthly' ? 'Barcha to\'lovlar oylik asosda amalga oshiriladi' : 'Yillik to\'lovda 2 oylik qiymat tejaladi'}
+                             </p>
                         </div>
                     </motion.div>
                 </div>
