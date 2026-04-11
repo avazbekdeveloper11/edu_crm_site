@@ -328,10 +328,6 @@ export default function StudentProfilePage() {
                             </section>
 
                         </div>
-                                </div>
-                            </section>
-
-                        </div>
 
                     </div>
                 </div>
