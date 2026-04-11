@@ -292,17 +292,23 @@ export default function PaymentsPage() {
                           </td>
                           <td className="py-8">
                                 {p.user ? (
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/10 flex items-center justify-center text-purple-600 text-xs font-black shadow-inner">
+                                    <div className="flex items-center gap-2.5 group/kassir">
+                                        <div className="w-7 h-7 rounded-lg bg-indigo-500/15 border border-indigo-500/10 flex items-center justify-center text-indigo-400 text-[10px] font-black shadow-inner group-hover/kassir:scale-110 transition-transform cursor-default">
                                             {p.user.name?.[0] || 'A'}
                                         </div>
-                                        <div className="min-w-0">
-                                            <div className="text-[var(--crm-text)] text-xs font-black tracking-tight leading-none truncate uppercase italic">{p.user.name?.split(' ')[0] || 'Admin'}</div>
-                                            <div className="text-[7px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] opacity-40 mt-1">Shtat</div>
+                                        <div className="min-w-0 flex flex-col">
+                                            <div className="text-[var(--crm-text)] text-[11px] font-black tracking-tighter leading-tight truncate uppercase italic group-hover/kassir:text-[var(--crm-accent)] transition-colors">{p.user.name || 'Admin'}</div>
+                                            <div className="flex items-center gap-1.5 opacity-40 group-hover:opacity-60 transition-opacity">
+                                                <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
+                                                <div className="text-[7px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest whitespace-nowrap">Kassir</div>
+                                            </div>
                                         </div>
                                     </div>
                                 ) : (
-                                    <span className="text-[var(--crm-text-muted)] text-[10px] font-black opacity-30 italic">Noma'lum</span>
+                                    <div className="flex items-center gap-2 opacity-20 italic">
+                                        <div className="w-7 h-7 rounded-lg border border-dashed border-[var(--crm-border)]" />
+                                        <span className="text-[var(--crm-text-muted)] text-[9px] font-black uppercase tracking-widest">Noma'lum</span>
+                                    </div>
                                 )}
                            </td>
                            <td className="py-8">
@@ -364,11 +370,14 @@ export default function PaymentsPage() {
                            {new Date(p.paymentDate).toLocaleDateString("ru-RU")}
                         </div>
                         {p.user && (
-                          <div className="flex items-center justify-end gap-1.5 mt-1">
-                             <span className="text-[9px] font-black uppercase tracking-widest text-[var(--crm-text-muted)] opacity-50 truncate max-w-[80px]">
-                                {p.user.name?.split(' ')[0] || 'Admin'}
-                             </span>
-                             <div className="w-5 h-5 rounded-md bg-purple-500/10 border border-purple-500/10 flex items-center justify-center text-purple-600 text-[8px] font-black uppercase shadow-sm">
+                          <div className="flex items-center justify-end gap-2 mt-2 pt-2 border-t border-[var(--crm-border)]/20">
+                             <div className="flex flex-col items-end min-w-0">
+                                <span className="text-[10px] font-bold text-[var(--crm-text)] uppercase tracking-tight italic truncate leading-none mb-0.5">
+                                   {p.user.name || 'Admin'}
+                                </span>
+                                <span className="text-[7px] font-black uppercase tracking-[0.2em] text-[var(--crm-text-muted)] opacity-30">Mas'ul xodim</span>
+                             </div>
+                             <div className="w-6 h-6 rounded-md bg-indigo-500/10 border border-indigo-500/10 flex items-center justify-center text-indigo-500 text-[9px] font-black shadow-inner shrink-0 scale-95">
                                 {p.user.name?.[0] || 'A'}
                              </div>
                           </div>
