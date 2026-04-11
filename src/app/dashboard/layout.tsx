@@ -51,7 +51,7 @@ export default function DashboardLayout({
   };
 
   const daysRemaining = getDaysRemaining();
-  const showWarning = daysRemaining !== null && daysRemaining <= 30; // 30 kunga ko'tardim ko'rinishi uchun
+  const showWarning = daysRemaining !== null && daysRemaining <= 3; 
   const [isBannerVisible, setIsBannerVisible] = useState(true);
 
   if (loading || !user) {
