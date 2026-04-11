@@ -776,7 +776,8 @@ export default function SettingsPage() {
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <TariffCard 
                                 name="Standart"
-                                price={billingCycle === 'Monthly' ? "299 000" : "2 990 000"}
+                                price={billingCycle === 'Monthly' ? "299 000" : "249 166"}
+                                yearlyTotal="2 990 000"
                                 billingCycle={billingCycle}
                                 students="100"
                                 staff="5"
@@ -788,7 +789,8 @@ export default function SettingsPage() {
                             />
                             <TariffCard 
                                 name="Premium"
-                                price={billingCycle === 'Monthly' ? "499 000" : "4 990 000"}
+                                price={billingCycle === 'Monthly' ? "499 000" : "415 833"}
+                                yearlyTotal="4 990 000"
                                 billingCycle={billingCycle}
                                 students="400"
                                 staff="25"
@@ -801,7 +803,8 @@ export default function SettingsPage() {
                             />
                             <TariffCard 
                                 name="VIP"
-                                price={billingCycle === 'Monthly' ? "999 000" : "9 990 000"}
+                                price={billingCycle === 'Monthly' ? "999 000" : "832 500"}
+                                yearlyTotal="9 990 000"
                                 billingCycle={billingCycle}
                                 students="CHEKSIZ"
                                 staff="CHEKSIZ"
@@ -897,7 +900,7 @@ function SettingsCard({ icon, title, desc, onClick }: any) {
     );
 }
 
-function TariffCard({ name, price, students, staff, features, active, themeColor, popular, icon, onSelect }: any) {
+function TariffCard({ name, price, yearlyTotal, billingCycle, students, staff, features, active, themeColor, popular, icon, onSelect }: any) {
     const colors: any = {
         blue: "text-blue-500 bg-blue-500 border-blue-500/20",
         purple: "text-purple-500 bg-purple-500 border-purple-500/20",
@@ -917,8 +920,13 @@ function TariffCard({ name, price, students, staff, features, active, themeColor
                     {icon}
                 </div>
                 <div className="text-right">
-                    <p className="text-[8px] font-black uppercase tracking-[.3em] opacity-40 mb-1 leading-none">Oylik To'lov</p>
+                    <p className="text-[8px] font-black uppercase tracking-[.3em] opacity-40 mb-1 leading-none">{billingCycle === 'Monthly' ? 'Oylik To\'lov' : 'Oylik To\'lov (Yillik)'}</p>
                     <div className="text-2xl sm:text-3xl font-black italic tracking-tighter leading-none">{price} <span className="text-xs uppercase ml-1 opacity-40 italic">UZS</span></div>
+                    {billingCycle === 'Yearly' && (
+                        <p className="text-[8px] font-bold text-green-500/60 uppercase tracking-widest mt-2 italic">
+                           Jami: {yearlyTotal} UZS
+                        </p>
+                    )}
                 </div>
             </div>
 
