@@ -128,6 +128,12 @@ export default function LeadsPage() {
     if (userData) {
       const parsed = JSON.parse(userData);
       setCenter(parsed);
+      const userRole = parsed.role || "OWNER";
+      
+      if (userRole === 'TEACHER') {
+        router.push('/dashboard');
+        return;
+      }
     }
     fetchData();
   }, []);

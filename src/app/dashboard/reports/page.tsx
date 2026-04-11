@@ -68,6 +68,10 @@ export default function ReportsPage() {
     }
   };
 
+  const role = center?.role;
+  const isTeacher = role === 'TEACHER';
+  const isOwner = role === 'OWNER' || role === 'SUPER_ADMIN';
+
   useEffect(() => {
     const userData = localStorage.getItem("center_user");
     if (userData) {
@@ -275,24 +279,28 @@ export default function ReportsPage() {
         <div className="p-4 sm:p-10 pb-40 sm:pb-10 max-w-7xl mx-auto space-y-10">
           
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCard 
-              label={startDate ? "Davr Tushumi" : "Oylik Tushum"} 
-              value={`${(stats?.periodRevenue ?? stats?.monthlyRevenue)?.toLocaleString()} UZS`} 
-              icon={<Wallet className="w-6 h-6" />}
-              trend="+12.5%"
-              positive={true}
-              color="text-green-500"
-              bg="bg-green-500/10"
-            />
-            <StatCard 
-              label="Bugungi Tushum" 
-              value={`${stats?.todayRevenue?.toLocaleString()} UZS`} 
-              icon={<TrendingUp className="w-6 h-6" />}
-              trend="+5.2%"
-              positive={true}
-              color="text-blue-500"
-              bg="bg-blue-500/10"
-            />
+            {!isTeacher && (
+              <>
+                <StatCard 
+                  label={startDate ? "Davr Tushumi" : "Oylik Tushum"} 
+                  value={`${(stats?.periodRevenue ?? stats?.monthlyRevenue)?.toLocaleString()} UZS`} 
+                  icon={<Wallet className="w-6 h-6" />}
+                  trend="+12.5%"
+                  positive={true}
+                  color="text-green-500"
+                  bg="bg-green-500/10"
+                />
+                <StatCard 
+                  label="Bugungi Tushum" 
+                  value={`${stats?.todayRevenue?.toLocaleString()} UZS`} 
+                  icon={<TrendingUp className="w-6 h-6" />}
+                  trend="+5.2%"
+                  positive={true}
+                  color="text-blue-500"
+                  bg="bg-blue-500/10"
+                />
+              </>
+            )}
             <StatCard 
               label="Jami Talabalar" 
               value={stats?.totalStudents} 
@@ -324,82 +332,92 @@ export default function ReportsPage() {
               </div>
           ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            <section className="lg:col-span-2 space-y-6">
-               <div className="flex items-center justify-between px-2">
-                 <h2 className="text-2xl font-black uppercase tracking-tighter italic opacity-40">Moliyaviy Faollik</h2>
-                 <Link href="/dashboard/payments" className="text-[10px] font-black uppercase tracking-widest text-[var(--crm-accent)] flex items-center gap-2 hover:translate-x-2 transition-transform py-2">
-                   Barchasi <ChevronRight className="w-4 h-4" />
-                 </Link>
-               </div>
-               
-               <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] p-10 space-y-10 shadow-2xl relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/5 blur-[100px] -mr-64 -mt-64 rounded-full pointer-events-none" />
-                  
-                  <div className="h-64 flex items-end justify-between gap-3 px-4 border-b border-[var(--crm-border)]/50 pb-6 relative z-10" onClick={() => setActiveBar(null)}>
-                    {(finance?.dailyStats?.length > 0 ? finance.dailyStats : Array(7).fill({_sum:{amount:0}})).slice(-7).map((day: any, i: number) => {
-                      const maxVal = Math.max(...(finance?.dailyStats?.map((d:any) => d._sum.amount) || [1]));
-                      const currentVal = day._sum.amount || 0;
-                      const heightPercent = Math.min((currentVal / maxVal) * 100, 100);
-
-                      return (
-                        <div key={i} className="flex-1 flex flex-col items-center gap-4 group/bar">
-                          <div className="w-full relative h-full flex items-end">
-                             <motion.div 
-                               initial={{ height: 0 }}
-                               animate={{ height: `${heightPercent}%` }}
-                               transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                               onClick={(e) => { e.stopPropagation(); setActiveBar(activeBar === i ? null : i); }}
-                               className={`w-full bg-gradient-to-t ${activeBar === i ? 'from-purple-400 to-indigo-300' : 'from-purple-600 to-indigo-500'} rounded-t-2xl group-hover/bar:from-purple-400 group-hover/bar:to-indigo-300 transition-all cursor-pointer min-h-[4px] relative shadow-[0_5px_15px_rgba(124,58,237,0.2)]`} 
-                             >
-                                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover/bar:opacity-30 transition-opacity rounded-t-2xl" />
-                             </motion.div>
-                             {currentVal > 0 && (
-                               <div className={`absolute -top-12 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md text-white text-[10px] font-black px-3 py-1.5 rounded-xl transition-all whitespace-nowrap z-20 border border-white/10 shadow-2xl ${activeBar === i ? 'opacity-100 translate-y-0' : 'opacity-0 group-hover/bar:opacity-100 -translate-y-2 group-hover/bar:translate-y-0'}`}>
-                                 {currentVal.toLocaleString()}
-                               </div>
-                             )}
-                          </div>
-                          <span className={`text-[10px] font-black uppercase transition-colors text-center leading-tight whitespace-nowrap ${activeBar === i ? 'text-[var(--crm-accent)] opacity-100' : 'text-[var(--crm-text-muted)] opacity-50'}`}>
-                            {day.paymentDate ? new Date(day.paymentDate).toLocaleDateString(undefined, {day:'2-digit', month:'short'}) : `KUN ${i+1}`}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="space-y-6 relative z-10">
-                    <div className="flex items-center gap-4">
-                        <div className="h-0.5 flex-1 bg-gradient-to-r from-transparent via-[var(--crm-border)] to-transparent opacity-50" />
-                        <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--crm-text-muted)] opacity-60">To'lovlar Ro'yxati</h3>
-                        <div className="h-0.5 flex-1 bg-gradient-to-r from-[var(--crm-border)] via-[var(--crm-border)] to-transparent opacity-50" />
+            <section className={`${isTeacher ? 'lg:col-span-3' : 'lg:col-span-2'} space-y-6`}>
+                {!isTeacher ? (
+                  <>
+                    <div className="flex items-center justify-between px-2">
+                        <h2 className="text-2xl font-black uppercase tracking-tighter italic opacity-40">Moliyaviy Faollik</h2>
+                        <Link href="/dashboard/payments" className="text-[10px] font-black uppercase tracking-widest text-[var(--crm-accent)] flex items-center gap-2 hover:translate-x-2 transition-transform py-2">
+                        Barchasi <ChevronRight className="w-4 h-4" />
+                        </Link>
                     </div>
-                    <div className="space-y-3">
-                      {finance?.recentPayments?.slice(0, 5).map((payment: any) => (
-                        <div key={payment.id} className="flex items-center justify-between p-5 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.5rem] hover:border-[var(--crm-accent)]/40 hover:bg-[var(--crm-card)]/50 hover:shadow-xl transition-all duration-300 group/item">
-                           <div className="flex items-center gap-5">
-                             <div className="w-12 h-12 rounded-2xl bg-purple-600/10 flex items-center justify-center text-purple-600 group-hover/item:scale-110 transition-transform shadow-inner">
-                               <Wallet className="w-5 h-5" />
-                             </div>
-                             <div>
-                               <p className="text-[14px] font-black uppercase tracking-tight group-hover/item:text-[var(--crm-accent)] transition-colors">{payment.student?.name}</p>
-                               <p className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.1em] opacity-60 italic">{payment.course?.name}</p>
-                             </div>
-                           </div>
-                           <div className="text-right">
-                             <p className="text-base font-black text-green-500 tracking-tight">+{payment.amount.toLocaleString()}</p>
-                             <p className="text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] opacity-40">{new Date(payment.createdAt).toLocaleDateString()}</p>
-                           </div>
+                
+                    <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] p-10 space-y-10 shadow-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/5 blur-[100px] -mr-64 -mt-64 rounded-full pointer-events-none" />
+                        
+                        <div className="h-64 flex items-end justify-between gap-3 px-4 border-b border-[var(--crm-border)]/50 pb-6 relative z-10" onClick={() => setActiveBar(null)}>
+                        {(finance?.dailyStats?.length > 0 ? finance.dailyStats : Array(7).fill({_sum:{amount:0}})).slice(-7).map((day: any, i: number) => {
+                            const maxVal = Math.max(...(finance?.dailyStats?.map((d:any) => d._sum.amount) || [1]));
+                            const currentVal = day._sum.amount || 0;
+                            const heightPercent = Math.min((currentVal / maxVal) * 100, 100);
+
+                            return (
+                            <div key={i} className="flex-1 flex flex-col items-center gap-4 group/bar">
+                                <div className="w-full relative h-full flex items-end">
+                                    <motion.div 
+                                    initial={{ height: 0 }}
+                                    animate={{ height: `${heightPercent}%` }}
+                                    transition={{ type: "spring", stiffness: 100, damping: 15 }}
+                                    onClick={(e) => { e.stopPropagation(); setActiveBar(activeBar === i ? null : i); }}
+                                    className={`w-full bg-gradient-to-t ${activeBar === i ? 'from-purple-400 to-indigo-300' : 'from-purple-600 to-indigo-500'} rounded-t-2xl group-hover/bar:from-purple-400 group-hover/bar:to-indigo-300 transition-all cursor-pointer min-h-[4px] relative shadow-[0_5px_15px_rgba(124,58,237,0.2)]`} 
+                                    >
+                                    <div className="absolute inset-0 bg-white/20 opacity-0 group-hover/bar:opacity-30 transition-opacity rounded-t-2xl" />
+                                    </motion.div>
+                                    {currentVal > 0 && (
+                                    <div className={`absolute -top-12 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md text-white text-[10px] font-black px-3 py-1.5 rounded-xl transition-all whitespace-nowrap z-20 border border-white/10 shadow-2xl ${activeBar === i ? 'opacity-100 translate-y-0' : 'opacity-0 group-hover/bar:opacity-100 -translate-y-2 group-hover/bar:translate-y-0'}`}>
+                                        {currentVal.toLocaleString()}
+                                    </div>
+                                    )}
+                                </div>
+                                <span className={`text-[10px] font-black uppercase transition-colors text-center leading-tight whitespace-nowrap ${activeBar === i ? 'text-[var(--crm-accent)] opacity-100' : 'text-[var(--crm-text-muted)] opacity-50'}`}>
+                                    {day.paymentDate ? new Date(day.paymentDate).toLocaleDateString(undefined, {day:'2-digit', month:'short'}) : `KUN ${i+1}`}
+                                </span>
+                            </div>
+                            );
+                        })}
                         </div>
-                      ))}
-                      {finance?.recentPayments?.length === 0 && (
-                        <div className="p-16 border-2 border-dashed border-[var(--crm-border)] rounded-3xl text-center opacity-30 scale-95">
-                            <Sparkles className="w-10 h-10 mx-auto mb-4" />
-                            <p className="text-xs font-black uppercase tracking-[0.2em]">Ma'lumotlar mavjud emas</p>
+
+                        <div className="space-y-6 relative z-10">
+                        <div className="flex items-center gap-4">
+                            <div className="h-0.5 flex-1 bg-gradient-to-r from-transparent via-[var(--crm-border)] to-transparent opacity-50" />
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-[var(--crm-text-muted)] opacity-60">To'lovlar Ro'yxati</h3>
+                            <div className="h-0.5 flex-1 bg-gradient-to-r from-[var(--crm-border)] via-[var(--crm-border)] to-transparent opacity-50" />
                         </div>
-                      )}
+                        <div className="space-y-3">
+                            {finance?.recentPayments?.slice(0, 5).map((payment: any) => (
+                            <div key={payment.id} className="flex items-center justify-between p-5 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.5rem] hover:border-[var(--crm-accent)]/40 hover:bg-[var(--crm-card)]/50 hover:shadow-xl transition-all duration-300 group/item">
+                                <div className="flex items-center gap-5">
+                                    <div className="w-12 h-12 rounded-2xl bg-purple-600/10 flex items-center justify-center text-purple-600 group-hover/item:scale-110 transition-transform shadow-inner">
+                                    <Wallet className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                    <p className="text-[14px] font-black uppercase tracking-tight group-hover/item:text-[var(--crm-accent)] transition-colors">{payment.student?.name}</p>
+                                    <p className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.1em] opacity-60 italic">{payment.course?.name}</p>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-base font-black text-green-500 tracking-tight">+{payment.amount.toLocaleString()}</p>
+                                    <p className="text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] opacity-40">{new Date(payment.createdAt).toLocaleDateString()}</p>
+                                </div>
+                            </div>
+                            ))}
+                            {finance?.recentPayments?.length === 0 && (
+                            <div className="p-16 border-2 border-dashed border-[var(--crm-border)] rounded-3xl text-center opacity-30 scale-95">
+                                <Sparkles className="w-10 h-10 mx-auto mb-4" />
+                                <p className="text-xs font-black uppercase tracking-[0.2em]">Ma'lumotlar mavjud emas</p>
+                            </div>
+                            )}
+                        </div>
+                        </div>
                     </div>
-                  </div>
-               </div>
+                  </>
+                ) : (
+                    <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] p-12 text-center opacity-40 shadow-xl border-dashed">
+                        <Sparkles className="w-12 h-12 mx-auto mb-6 text-[var(--crm-accent)]" />
+                        <h3 className="text-3xl font-black italic tracking-tighter uppercase mb-3">Xush kelibsiz!</h3>
+                        <p className="text-xs font-black uppercase tracking-[0.2em] max-w-md mx-auto leading-relaxed italic">Bugungi darslarni muvaffaqiyatli yakunlang. <br/> O'quvchilar bilan ishlashga omad!</p>
+                    </div>
+                )}
             </section>
 
             <section className="space-y-6">
@@ -546,35 +564,39 @@ export default function ReportsPage() {
 
                             {/* Detailed Cards */}
                             <div className="space-y-5 sm:space-y-10">
-                                <div className="p-6 sm:p-10 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-[2rem] sm:rounded-[3rem] text-white shadow-2xl relative overflow-hidden group">
-                                     <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-700" />
-                                     <div className="relative z-10">
-                                         <h4 className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] mb-3 sm:mb-6 opacity-60">O'rtacha Foyda Koeffitsienti</h4>
-                                         <div className="flex items-baseline gap-2 mb-3 sm:mb-6 flex-wrap">
-                                            <span className="text-2xl sm:text-5xl font-black tracking-tighter italic leading-none">
-                                                {Math.round((stats?.periodRevenue ?? stats?.monthlyRevenue ?? 0) / (stats?.totalStudents || 1)).toLocaleString()}
-                                            </span>
-                                            <span className="text-[9px] sm:text-[10px] font-black opacity-40 uppercase tracking-widest">UZS / TALABA</span>
-                                         </div>
-                                         <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] opacity-60 leading-loose">
-                                             Har bir talaba markaz umumiy daromadiga o'rtacha shuncha hissa qo'shmoqda.
-                                         </p>
-                                     </div>
-                                     <Wallet className="absolute -bottom-8 -right-8 w-32 h-32 sm:w-48 sm:h-48 opacity-10 -rotate-12" />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4 sm:gap-8">
-                                    <div className="p-5 sm:p-10 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.8rem] sm:rounded-[2.5rem] flex flex-col justify-center gap-1.5 sm:gap-2 group hover:border-[var(--crm-accent)]/30 transition-all">
-                                        <div className="text-[9px] sm:text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Kurslar Jami</div>
-                                        <div className="text-3xl sm:text-5xl font-black text-[var(--crm-text)] group-hover:text-[var(--crm-accent)] transition-colors italic">{courseStats.length}</div>
-                                    </div>
-                                    <div className="p-5 sm:p-10 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.8rem] sm:rounded-[2.5rem] flex flex-col justify-center gap-1.5 sm:gap-2 group hover:border-[var(--crm-accent)]/30 transition-all">
-                                        <div className="text-[9px] sm:text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">O'rtacha Narx</div>
-                                        <div className="text-lg sm:text-2xl font-black text-[var(--crm-text)] group-hover:text-[var(--crm-accent)] transition-colors">
-                                            {Math.round(courseStats.reduce((acc,c) => acc + (c.price || 0), 0) / (courseStats.length || 1)).toLocaleString()}
+                                 {!isTeacher && (
+                                     <div className="p-6 sm:p-10 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-[2rem] sm:rounded-[3rem] text-white shadow-2xl relative overflow-hidden group">
+                                        <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-700" />
+                                        <div className="relative z-10">
+                                            <h4 className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] mb-3 sm:mb-6 opacity-60">O'rtacha Foyda Koeffitsienti</h4>
+                                            <div className="flex items-baseline gap-2 mb-3 sm:mb-6 flex-wrap">
+                                                <span className="text-2xl sm:text-5xl font-black tracking-tighter italic leading-none">
+                                                    {Math.round((stats?.periodRevenue ?? stats?.monthlyRevenue ?? 0) / (stats?.totalStudents || 1)).toLocaleString()}
+                                                </span>
+                                                <span className="text-[9px] sm:text-[10px] font-black opacity-40 uppercase tracking-widest">UZS / TALABA</span>
+                                            </div>
+                                            <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] opacity-60 leading-loose">
+                                                Har bir talaba markaz umumiy daromadiga o'rtacha shuncha hissa qo'shmoqda.
+                                            </p>
                                         </div>
-                                    </div>
-                                </div>
+                                        <Wallet className="absolute -bottom-8 -right-8 w-32 h-32 sm:w-48 sm:h-48 opacity-10 -rotate-12" />
+                                     </div>
+                                 )}
+
+                                 <div className={`grid ${isTeacher ? 'grid-cols-1' : 'grid-cols-2'} gap-4 sm:gap-8`}>
+                                     <div className="p-5 sm:p-10 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.8rem] sm:rounded-[2.5rem] flex flex-col justify-center gap-1.5 sm:gap-2 group hover:border-[var(--crm-accent)]/30 transition-all">
+                                         <div className="text-[9px] sm:text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Kurslar Jami</div>
+                                         <div className="text-3xl sm:text-5xl font-black text-[var(--crm-text)] group-hover:text-[var(--crm-accent)] transition-colors italic">{courseStats.length}</div>
+                                     </div>
+                                     {!isTeacher && (
+                                        <div className="p-5 sm:p-10 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.8rem] sm:rounded-[2.5rem] flex flex-col justify-center gap-1.5 sm:gap-2 group hover:border-[var(--crm-accent)]/30 transition-all">
+                                            <div className="text-[9px] sm:text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">O'rtacha Narx</div>
+                                            <div className="text-lg sm:text-2xl font-black text-[var(--crm-text)] group-hover:text-[var(--crm-accent)] transition-colors">
+                                                {Math.round(courseStats.reduce((acc,c) => acc + (c.price || 0), 0) / (courseStats.length || 1)).toLocaleString()}
+                                            </div>
+                                        </div>
+                                     )}
+                                 </div>
 
                                 <div className="p-6 sm:p-10 bg-black/20 border border-dashed border-[var(--crm-border)] rounded-[2rem] sm:rounded-[3rem] text-center space-y-4 sm:space-y-6 relative overflow-hidden group">
                                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-600 to-transparent sm:opacity-0 sm:group-hover:opacity-100 transition-opacity" />

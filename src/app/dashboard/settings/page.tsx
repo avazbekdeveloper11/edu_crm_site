@@ -101,6 +101,8 @@ export default function SettingsPage() {
   const [requestingUpgrade, setRequestingUpgrade] = useState(false);
   const [fullCenter, setFullCenter] = useState<any>(null);
   const { theme, toggleTheme } = useTheme();
+  const isTeacher = role === 'TEACHER';
+  const isOwner = role === 'OWNER' || role === 'SUPER_ADMIN';
 
   const fetchFullCenter = async () => {
     const token = localStorage.getItem("access_token");
@@ -266,11 +268,12 @@ export default function SettingsPage() {
     }
     setUpdatingCredentials(true);
     const token = localStorage.getItem("access_token");
+    const url = isTeacher ? `${API_BASE_URL}/users/me` : `${API_BASE_URL}/centers/me/credentials`;
     try {
-      const res = await fetch(`${API_BASE_URL}/centers/me/credentials`, {
+      const res = await fetch(url, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ login: credentialsForm.login, password: credentialsForm.password })
+        body: JSON.stringify({ name: credentialsForm.name || center?.name, login: credentialsForm.login, password: credentialsForm.password })
       });
       if (res.ok) {
         setStatusTitle("Bajarildi!");
@@ -354,8 +357,8 @@ export default function SettingsPage() {
           </div>
           <div className="flex items-center gap-2 sm:gap-6">
               <div className="flex flex-col items-end">
-                  <span className="text-[9px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] opacity-60 leading-none mb-1 shadow-sm">Boshqaruvchi</span>
-                  <span className="text-sm sm:text-xl font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[120px] sm:max-w-[150px]">{center?.displayName || center?.login}</span>
+                  <span className="text-[9px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] opacity-60 leading-none mb-1 shadow-sm">{isTeacher ? "O'qituvchi" : "Boshqaruvchi"}</span>
+                  <span className="text-sm sm:text-xl font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[120px] sm:max-w-[150px]">{center?.displayName || center?.login || center?.name}</span>
               </div>
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-[1.25rem] bg-[var(--crm-accent)]/10 border border-[var(--crm-accent)]/10 flex items-center justify-center text-[var(--crm-accent)] shadow-xl shrink-0">
                   <User className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -375,10 +378,13 @@ export default function SettingsPage() {
 
         <section className="p-4 sm:p-12 pb-40 sm:pb-40 max-w-7xl mx-auto min-h-screen">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
-                <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
+                {isOwner && <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />}
                 <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
-                <SettingsCard onClick={() => setShowNotificationModal(true)} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />
-                <SettingsCard onClick={() => setShowTariffsModal(true)} icon={<Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />} title="Tarif" desc="Subscription plan" />
+                {(isOwner || role === 'TEACHER') && <SettingsCard onClick={() => {
+                  setNotificationForm(prev => ({...prev, target: role === 'TEACHER' ? 'GROUP' : 'STUDENTS'}));
+                  setShowNotificationModal(true);
+                }} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />}
+                {isOwner && <SettingsCard onClick={() => setShowTariffsModal(true)} icon={<Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />} title="Tarif" desc="Subscription plan" /> }
                 <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual sozlamalar" />
                 <SettingsCard onClick={() => setShowHelpModal(true)} icon={<HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />} title="Yordam" desc="Qo'llab-quvvatlash" />
             </div>
@@ -567,16 +573,17 @@ export default function SettingsPage() {
                                         onChange={(e) => setNotificationForm({...notificationForm, target: e.target.value})}
                                         className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-black uppercase appearance-none cursor-pointer shadow-inner pr-16 translate-y-[-1px]"
                                     >
-                                        <option value="STUDENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA TALABALARGA</option>
-                                        <option value="PARENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA OTA-ONALARGA</option>
-                                        <option value="GROUP" className={theme === "dark" ? "bg-black" : "bg-white"}>ALOHIDA GURUHGA</option>
-                                        <option value="ALL" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA KONTAKTLARGA</option>
+                                        {!isTeacher && <option value="STUDENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA TALABALARGA</option>}
+                                        {!isTeacher && <option value="PARENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA OTA-ONALARGA</option>}
+                                        <option value="GROUP" className={theme === "dark" ? "bg-black" : "bg-white"}>ALOHIDA GURUHGA (TALABALAR)</option>
+                                        <option value="GROUP_PARENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>ALOHIDA GURUHGA (OTA-ONALAR)</option>
+                                        {!isTeacher && <option value="ALL" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA KONTAKTLARGA</option>}
                                     </select>
                                     <ChevronDown className="absolute right-7 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--crm-text-muted)] pointer-events-none" />
                                 </div>
                             </div>
 
-                            {notificationForm.target === 'GROUP' && (
+                            {(notificationForm.target === 'GROUP' || notificationForm.target === 'GROUP_PARENTS') && (
                                 <div className="space-y-2">
                                     <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Guruhni tanlang</label>
                                     <div className="relative group">

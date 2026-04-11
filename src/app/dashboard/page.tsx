@@ -250,30 +250,34 @@ export default function CenterDashboard() {
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen pb-32 sm:pb-12">
           {/* KPI Statistics */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-16">
-            <StatCard 
-                icon={<TrendingUp className="w-5 h-5 sm:w-6 h-6" />} 
-                label={`Oylik Tushum`} 
-                value={`${formatMoney(monthlyIncomeTotal)}`} 
-                unit="UZS" 
-                color="green-500" 
-                trend="+12.5%"
-                onClick={() => router.push("/dashboard/payments")}
-                action={(
-                    <div className="flex items-center gap-1">
-                        <button onClick={(e) => { e.stopPropagation(); changeMonth(-1); }} className="w-6 h-6 rounded-lg bg-[var(--crm-bg)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all text-[8px] text-[var(--crm-text-muted)]">{"<"}</button>
-                        <button onClick={(e) => { e.stopPropagation(); changeMonth(1); }} className="w-6 h-6 rounded-lg bg-[var(--crm-bg)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all text-[8px] text-[var(--crm-text-muted)]">{">"}</button>
-                    </div>
-                )}
-            />
-            <StatCard 
-                icon={<Zap className="w-5 h-5 sm:w-6 h-6" />} 
-                label="Bugungi Tushum" 
-                value={`${formatMoney(stats.todayIncome)}`} 
-                unit="UZS" 
-                color="blue-500" 
-                trend="+5.2%" 
-                onClick={() => setShowIncomeModal(true)}
-            />
+            {role !== 'TEACHER' && (
+              <>
+                <StatCard 
+                    icon={<TrendingUp className="w-5 h-5 sm:w-6 h-6" />} 
+                    label={`Oylik Tushum`} 
+                    value={`${formatMoney(monthlyIncomeTotal)}`} 
+                    unit="UZS" 
+                    color="green-500" 
+                    trend="+12.5%"
+                    onClick={() => router.push("/dashboard/payments")}
+                    action={(
+                        <div className="flex items-center gap-1">
+                            <button onClick={(e) => { e.stopPropagation(); changeMonth(-1); }} className="w-6 h-6 rounded-lg bg-[var(--crm-bg)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all text-[8px] text-[var(--crm-text-muted)]">{"<"}</button>
+                            <button onClick={(e) => { e.stopPropagation(); changeMonth(1); }} className="w-6 h-6 rounded-lg bg-[var(--crm-bg)] flex items-center justify-center hover:bg-[var(--crm-accent)] hover:text-white transition-all text-[8px] text-[var(--crm-text-muted)]">{">"}</button>
+                        </div>
+                    )}
+                />
+                <StatCard 
+                    icon={<Zap className="w-5 h-5 sm:w-6 h-6" />} 
+                    label="Bugungi Tushum" 
+                    value={`${formatMoney(stats.todayIncome)}`} 
+                    unit="UZS" 
+                    color="blue-500" 
+                    trend="+5.2%" 
+                    onClick={() => setShowIncomeModal(true)}
+                />
+              </>
+            )}
             <StatCard 
                 icon={<Users className="w-5 h-5 sm:w-6 h-6" />} 
                 label="Jami Talabalar" 
@@ -292,83 +296,87 @@ export default function CenterDashboard() {
             />
           </div>
 
-          <div className="space-y-6 sm:space-y-8 mb-12 sm:mb-16">
-            <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tighter italic opacity-80 flex items-center gap-3">
-                <Zap className="w-5 h-5 sm:w-6 h-6 text-yellow-500" />
-                Tezkor Amallar
-            </h2>
-            <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-6">
-                <QuickAction icon={<Plus className="w-5 h-5 sm:w-5" />} label="Talaba" href="/dashboard/students" />
-                <QuickAction icon={<Wallet className="w-5 h-5 sm:w-5" />} label="To'lov" href="/dashboard/payments" />
-                <QuickAction icon={<LayoutDashboard className="w-5 h-5 sm:w-5" />} label="Guruh" href="/dashboard/groups" />
+          {role !== 'TEACHER' && (
+            <div className="space-y-6 sm:space-y-8 mb-12 sm:mb-16">
+              <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tighter italic opacity-80 flex items-center gap-3">
+                  <Zap className="w-5 h-5 sm:w-6 h-6 text-yellow-500" />
+                  Tezkor Amallar
+              </h2>
+              <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-6">
+                  <QuickAction icon={<Plus className="w-5 h-5 sm:w-5" />} label="Talaba" href="/dashboard/students" />
+                  <QuickAction icon={<Wallet className="w-5 h-5 sm:w-5" />} label="To'lov" href="/dashboard/payments" />
+                  <QuickAction icon={<LayoutDashboard className="w-5 h-5 sm:w-5" />} label="Guruh" href="/dashboard/groups" />
+              </div>
             </div>
-          </div>
+          )}
 
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
             {/* Debtors List */}
-            <div className="lg:col-span-2 space-y-6 sm:space-y-8">
-                <header className="flex items-center justify-between px-2 sm:px-0">
-                    <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tighter italic opacity-80 flex items-center gap-3">
-                        <AlertCircle className="w-5 h-5 sm:w-6 h-6 text-red-500" />
-                        Muhim Ogohlantirishlar
-                    </h2>
-                    <span className="text-[7px] sm:text-[9px] font-black text-red-500 bg-red-500/10 border border-red-500/10 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full uppercase tracking-widest">{stats.debtors.length} ta</span>
-                </header>
+            {role !== 'TEACHER' && (
+              <div className="lg:col-span-2 space-y-6 sm:space-y-8">
+                  <header className="flex items-center justify-between px-2 sm:px-0">
+                      <h2 className="text-xl sm:text-2xl font-black uppercase tracking-tighter italic opacity-80 flex items-center gap-3">
+                          <AlertCircle className="w-5 h-5 sm:w-6 h-6 text-red-500" />
+                          Muhim Ogohlantirishlar
+                      </h2>
+                      <span className="text-[7px] sm:text-[9px] font-black text-red-500 bg-red-500/10 border border-red-500/10 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full uppercase tracking-widest">{stats.debtors.length} ta</span>
+                  </header>
 
-                <div className="space-y-4">
-                  {loading ? (
-                    <div className="py-20 flex justify-center">
-                        <div className="w-10 h-10 border-4 border-[var(--crm-accent)]/10 border-t-[var(--crm-accent)] rounded-full animate-spin" />
-                    </div>
-                  ) : stats.debtors.length > 0 ? (
-                    stats.debtors.slice(0, 6).map((debtor: any) => {
-                        const debt = (debtor.courses || []).reduce((acc: number, c: any) => {
-                            const joinDate = new Date(debtor.createdAt);
-                            const currentDate = new Date();
-                            const monthsDiff = (currentDate.getFullYear() - joinDate.getFullYear()) * 12 + (currentDate.getMonth() - joinDate.getMonth()) + 1;
-                            return acc + ((c.price || 0) * monthsDiff);
-                        }, 0) - (debtor.payments?.reduce((acc: any, p: any) => acc + p.amount, 0) || 0);
+                  <div className="space-y-4">
+                    {loading ? (
+                      <div className="py-20 flex justify-center">
+                          <div className="w-10 h-10 border-4 border-[var(--crm-accent)]/10 border-t-[var(--crm-accent)] rounded-full animate-spin" />
+                      </div>
+                    ) : stats.debtors.length > 0 ? (
+                      stats.debtors.slice(0, 6).map((debtor: any) => {
+                          const debt = (debtor.courses || []).reduce((acc: number, c: any) => {
+                              const joinDate = new Date(debtor.createdAt);
+                              const currentDate = new Date();
+                              const monthsDiff = (currentDate.getFullYear() - joinDate.getFullYear()) * 12 + (currentDate.getMonth() - joinDate.getMonth()) + 1;
+                              return acc + ((c.price || 0) * monthsDiff);
+                          }, 0) - (debtor.payments?.reduce((acc: any, p: any) => acc + p.amount, 0) || 0);
 
-                        return (
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key={debtor.id} className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] sm:rounded-[2.5rem] p-4 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between group hover:border-red-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.05)] active:scale-[0.99] relative overflow-hidden gap-4 sm:gap-0">
-                                <div className="absolute top-0 right-0 w-24 h-24 bg-red-500 opacity-0 blur-[30px] -mr-12 -mt-12 rounded-full group-hover:opacity-[0.05]" />
-                                <div className="flex items-center gap-4 sm:gap-6">
-                                    <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-[1.25rem] bg-[var(--crm-error-soft)] border border-[var(--crm-error-soft)] flex items-center justify-center font-black text-red-500 group-hover:bg-red-500 group-hover:text-white shadow-lg capitalize text-sm sm:text-base">
-                                        {debtor.name[0]}
-                                    </div>
-                                    <div className="min-w-0">
-                                        <div className="text-lg sm:text-xl font-black text-[var(--crm-text)] tracking-tighter leading-none mb-1 group-hover:text-red-500 truncate">{debtor.name}</div>
-                                        <div className="text-[8px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-60 flex items-center gap-1 sm:gap-2">
-                                            {debtor.phone}
-                                            <div className="w-0.5 h-0.5 sm:w-1 sm:h-1 rounded-full bg-[var(--crm-border)]" />
-                                            {(debtor.courses || []).length} ta kurs
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="text-left sm:text-right flex flex-col sm:items-end">
-                                    <div className="text-xl sm:text-2xl font-black text-red-500 tracking-tighter leading-none mb-1 flex items-center gap-2">
-                                       <span className="text-[10px] opacity-40">-</span>
-                                       {formatMoney(Math.abs(debt))}
-                                       <span className="text-[8px] sm:text-[9px] font-bold opacity-30 text-[var(--crm-text)] uppercase">UZS</span>
-                                    </div>
-                                    <Link href="/dashboard/students" className="text-[7px] sm:text-[8px] font-black uppercase text-[var(--crm-text-muted)] hover:text-red-500 transition-all tracking-widest flex items-center gap-2 group/link">
-                                       TO'LOVGA O'TISH 
-                                       <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
-                                    </Link>
-                                </div>
-                            </motion.div>
-                        );
-                    })
-                  ) : (
-                    <div className="p-20 text-center rounded-[3.5rem] bg-[var(--crm-card)] border border-dashed border-[var(--crm-border)] opacity-30 shadow-inner">
-                        <ShieldCheck className="w-16 h-16 text-green-500 mx-auto mb-8 animate-bounce" />
-                        <h3 className="text-2xl font-black mb-2 uppercase tracking-tighter">Barchasi joyida</h3>
-                        <p className="text-[9px] font-black uppercase tracking-widest opacity-60 italic">Hali birorta ham qarzdorlik aniqlanmagan</p>
-                    </div>
-                  )}
-                </div>
-            </div>
+                          return (
+                              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key={debtor.id} className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] sm:rounded-[2.5rem] p-4 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between group hover:border-red-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.05)] active:scale-[0.99] relative overflow-hidden gap-4 sm:gap-0">
+                                  <div className="absolute top-0 right-0 w-24 h-24 bg-red-500 opacity-0 blur-[30px] -mr-12 -mt-12 rounded-full group-hover:opacity-[0.05]" />
+                                  <div className="flex items-center gap-4 sm:gap-6">
+                                      <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-[1.25rem] bg-[var(--crm-error-soft)] border border-[var(--crm-error-soft)] flex items-center justify-center font-black text-red-500 group-hover:bg-red-500 group-hover:text-white shadow-lg capitalize text-sm sm:text-base">
+                                          {debtor.name[0]}
+                                      </div>
+                                      <div className="min-w-0">
+                                          <div className="text-lg sm:text-xl font-black text-[var(--crm-text)] tracking-tighter leading-none mb-1 group-hover:text-red-500 truncate">{debtor.name}</div>
+                                          <div className="text-[8px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-60 flex items-center gap-1 sm:gap-2">
+                                              {debtor.phone}
+                                              <div className="w-0.5 h-0.5 sm:w-1 sm:h-1 rounded-full bg-[var(--crm-border)]" />
+                                              {(debtor.courses || []).length} ta kurs
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div className="text-left sm:text-right flex flex-col sm:items-end">
+                                      <div className="text-xl sm:text-2xl font-black text-red-500 tracking-tighter leading-none mb-1 flex items-center gap-2">
+                                         <span className="text-[10px] opacity-40">-</span>
+                                         {formatMoney(Math.abs(debt))}
+                                         <span className="text-[8px] sm:text-[9px] font-bold opacity-30 text-[var(--crm-text)] uppercase">UZS</span>
+                                      </div>
+                                      <Link href="/dashboard/students" className="text-[7px] sm:text-[8px] font-black uppercase text-[var(--crm-text-muted)] hover:text-red-500 transition-all tracking-widest flex items-center gap-2 group/link">
+                                         TO'LOVGA O'TISH 
+                                         <ArrowRight className="w-3 h-3 group-hover/link:translate-x-1 transition-transform" />
+                                      </Link>
+                                  </div>
+                              </motion.div>
+                          );
+                      })
+                    ) : (
+                      <div className="p-20 text-center rounded-[3.5rem] bg-[var(--crm-card)] border border-dashed border-[var(--crm-border)] opacity-30 shadow-inner">
+                          <ShieldCheck className="w-16 h-16 text-green-500 mx-auto mb-8 animate-bounce" />
+                          <h3 className="text-2xl font-black mb-2 uppercase tracking-tighter">Barchasi joyida</h3>
+                          <p className="text-[9px] font-black uppercase tracking-widest opacity-60 italic">Hali birorta ham qarzdorlik aniqlanmagan</p>
+                      </div>
+                    )}
+                  </div>
+              </div>
+            )}
 
             {/* Quick Actions & Center Info */}
             <div className="space-y-12">
@@ -395,9 +403,11 @@ export default function CenterDashboard() {
             </div>
           </div>
 
-          <div className="mt-20">
-            <PaymentTrendChart data={chartData} viewPeriod={viewPeriod} setViewPeriod={setViewPeriod} />
-          </div>
+          {role !== 'TEACHER' && (
+            <div className="mt-20">
+              <PaymentTrendChart data={chartData} viewPeriod={viewPeriod} setViewPeriod={setViewPeriod} />
+            </div>
+          )}
         </section>
 
         <AnimatePresence>

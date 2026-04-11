@@ -67,6 +67,8 @@ export default function StudentsPage() {
   const [paymentData, setPaymentData] = useState<any>(null);
   const [search, setSearch] = useState("");
   const { theme } = useTheme();
+  const isTeacher = role === 'TEACHER';
+  const isOwner = role === 'OWNER' || role === 'SUPER_ADMIN';
 
   const [filterCourse, setFilterCourse] = useState("");
   const [filterGroup, setFilterGroup] = useState("");
@@ -247,14 +249,16 @@ export default function StudentsPage() {
               className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl sm:rounded-2xl py-2 sm:py-3.5 pl-9 sm:pl-14 pr-4 text-[10px] sm:text-sm font-bold focus:outline-none focus:border-[var(--crm-accent)] transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner" 
             />
           </div>
-          <button 
-            onClick={() => { setIsEditing(false); setFormData({ name: "", phone: "998", address: "", dob: "", status: "Active", courseIds: [], groupIds: [], parentPhone: "998" }); setShowModal(true); }} 
-            className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-3 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-purple-600/30 active:scale-95 uppercase whitespace-nowrap shrink-0"
-          >
-            <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
-            <span className="hidden sm:inline">Yangi Talaba</span>
-            <span className="sm:hidden">YANGI</span>
-          </button>
+          {!isTeacher && (
+            <button 
+                onClick={() => { setIsEditing(false); setFormData({ name: "", phone: "998", address: "", dob: "", status: "Active", courseIds: [], groupIds: [], parentPhone: "998" }); setShowModal(true); }} 
+                className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-3 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-purple-600/30 active:scale-95 uppercase whitespace-nowrap shrink-0"
+            >
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
+                <span className="hidden sm:inline">Yangi Talaba</span>
+                <span className="sm:hidden">YANGI</span>
+            </button>
+          )}
         </header>
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
@@ -302,8 +306,8 @@ export default function StudentsPage() {
                           <th className="py-8">Telefon</th>
                           <th className="py-8">Kurs / Guruh</th>
                           <th className="py-8 text-center px-4">Qabul</th>
-                          <th className="py-8">Qarz</th>
-                          <th className="py-8 pr-12 text-right">Amallar</th>
+                          {!isTeacher && <th className="py-8">Qarz</th>}
+                          {!isTeacher && <th className="py-8 pr-12 text-right">Amallar</th>}
                       </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--crm-border)] font-bold uppercase transition-colors">
@@ -352,23 +356,27 @@ export default function StudentsPage() {
                                       {formatDate(std.createdAt)}
                                   </div>
                               </td>
-                              <td className="py-8">
-                                  <div className={`text-xl font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
-                                      {formatMoney(debt)} <span className="text-[9px] font-bold opacity-40">UZS</span>
-                                  </div>
-                              </td>
-                              <td className="py-8 pr-12 text-right">
-                                  <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                                      {debt > 0 && (
-                                          <button onClick={() => openPayment(std)} className="p-4 bg-green-600/10 border border-green-500/10 text-green-500 hover:bg-green-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
-                                              <Wallet className="w-5 h-5 shadow-lg" />
-                                          </button>
-                                      )}
-                                      <button onClick={() => openEdit(std)} className="p-4 bg-blue-600/10 border border-blue-500/10 text-blue-500 hover:bg-blue-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
-                                          <Edit3 className="w-5 h-5 shadow-lg" />
-                                      </button>
-                                  </div>
-                              </td>
+                              {!isTeacher && (
+                                <td className="py-8">
+                                    <div className={`text-xl font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
+                                        {formatMoney(debt)} <span className="text-[9px] font-bold opacity-40">UZS</span>
+                                    </div>
+                                </td>
+                              )}
+                              {!isTeacher && (
+                                <td className="py-8 pr-12 text-right">
+                                    <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                        {debt > 0 && (
+                                            <button onClick={() => openPayment(std)} className="p-4 bg-green-600/10 border border-green-500/10 text-green-500 hover:bg-green-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
+                                                <Wallet className="w-5 h-5 shadow-lg" />
+                                            </button>
+                                        )}
+                                        <button onClick={() => openEdit(std)} className="p-4 bg-blue-600/10 border border-blue-500/10 text-blue-500 hover:bg-blue-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
+                                            <Edit3 className="w-5 h-5 shadow-lg" />
+                                        </button>
+                                    </div>
+                                </td>
+                              )}
                           </tr>
                       );
                     })}
@@ -402,12 +410,14 @@ export default function StudentsPage() {
                             </span>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className={`text-xl font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
-                            {formatMoney(debt)}
+                        {!isTeacher && (
+                          <div className="text-right">
+                            <div className={`text-xl font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
+                              {formatMoney(debt)}
+                            </div>
+                            <div className="text-[10px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase tracking-widest mt-1">Qarz</div>
                           </div>
-                          <div className="text-[10px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase tracking-widest mt-1">Qarz</div>
-                        </div>
+                        )}
                       </div>
 
                       <div className="flex flex-wrap gap-2 py-6 border-y border-[var(--crm-border)]/30">
@@ -424,16 +434,18 @@ export default function StudentsPage() {
                             <span className="text-sm font-mono font-bold text-[var(--crm-text)]/80 tracking-tighter">{formatPhone(std.phone)}</span>
                             <span className="text-[9px] font-black text-[var(--crm-text-muted)] opacity-30 mt-2 uppercase tracking-[0.1em]">{formatDate(std.createdAt)} QABUL</span>
                          </div>
-                         <div className="flex gap-2.5">
-                            {debt > 0 && (
-                              <button onClick={() => openPayment(std)} className="w-12 h-12 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-green-500/20 shadow-lg shadow-green-500/5">
-                                <Wallet className="w-5.5 h-5.5" />
+                         {!isTeacher && (
+                           <div className="flex gap-2.5">
+                              {debt > 0 && (
+                                <button onClick={() => openPayment(std)} className="w-12 h-12 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-green-500/20 shadow-lg shadow-green-500/5">
+                                  <Wallet className="w-5.5 h-5.5" />
+                                </button>
+                              )}
+                              <button onClick={() => openEdit(std)} className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-blue-500/20 shadow-lg shadow-blue-500/5">
+                                <Edit3 className="w-5.5 h-5.5" />
                               </button>
-                            )}
-                            <button onClick={() => openEdit(std)} className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-blue-500/20 shadow-lg shadow-blue-500/5">
-                              <Edit3 className="w-5.5 h-5.5" />
-                            </button>
-                         </div>
+                           </div>
+                         )}
                       </div>
                     </motion.div>
                   );

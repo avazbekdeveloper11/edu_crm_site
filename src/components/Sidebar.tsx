@@ -61,7 +61,7 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
         </div>
 
         <nav className="flex-1 w-full space-y-2 overflow-y-auto no-scrollbar py-4">
-          {isOwner && <NavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Boshqaruv" href="/dashboard" active={pathname === "/dashboard"} />}
+          <NavItem icon={<LayoutDashboard className="w-5 h-5" />} label="Boshqaruv" href="/dashboard" active={pathname === "/dashboard"} />
           {isOwner && <NavItem icon={<Target className="w-5 h-5" />} label="Leadlar" href="/dashboard/leads" active={pathname === "/dashboard/leads"} />}
           <NavItem icon={<Users className="w-5 h-5" />} label="Talabalar" href="/dashboard/students" active={pathname === "/dashboard/students"} />
           {isOwner && <NavItem icon={<Users2 className="w-5 h-5" />} label="O'qituvchilar" href="/dashboard/teachers" active={pathname === "/dashboard/teachers"} />}
@@ -69,7 +69,7 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
           {isAdminOrTeacher && <NavItem icon={<Calendar className="w-5 h-5" />} label="Guruhlar" href="/dashboard/groups" active={pathname === "/dashboard/groups"} />}
           {isOwner && <NavItem icon={<Wallet className="w-5 h-5" />} label="To'lovlar" href="/dashboard/payments" active={pathname === "/dashboard/payments"} />}
           {isOwner && <NavItem icon={<BarChart3 className="w-5 h-5" />} label="Hisobotlar" href="/dashboard/reports" active={pathname === "/dashboard/reports"} />}
-          {isOwner && <NavItem icon={<Settings className="w-5 h-5" />} label="Sozlamalar" href="/dashboard/settings" active={pathname === "/dashboard/settings"} />}
+          <NavItem icon={<Settings className="w-5 h-5" />} label="Sozlamalar" href="/dashboard/settings" active={pathname === "/dashboard/settings"} />
         </nav>
 
         <div className="mt-auto pt-8 space-y-4 shrink-0">
@@ -103,14 +103,14 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
       {/* Mobile Bottom Nav */}
       <div ref={scrollRef} className="md:hidden fixed bottom-6 left-4 right-4 h-16 bg-[var(--crm-sidebar)]/60 backdrop-blur-3xl border border-white/5 rounded-[2rem] z-50 flex items-center px-1 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-x-auto no-scrollbar gap-2 scroll-smooth">
         <div className="flex items-center justify-center w-full min-w-max gap-1 px-3">
-          {isOwner && <MobileNavItem icon={<LayoutDashboard className="w-5 h-5" />} href="/dashboard" active={pathname === "/dashboard"} label="Asosiy" />}
+          <MobileNavItem icon={<LayoutDashboard className="w-5 h-5" />} href="/dashboard" active={pathname === "/dashboard"} label="Asosiy" />
           {isOwner && <MobileNavItem icon={<Target className="w-5 h-5" />} href="/dashboard/leads" active={pathname === "/dashboard/leads"} label="Leadlar" />}
           <MobileNavItem icon={<Users className="w-5 h-5" />} href="/dashboard/students" active={pathname === "/dashboard/students"} label="Talabalar" />
           {isOwner && <MobileNavItem icon={<Layers className="w-5 h-5" />} href="/dashboard/courses" active={pathname === "/dashboard/courses"} label="Kurslar" />}
           {isAdminOrTeacher && <MobileNavItem icon={<Calendar className="w-5 h-5" />} href="/dashboard/groups" active={pathname === "/dashboard/groups"} label="Guruhlar" />}
           {isOwner && <MobileNavItem icon={<Wallet className="w-5 h-5" />} href="/dashboard/payments" active={pathname === "/dashboard/payments"} label="Kassa" />}
           {isOwner && <MobileNavItem icon={<BarChart3 className="w-5 h-5" />} href="/dashboard/reports" active={pathname === "/dashboard/reports"} label="Hisobotlar" />}
-          {isOwner && <MobileNavItem icon={<Settings className="w-5 h-5" />} href="/dashboard/settings" active={pathname === "/dashboard/settings"} label="Sozlamalar" />}
+          <MobileNavItem icon={<Settings className="w-5 h-5" />} href="/dashboard/settings" active={pathname === "/dashboard/settings"} label="Sozlamalar" />
 
           <div className="w-[1px] h-6 bg-[var(--crm-border)] mx-2 opacity-30 shrink-0" />
 

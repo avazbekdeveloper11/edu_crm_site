@@ -67,7 +67,13 @@ export default function TeachersPage() {
     if (userData) {
       const parsed = JSON.parse(userData);
       setCenter(parsed);
-      setRole(parsed.role || "OWNER");
+      const userRole = parsed.role || "OWNER";
+      setRole(userRole);
+
+      if (userRole === 'TEACHER') {
+        router.push('/dashboard');
+        return;
+      }
     }
     fetchData();
   }, []);
