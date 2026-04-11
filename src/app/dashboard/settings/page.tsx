@@ -348,93 +348,93 @@ export default function SettingsPage() {
   return (
     <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-4">
-          <div className="flex flex-col items-start">
-              <h1 className="text-xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-10">Sozlamalar</h1>
-              <p className="hidden sm:block text-[var(--crm-text-muted)] text-[9px] font-black uppercase tracking-[0.25em] mt-1 opacity-60">Xavfsizlik va atributlar</p>
+          <div className="flex flex-col items-start translate-y-[-2px]">
+              <h1 className="text-xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Sozlamalar</h1>
+              <p className="hidden xs:block text-[var(--crm-text-muted)] text-[7px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1 opacity-60">Xavfsizlik & Atributlar</p>
           </div>
-          <div className="flex items-center gap-3 sm:gap-6">
+          <div className="flex items-center gap-2.5 sm:gap-6">
               <div className="flex flex-col items-end">
-                  <span className="text-[7px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] opacity-60 leading-none mb-0.5">Sessiya</span>
-                  <span className="text-xs sm:text-xl font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[100px] sm:max-w-[150px]">{center?.displayName || center?.login}</span>
+                  <span className="text-[6px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-60 leading-none mb-0.5">Sessiya</span>
+                  <span className="text-[10px] sm:text-xl font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[80px] sm:max-w-[150px]">{center?.displayName || center?.login}</span>
               </div>
-              <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-[1.25rem] bg-[var(--crm-accent)]/10 border border-[var(--crm-accent)]/10 flex items-center justify-center text-[var(--crm-accent)] shadow-xl shrink-0">
+              <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-[1.25rem] bg-[var(--crm-accent)]/10 border border-[var(--crm-accent)]/10 flex items-center justify-center text-[var(--crm-accent)] shadow-xl shrink-0">
                   <User className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
           </div>
         </header>
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
-                <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
-                <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
-                <SettingsCard onClick={() => setShowNotificationModal(true)} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />
-                <SettingsCard onClick={() => setShowTariffsModal(true)} icon={<Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />} title="Tarif" desc="Subscription plan" />
-                <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual sozlamalar" />
-                <SettingsCard onClick={() => setShowHelpModal(true)} icon={<HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />} title="Yordam" desc="Qo'llab-quvvatlash" />
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6 mb-8 sm:mb-20 px-1 sm:px-0">
+                <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-4 h-4 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil & Brend" />
+                <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-4 h-4 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login & Parol" />
+                <SettingsCard onClick={() => setShowNotificationModal(true)} icon={<Bell className="w-4 h-4 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />
+                <SettingsCard onClick={() => setShowTariffsModal(true)} icon={<Wallet className="w-4 h-4 sm:w-6 sm:h-6 text-orange-500" />} title="Tarif" desc="Subscription Plan" />
+                <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-4 h-4 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual Sozlamalar" />
+                <SettingsCard onClick={() => setShowHelpModal(true)} icon={<HelpCircle className="w-4 h-4 sm:w-6 sm:h-6 text-green-500" />} title="Yordam" desc="Support 24/7" />
             </div>
 
-            <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[4rem] p-8 sm:p-12 relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.2)] mb-12 sm:mb-20">
+            <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] sm:rounded-[4rem] p-6 sm:p-12 relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.2)] mb-8 sm:mb-20">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
-                <h3 className="text-3xl sm:text-4xl font-black mb-6 sm:mb-8 uppercase tracking-tighter leading-none">Profil Atributlari</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 relative z-10">
+                <h3 className="text-xl sm:text-4xl font-black mb-4 sm:mb-8 uppercase tracking-tighter leading-none">Profil Atributlari</h3>
+                <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-12 relative z-10">
                     <div className="space-y-1">
-                        <div className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.25em] opacity-50">Tizimdagi Login</div>
-                        <div className="text-[var(--crm-text)] font-black text-2xl tracking-tighter uppercase">{center.login}</div>
+                        <div className="text-[var(--crm-text-muted)] text-[7px] sm:text-[10px] font-black uppercase tracking-[0.25em] opacity-50">Tizimdagi Login</div>
+                        <div className="text-[var(--crm-text)] font-black text-lg sm:text-2xl tracking-tighter uppercase">{center.login}</div>
                     </div>
                     <div className="space-y-1">
-                        <div className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.25em] opacity-50">Status / Rol</div>
-                        <div className="text-[var(--crm-accent)] font-black text-2xl tracking-tighter uppercase leading-none flex items-center gap-2">
+                        <div className="text-[var(--crm-text-muted)] text-[7px] sm:text-[10px] font-black uppercase tracking-[0.25em] opacity-50">Status / Rol</div>
+                        <div className="text-[var(--crm-accent)] font-black text-lg sm:text-2xl tracking-tighter uppercase leading-none flex items-center gap-2">
                             {role}
-                            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                         </div>
                     </div>
                     <div className="space-y-1">
-                        <div className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.25em] opacity-50">Sessiya Holati</div>
-                        <div className="text-green-500 font-black text-2xl tracking-tighter uppercase">AKTIV</div>
+                        <div className="text-[var(--crm-text-muted)] text-[7px] sm:text-[10px] font-black uppercase tracking-[0.25em] opacity-50">Sessiya Holati</div>
+                        <div className="text-green-500 font-black text-lg sm:text-2xl tracking-tighter uppercase">AKTIV</div>
                     </div>
                 </div>
             </div>
 
             {(role === 'OWNER' || role === 'SUPER_ADMIN') && (
-                <div className="space-y-10">
-                    <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 sm:gap-8">
-                        <div className="px-2 sm:px-0">
-                            <h2 className="text-4xl sm:text-5xl font-black tracking-tighter uppercase leading-none grayscale opacity-30 italic">Xodimlar</h2>
-                            <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-2 sm:mt-3 opacity-60">Jamoa boshqaruv paneli</p>
+                <div className="space-y-10 pb-32">
+                    <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 sm:gap-8 mb-4 sm:mb-0">
+                        <div className="px-1 sm:px-0">
+                            <h2 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none grayscale opacity-30 italic">Xodimlar</h2>
+                            <p className="text-[var(--crm-text-muted)] text-[7px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1 sm:mt-3 opacity-60">Jamoa boshqaruv paneli</p>
                         </div>
                         <button 
                             onClick={() => { setIsEditingUser(false); setUserForm({ name: "", login: "", password: "", confirmPassword: "", role: "CASHIER", specialization: "" }); setShowUserModal(true); }}
-                            className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-8 sm:px-10 py-5 rounded-[1.5rem] sm:rounded-[1.8rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 active:scale-95 flex items-center justify-center gap-4 w-full sm:w-auto"
+                            className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-8 sm:px-10 py-4 sm:py-5 rounded-[1.2rem] sm:rounded-[1.8rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 active:scale-95 flex items-center justify-center gap-4 w-full sm:w-auto"
                         >
                             <UserPlus className="w-5 h-5 shadow-lg" />
                             Xodim Qo'shish
                         </button>
                     </header>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                         {users.length === 0 ? (
-                            <div className="col-span-full p-24 text-center rounded-[3.5rem] bg-[var(--crm-card)] border border-dashed border-[var(--crm-border)] opacity-30 shadow-inner">
+                            <div className="col-span-full p-20 sm:p-24 text-center rounded-[2.5rem] sm:rounded-[3.5rem] bg-[var(--crm-card)] border border-dashed border-[var(--crm-border)] opacity-30 shadow-inner">
                                 <Users2 className="w-20 h-20 text-[var(--crm-text-muted)]/20 mx-auto mb-8" />
-                                <h3 className="text-3xl font-black mb-3 uppercase tracking-tighter">Xodimlar mavjud emas</h3>
-                                <p className="text-[10px] font-black uppercase tracking-widest leading-relaxed">Markaz uchun professional jamoani shakllantirishni boshlang</p>
+                                <h3 className="text-2xl sm:text-3xl font-black mb-3 uppercase tracking-tighter">Xodimlar mavjud emas</h3>
+                                <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest leading-relaxed">Markaz uchun professional jamoani shakllantirishni boshlang</p>
                             </div>
                         ) : (
                             users.map(u => (
-                                <div key={u.id} className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 group hover:border-[var(--crm-accent)] transition-all shadow-[0_20px_60px_rgba(0,0,0,0.1)] relative overflow-hidden active:scale-[0.98]">
+                                <div key={u.id} className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] sm:rounded-[3rem] p-5 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 group hover:border-[var(--crm-accent)] transition-all shadow-[0_20px_60px_rgba(0,0,0,0.1)] relative overflow-hidden active:scale-[0.98]">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--crm-accent)] opacity-[0.02] blur-[40px] -mr-16 -mt-16 rounded-full group-hover:opacity-[0.08] transition-all" />
                                     
                                     <div className="flex items-center gap-4 sm:gap-6 min-w-0 w-full">
-                                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[1.2rem] sm:rounded-[1.5rem] bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] flex items-center justify-center font-black text-[var(--crm-text)] text-lg sm:text-xl group-hover:bg-[var(--crm-accent)] group-hover:text-white transition-all duration-500 shadow-lg capitalize shrink-0">
+                                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-[1.5rem] bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] flex items-center justify-center font-black text-[var(--crm-text)] text-base sm:text-xl group-hover:bg-[var(--crm-accent)] group-hover:text-white transition-all duration-500 shadow-lg capitalize shrink-0">
                                             {u.name[0]}
                                         </div>
                                         <div className="min-w-0 flex-1">
-                                            <h4 className="text-xl sm:text-2xl font-black tracking-tighter uppercase text-[var(--crm-text)] leading-none mb-2 group-hover:text-[var(--crm-accent)] transition-colors truncate">{u.name}</h4>
+                                            <h4 className="text-lg sm:text-2xl font-black tracking-tighter uppercase text-[var(--crm-text)] leading-none mb-1 sm:mb-2 group-hover:text-[var(--crm-accent)] transition-colors truncate">{u.name}</h4>
                                             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                                                <span className="text-[8px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-60 italic truncate max-w-[100px]">{u.login}</span>
-                                                <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-[var(--crm-border)] opacity-30" />
-                                                <span className="text-[8px] sm:text-[10px] text-[var(--crm-accent)] font-black uppercase tracking-widest opacity-80">{u.role}</span>
-                                                {u.specialization && <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-[var(--crm-border)] opacity-30" />}
-                                                {u.specialization && <span className="text-[8px] sm:text-[10px] text-green-500 font-black uppercase tracking-widest opacity-80">{u.specialization}</span>}
+                                                <span className="text-[7px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-60 italic truncate max-w-[80px] sm:max-w-[100px]">{u.login}</span>
+                                                <div className="hidden xs:block w-1.5 h-1.5 rounded-full bg-[var(--crm-border)] opacity-30" />
+                                                <span className="text-[7px] sm:text-[10px] text-[var(--crm-accent)] font-black uppercase tracking-widest opacity-80">{u.role}</span>
+                                                {u.specialization && <div className="hidden xs:block w-1.5 h-1.5 rounded-full bg-[var(--crm-border)] opacity-30" />}
+                                                {u.specialization && <span className="text-[7px] sm:text-[10px] text-green-500 font-black uppercase tracking-widest opacity-80">{u.specialization}</span>}
                                             </div>
                                         </div>
                                     </div>
@@ -446,13 +446,13 @@ export default function SettingsPage() {
                                                 setIsEditingUser(true); 
                                                 setShowUserModal(true); 
                                             }}
-                                            className="p-4 bg-[var(--crm-bg)] hover:bg-blue-600 hover:text-white rounded-[1.25rem] border border-[var(--crm-border)] text-blue-500 transition-all shadow-xl active:scale-90"
+                                            className="p-3.5 bg-[var(--crm-bg)] hover:bg-blue-600 hover:text-white rounded-[1rem] sm:rounded-[1.25rem] border border-[var(--crm-border)] text-blue-500 transition-all shadow-xl active:scale-90"
                                         >
-                                            <Key className="w-5 h-5 shadow-lg" />
+                                            <Key className="w-4 h-4 sm:w-5 h-5 shadow-lg" />
                                         </button>
                                         {u.login !== center.login && (
-                                            <button onClick={() => deleteUser(u.id)} className="p-4 bg-[var(--crm-bg)] hover:bg-red-600 hover:text-white rounded-[1.25rem] border border-[var(--crm-border)] text-red-500 transition-all shadow-xl active:scale-90">
-                                                <Trash2 className="w-5 h-5 shadow-lg" />
+                                            <button onClick={() => deleteUser(u.id)} className="p-3.5 bg-[var(--crm-bg)] hover:bg-red-600 hover:text-white rounded-[1rem] sm:rounded-[1.25rem] border border-[var(--crm-border)] text-red-500 transition-all shadow-xl active:scale-90">
+                                                <Trash2 className="w-4 h-4 sm:w-5 h-5 shadow-lg" />
                                             </button>
                                         )}
                                     </div>
@@ -1064,14 +1064,14 @@ export default function SettingsPage() {
 
 function SettingsCard({ icon, title, desc, onClick }: any) {
     return (
-        <div onClick={onClick} className={`bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-8 hover:border-[var(--crm-accent)] transition-all group cursor-pointer active:scale-[0.97] shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative overflow-hidden flex items-center gap-4 sm:gap-5`}>
+        <div onClick={onClick} className={`bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.2rem] sm:rounded-[2rem] p-3.5 sm:p-8 hover:border-[var(--crm-accent)] transition-all group cursor-pointer active:scale-[0.97] shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative overflow-hidden flex items-center gap-3 sm:gap-5 min-h-[70px] sm:min-h-0`}>
             <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--crm-accent-soft)] blur-[30px] -mr-12 -mt-12 rounded-full group-hover:opacity-[0.08] transition-all" />
-            <div className={`w-11 h-11 sm:w-14 sm:h-14 bg-[var(--crm-accent-soft)] rounded-xl sm:rounded-2xl flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-inner shrink-0`}>
+            <div className={`w-9 h-9 sm:w-14 sm:h-14 bg-[var(--crm-accent-soft)] rounded-lg sm:rounded-2xl flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-inner shrink-0`}>
                 {icon}
             </div>
             <div className="min-w-0">
-                <h4 className="text-base sm:text-lg font-black uppercase tracking-tight text-[var(--crm-text)] leading-none mb-1">{title}</h4>
-                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider leading-snug opacity-50 italic">{desc}</p>
+                <h4 className="text-[13px] sm:text-lg font-black uppercase tracking-tight text-[var(--crm-text)] leading-none mb-0.5 sm:mb-1">{title}</h4>
+                <p className="text-[7px] sm:text-[11px] font-black uppercase tracking-wider leading-snug opacity-40 italic mt-0.5">{desc}</p>
             </div>
         </div>
     );
