@@ -155,17 +155,19 @@ export default function SetupDashboard() {
                 <h2 className="text-2xl font-bold text-white">
                   {isEditing ? "Markazni Tahrirlash" : "Yangi Markaz Qo'shish"}
                 </h2>
-                {!isEditing && (
+                 {!isEditing && (
                   <button 
                     onClick={() => {
-                        const now = new Date();
-                        const nextWeek = new Date();
-                        nextWeek.setDate(now.getDate() + 7);
+                        const tomorrow = new Date();
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        const nextWeek = new Date(tomorrow);
+                        nextWeek.setDate(tomorrow.getDate() + 7);
+
                         setNewCenter({
                           ...newCenter,
                           tariff: "Demo",
                           tariffType: "Monthly",
-                          tariffStartedAt: now.toISOString().split('T')[0],
+                          tariffStartedAt: tomorrow.toISOString().split('T')[0],
                           tariffExpiresAt: nextWeek.toISOString().split('T')[0]
                         });
                     }}
@@ -203,7 +205,19 @@ export default function SetupDashboard() {
                       <label className="text-xs text-gray-500 uppercase tracking-widest font-bold ml-1">Tarif</label>
                       <select 
                         value={newCenter.tariff}
-                        onChange={(e) => setNewCenter({ ...newCenter, tariff: e.target.value })}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          let updates: any = { tariff: val };
+                          if (val === "Demo") {
+                            const tomorrow = new Date();
+                            tomorrow.setDate(tomorrow.getDate() + 1);
+                            const nextWeek = new Date(tomorrow);
+                            nextWeek.setDate(tomorrow.getDate() + 7);
+                            updates.tariffStartedAt = tomorrow.toISOString().split('T')[0];
+                            updates.tariffExpiresAt = nextWeek.toISOString().split('T')[0];
+                          }
+                          setNewCenter({ ...newCenter, ...updates });
+                        }}
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-all text-sm appearance-none"
                       >
                          <option value="Standart" className="bg-[#0a0a0a]">Standart</option>
