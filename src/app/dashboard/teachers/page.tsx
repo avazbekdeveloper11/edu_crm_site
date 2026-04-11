@@ -165,7 +165,7 @@ export default function TeachersPage() {
           </button>
         </header>
 
-        <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
+        <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen pb-40 sm:pb-12">
             <div className="flex flex-col sm:flex-row items-center justify-between mb-10 gap-4 px-2">
                 <div>
                     <h2 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none grayscale opacity-30 italic">O'qituvchilar</h2>
@@ -180,7 +180,7 @@ export default function TeachersPage() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 pb-32 sm:pb-12">
                 {loading ? (
                     Array(4).fill(0).map((_, i) => (
                         <div key={i} className="h-48 bg-[var(--crm-card)] rounded-[2.5rem] border border-[var(--crm-border)] animate-pulse" />

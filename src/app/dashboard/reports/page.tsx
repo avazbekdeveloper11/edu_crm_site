@@ -256,7 +256,7 @@ export default function ReportsPage() {
             )}
         </AnimatePresence>
 
-        <div className="p-4 sm:p-10 max-w-7xl mx-auto space-y-10">
+        <div className="p-4 sm:p-10 pb-40 sm:pb-10 max-w-7xl mx-auto space-y-10">
           
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <StatCard 

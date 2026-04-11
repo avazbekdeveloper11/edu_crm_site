@@ -201,7 +201,7 @@ export default function PaymentsPage() {
           </div>
         </header>
 
-        <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
+        <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen pb-40 sm:pb-12">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 mb-10 sm:mb-16 px-2 sm:px-0">
             <div className="space-y-1">
               <h1 className="text-4xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Kassa</h1>

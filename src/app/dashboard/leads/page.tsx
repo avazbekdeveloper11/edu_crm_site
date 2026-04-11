@@ -290,7 +290,7 @@ export default function LeadsPage() {
            </button>
         </header>
 
-        <div className="p-4 sm:p-10 max-w-7xl mx-auto space-y-12">
+        <div className="p-4 sm:p-10 pb-32 sm:pb-10 max-w-7xl mx-auto space-y-12">
           
           {reminders.length > 0 && (
             <section className="bg-gradient-to-br from-purple-600/10 to-indigo-600/10 border border-purple-600/20 rounded-[2.5rem] p-8 sm:p-10 relative overflow-hidden shadow-2xl">

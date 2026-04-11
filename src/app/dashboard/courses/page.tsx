@@ -174,7 +174,7 @@ export default function CoursesPage() {
           </button>
         </header>
 
-        <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
+        <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen pb-40 sm:pb-12">
           <div className="flex items-center justify-between mb-8 sm:mb-16 px-1 sm:px-0">
             <div className="space-y-1">
               <h1 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Kurslar</h1>
