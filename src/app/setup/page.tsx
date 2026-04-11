@@ -192,6 +192,9 @@ export default function SetupDashboard() {
                   onChange={(e: any) => setNewCenter({ ...newCenter, pass: e.target.value })}
                 />
                 <InputField
+                  label="Telegram Bot Token"
+                  value={newCenter.botToken}
+                  onChange={(e: any) => setNewCenter({ ...newCenter, botToken: e.target.value })}
                   placeholder="7483...:AAH... (optional)"
                 />
                 
