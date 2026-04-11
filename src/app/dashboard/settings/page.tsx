@@ -72,6 +72,7 @@ export default function SettingsPage() {
   const [sendingNotification, setSendingNotification] = useState(false);
   const [showCredentialsModal, setShowCredentialsModal] = useState(false);
   const [credentialsForm, setCredentialsForm] = useState({
+    name: "",
     login: "",
     password: "",
     confirmPassword: ""
@@ -281,7 +282,8 @@ export default function SettingsPage() {
         setStatusType("success");
         setShowStatusModal(true);
         setShowCredentialsModal(false);
-        setCredentialsForm({ login: "", password: "", confirmPassword: "" });
+        setShowCredentialsModal(false);
+        setCredentialsForm({ name: "", login: "", password: "", confirmPassword: "" });
       } else {
         const error = await res.json();
         setStatusTitle("Xatolik!");
@@ -379,7 +381,7 @@ export default function SettingsPage() {
         <section className="p-4 sm:p-12 pb-40 sm:pb-40 max-w-7xl mx-auto min-h-screen">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
                 {isOwner && <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />}
-                <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
+                <SettingsCard onClick={() => { setCredentialsForm({ name: center?.name || "", login: center?.login || "", password: "", confirmPassword: "" }); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
                 {(isOwner || role === 'TEACHER') && <SettingsCard onClick={() => {
                   setNotificationForm(prev => ({...prev, target: role === 'TEACHER' ? 'GROUP' : 'STUDENTS'}));
                   setShowNotificationModal(true);
@@ -650,6 +652,19 @@ export default function SettingsPage() {
                         </header>
     
                         <form onSubmit={handleUpdateCredentials} className="space-y-8 relative">
+                            {isTeacher && (
+                              <div className="space-y-2">
+                                <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">To'liq FISH</label>
+                                <input 
+                                  type="text" 
+                                  placeholder="Masalan: Azizbek Saliyev" 
+                                  value={credentialsForm.name} 
+                                  onChange={(e) => setCredentialsForm({...credentialsForm, name: e.target.value})} 
+                                  required 
+                                  className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner"
+                                />
+                              </div>
+                            )}
                             <div className="space-y-2">
                                 <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Markaz Logini</label>
                                 <input 
