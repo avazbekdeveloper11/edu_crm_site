@@ -886,6 +886,8 @@ export default function SettingsPage() {
                     </motion.div>
                 </div>
             )}
+        </AnimatePresence>
+
         {/* Help / Support Modal */}
         <AnimatePresence>
             {showHelpModal && (
