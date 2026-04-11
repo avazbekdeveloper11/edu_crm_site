@@ -23,7 +23,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { API_BASE_URL } from "@/app/constants";
 
 const formatMoney = (val: any) => {
-    if (!val && val !== 0) return "";
+    if (!val && val !== 0) return "0";
     return Number(val).toLocaleString("ru-RU").replace(/,/g, " ");
 };
 
