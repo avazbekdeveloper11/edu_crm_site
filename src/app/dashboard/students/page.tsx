@@ -68,6 +68,7 @@ export default function StudentsPage() {
   const [search, setSearch] = useState("");
   const { theme } = useTheme();
   const isTeacher = role === 'TEACHER';
+  const isCashier = role === 'CASHIER';
   const isOwner = role === 'OWNER' || role === 'SUPER_ADMIN';
 
   const [filterCourse, setFilterCourse] = useState("");
@@ -249,7 +250,7 @@ export default function StudentsPage() {
               className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl sm:rounded-2xl py-2 sm:py-3.5 pl-9 sm:pl-14 pr-4 text-[10px] sm:text-sm font-bold focus:outline-none focus:border-[var(--crm-accent)] transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner" 
             />
           </div>
-          {!isTeacher && (
+          {!isTeacher && !isCashier && (
             <button 
                 onClick={() => { setIsEditing(false); setFormData({ name: "", phone: "998", address: "", dob: "", status: "Active", courseIds: [], groupIds: [], parentPhone: "998" }); setShowModal(true); }} 
                 className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-3 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-purple-600/30 active:scale-95 uppercase whitespace-nowrap shrink-0"
@@ -306,8 +307,8 @@ export default function StudentsPage() {
                           <th className="py-8">Telefon</th>
                           <th className="py-8">Kurs / Guruh</th>
                           <th className="py-8 text-center px-4">Qabul</th>
-                          {!isTeacher && <th className="py-8">Qarz</th>}
-                          {!isTeacher && <th className="py-8 pr-12 text-right">Amallar</th>}
+                          {!isTeacher && !isCashier && <th className="py-8">Qarz</th>}
+                          {!isTeacher && !isCashier && <th className="py-8 pr-12 text-right">Amallar</th>}
                       </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--crm-border)] font-bold uppercase transition-colors">
@@ -363,7 +364,7 @@ export default function StudentsPage() {
                                     </div>
                                 </td>
                               )}
-                              {!isTeacher && (
+                              {!isTeacher && !isCashier && (
                                 <td className="py-8 pr-12 text-right">
                                     <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                                         {debt > 0 && (

@@ -57,6 +57,8 @@ export default function GroupsPage() {
     courseId: ""
   });
   const isOwner = role === 'OWNER' || role === 'SUPER_ADMIN';
+  const isTeacher = role === 'TEACHER';
+  const isCashier = role === 'CASHIER';
 
   const fetchData = async () => {
     const token = localStorage.getItem("access_token");
@@ -295,14 +297,14 @@ export default function GroupsPage() {
               className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl sm:rounded-2xl py-2 sm:py-3.5 pl-10 sm:pl-14 pr-4 text-[10px] sm:text-sm font-bold focus:outline-none focus:border-[var(--crm-accent)] transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner"
             />
           </div>
-          {isOwner && (
-            <button
-              onClick={() => { setIsEditing(false); setShowModal(true); }}
+          {!isTeacher && !isCashier && (
+            <button 
+              onClick={() => { setIsEditing(false); setFormData({ name: "", teacher: "", days: "Du-Chor-Ju", time: "", courseId: "" }); setShowModal(true); }} 
               className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-4 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-purple-600/30 active:scale-95 uppercase whitespace-nowrap shrink-0"
             >
-              <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
-              <span className="hidden xs:inline">Yangi Guruh</span>
-              <span className="xs:hidden">Guruh</span>
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
+                <span className="hidden sm:inline">Guruh Qo'shish</span>
+                <span className="sm:hidden">QO'SHISH</span>
             </button>
           )}
         </header>
@@ -385,8 +387,16 @@ export default function GroupsPage() {
                       DAVOMAT
                     </button>
                     <div className="flex gap-2">
-                      {isOwner && <button onClick={() => openEdit(group)} className="p-4 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-blue-500 rounded-2xl flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-xl active:scale-95"><Edit3 className="w-5 h-5" /></button>}
-                      {isOwner && <button onClick={() => deleteGroup(group.id)} className="p-4 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-red-500 rounded-2xl flex items-center justify-center hover:bg-red-600 hover:text-white transition-all shadow-xl active:scale-95"><Trash2 className="w-5 h-5" /></button>}
+                      {!isTeacher && !isCashier && (
+                        <div className="flex items-center gap-3">
+                            <button onClick={() => { setEditingId(group.id); setFormData({ name: group.name, teacher: group.teacher || "", days: group.days || "Du-Chor-Ju", time: group.time || "", courseId: group.courseId.toString() }); setIsEditing(true); setShowModal(true); }} className="p-3 bg-[var(--crm-bg)]/80 hover:bg-[var(--crm-accent)] hover:text-white rounded-2xl border border-[var(--crm-border)] text-[var(--crm-accent)] transition-all shadow-xl active:scale-90">
+                                <Edit3 className="w-5 h-5 shadow-lg" />
+                            </button>
+                            <button onClick={() => { setItemToDelete(group.id); setShowDeleteConfirm(true); }} className="p-3 bg-[var(--crm-bg)]/80 hover:bg-red-600 hover:text-white rounded-2xl border border-[var(--crm-border)] text-red-500 transition-all shadow-xl active:scale-90">
+                                <Trash2 className="w-5 h-5 shadow-lg" />
+                            </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </motion.div>

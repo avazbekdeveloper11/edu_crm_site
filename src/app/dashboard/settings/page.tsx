@@ -575,8 +575,8 @@ export default function SettingsPage() {
                                         onChange={(e) => setNotificationForm({...notificationForm, target: e.target.value})}
                                         className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-black uppercase appearance-none cursor-pointer shadow-inner pr-16 translate-y-[-1px]"
                                     >
-                                        {!isTeacher && <option value="STUDENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA TALABALARGA</option>}
-                                        {!isTeacher && <option value="PARENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA OTA-ONALARGA</option>}
+                                        <option value="STUDENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>{isTeacher ? "BARCHA O'QUVCHILARIMGA" : "BARCHA TALABALARGA"}</option>
+                                        <option value="PARENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>{isTeacher ? "BARCHA OTA-ONALARIMGA" : "BARCHA OTA-ONALARGA"}</option>
                                         <option value="GROUP" className={theme === "dark" ? "bg-black" : "bg-white"}>ALOHIDA GURUHGA (TALABALAR)</option>
                                         <option value="GROUP_PARENTS" className={theme === "dark" ? "bg-black" : "bg-white"}>ALOHIDA GURUHGA (OTA-ONALAR)</option>
                                         {!isTeacher && <option value="ALL" className={theme === "dark" ? "bg-black" : "bg-white"}>BARCHA KONTAKTLARGA</option>}
