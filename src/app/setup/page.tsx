@@ -120,17 +120,34 @@ export default function SetupDashboard() {
     }
   };
 
-  const openEdit = (center: any) => {
+  const openEdit = (center: any, requestedTariff?: string) => {
+    const tariffToSet = requestedTariff || center.tariff || "Standart";
+    
+    // If it's a requested upgrade, we might want to reset dates to "tomorrow + 7" if it's a demo, or similar
+    // But for now, let's just make sure the requested tariff is selected
     setNewCenter({
       name: center.name,
       login: center.login,
       pass: center.password || center.pass,
       botToken: center.botToken || "",
-      tariff: center.tariff || "Standart",
+      tariff: tariffToSet,
       tariffType: center.tariffType || "Monthly",
       tariffStartedAt: center.tariffStartedAt ? new Date(center.tariffStartedAt).toISOString().split('T')[0] : "",
       tariffExpiresAt: center.tariffExpiresAt ? new Date(center.tariffExpiresAt).toISOString().split('T')[0] : ""
     });
+
+    if (requestedTariff && requestedTariff === "Demo") {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const nextWeek = new Date(tomorrow);
+        nextWeek.setDate(tomorrow.getDate() + 7);
+        setNewCenter(prev => ({
+            ...prev,
+            tariffStartedAt: tomorrow.toISOString().split('T')[0],
+            tariffExpiresAt: nextWeek.toISOString().split('T')[0]
+        }));
+    }
+
     setEditingId(center.id);
     setIsEditing(true);
     setShowModal(true);
@@ -405,7 +422,7 @@ export default function SetupDashboard() {
                        <span className="px-2 py-1 bg-white/5 rounded-lg text-xs font-black text-purple-400 border border-purple-500/20">{req.tariff}</span>
                     </div>
                     <button 
-                      onClick={() => openEdit(req.center)}
+                      onClick={() => openEdit(req.center, req.tariff)}
                       className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all"
                     >
                       Tarifni Tasdiqlash
