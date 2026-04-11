@@ -28,26 +28,14 @@ export function ConfirmDialog({
   loading = false,
   isAlert = false
 }: ConfirmDialogProps) {
-  const colors = {
-    danger: "bg-red-500",
-    warning: "bg-yellow-500",
-    info: "bg-blue-500",
-    success: "bg-green-500"
+  const dialogColors = {
+    danger: { bg: "bg-red-500/20", icon: "text-red-500", btn: "bg-red-600", shadow: "shadow-red-900/40" },
+    warning: { bg: "bg-yellow-500/20", icon: "text-yellow-500", btn: "bg-yellow-600", shadow: "shadow-yellow-900/40" },
+    info: { bg: "bg-blue-500/20", icon: "text-blue-500", btn: "bg-blue-600", shadow: "shadow-blue-900/40" },
+    success: { bg: "bg-green-500/20", icon: "text-green-500", btn: "bg-green-600", shadow: "shadow-green-900/40" }
   };
 
-  const shadowColors = {
-    danger: "shadow-red-600/30",
-    warning: "shadow-yellow-600/30",
-    info: "shadow-blue-600/30",
-    success: "shadow-green-600/30"
-  };
-
-  const iconColors = {
-    danger: "text-red-500",
-    warning: "text-yellow-500",
-    info: "text-blue-500",
-    success: "text-green-500"
-  };
+  const current = dialogColors[type];
 
   return (
     <AnimatePresence>
@@ -66,9 +54,9 @@ export function ConfirmDialog({
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             className="w-full max-w-sm bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] p-8 sm:p-10 relative z-10 shadow-[0_30px_100px_rgba(0,0,0,0.5)] overflow-hidden text-center"
           >
-            <div className={`absolute top-0 right-0 w-32 h-32 ${colors[type]} opacity-5 blur-3xl -mr-16 -mt-16 rounded-full`} />
+            <div className={`absolute top-0 right-0 w-32 h-32 ${current.bg} opacity-5 blur-3xl -mr-16 -mt-16 rounded-full`} />
             
-            <div className={`w-16 h-16 ${colors[type]} bg-opacity-10 rounded-2xl flex items-center justify-center ${iconColors[type]} mx-auto mb-8 shadow-inner`}>
+            <div className={`w-16 h-16 ${current.bg} rounded-2xl flex items-center justify-center ${current.icon} mx-auto mb-8 shadow-inner`}>
               <AlertCircle className="w-8 h-8" />
             </div>
             
@@ -83,7 +71,7 @@ export function ConfirmDialog({
                   onConfirm();
                 }}
                 disabled={loading}
-                className={`w-full py-4 ${colors[type]} text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl ${shadowColors[type]} hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2`}
+                className={`w-full py-4 ${current.btn} text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl ${current.shadow} hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2`}
               >
                 {loading && <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                 {isAlert ? "Tushunarli" : confirmText}
