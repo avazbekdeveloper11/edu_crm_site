@@ -101,8 +101,8 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
       </aside>
 
       {/* Mobile Bottom Nav */}
-      <div ref={scrollRef} className="md:hidden fixed bottom-6 left-4 right-4 h-16 bg-[var(--crm-sidebar)]/60 backdrop-blur-3xl border border-white/5 rounded-[2rem] z-50 flex items-center px-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-x-auto no-scrollbar gap-2 scroll-smooth">
-        <div className="flex items-center w-full min-w-max gap-1 px-4 pr-10">
+      <div ref={scrollRef} className="md:hidden fixed bottom-6 left-4 right-4 h-16 bg-[var(--crm-sidebar)]/60 backdrop-blur-3xl border border-white/5 rounded-[2rem] z-50 flex items-center px-1 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-x-auto no-scrollbar gap-2 scroll-smooth">
+        <div className="flex items-center justify-center w-full min-w-max gap-1 px-3">
           {isOwner && <MobileNavItem icon={<LayoutDashboard className="w-5 h-5" />} href="/dashboard" active={pathname === "/dashboard"} label="Asosiy" />}
           {isOwner && <MobileNavItem icon={<Target className="w-5 h-5" />} href="/dashboard/leads" active={pathname === "/dashboard/leads"} label="Leadlar" />}
           <MobileNavItem icon={<Users className="w-5 h-5" />} href="/dashboard/students" active={pathname === "/dashboard/students"} label="Talabalar" />
