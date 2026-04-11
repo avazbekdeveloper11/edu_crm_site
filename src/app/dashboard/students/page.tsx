@@ -394,9 +394,9 @@ export default function StudentsPage() {
                             {std.name[0]}
                           </div>
                           <div className="min-w-0">
-                            <span href={`/dashboard/students/${std.id}`} className="text-xl font-black text-[var(--crm-text)] tracking-tighter truncate block leading-none mb-2 hover:text-[var(--crm-accent)] transition-colors">
+                            <Link href={`/dashboard/students/${std.id}`} className="text-xl font-black text-[var(--crm-text)] tracking-tighter truncate block leading-none mb-2 hover:text-[var(--crm-accent)] transition-colors">
                               {std.name}
-                            </span>
+                            </Link>
                             <span className={`text-[10px] font-black tracking-widest px-2.5 py-1 rounded-md border ${std.status === 'Active' ? 'bg-green-500/10 text-green-500 border-green-500/10' : 'bg-red-500/10 text-red-500 border-red-500/10'}`}>
                               {std.status === 'Active' ? 'FAOL O\'QUVCHI' : 'ARKHIV'}
                             </span>
