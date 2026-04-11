@@ -440,46 +440,52 @@ export default function ReportsPage() {
       {/* Analysis Modal */}
       <AnimatePresence>
         {showAnalysis && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 backdrop-blur-2xl bg-black/60">
+            <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-8 backdrop-blur-2xl bg-black/60">
                 <motion.div 
-                    initial={{ opacity: 0, scale: 0.9, y: 50, rotateX: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: 50, rotateX: 10 }}
-                    className="w-full max-w-5xl bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3.5rem] shadow-[0_0_150px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[92vh] relative"
+                    initial={{ opacity: 0, y: 100 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 100 }}
+                    className="w-full max-w-5xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[3.5rem] shadow-[0_0_150px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[92vh] relative"
                 >
                     <div className="absolute -top-48 -left-48 w-96 h-96 bg-purple-600/10 blur-[100px] rounded-full pointer-events-none" />
                     <div className="absolute -bottom-48 -right-48 w-96 h-96 bg-indigo-600/10 blur-[100px] rounded-full pointer-events-none" />
 
-                    <header className="relative z-10 p-10 border-b border-[var(--crm-border)] flex items-center justify-between bg-black/10">
-                        <div className="flex items-center gap-6">
-                            <div className="p-5 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl text-white shadow-lg shadow-purple-600/20">
-                                <PieChart className="w-7 h-7" />
+                    {/* Mobile drag indicator */}
+                    <div className="sm:hidden flex justify-center pt-3 pb-1 shrink-0">
+                      <div className="w-10 h-1 rounded-full bg-[var(--crm-border)]" />
+                    </div>
+
+                    <header className="relative z-10 px-5 sm:px-10 py-4 sm:py-8 border-b border-[var(--crm-border)] flex items-center justify-between bg-black/10 shrink-0 gap-3">
+                        <div className="flex items-center gap-3 sm:gap-6 min-w-0">
+                            <div className="p-3 sm:p-5 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl sm:rounded-2xl text-white shadow-lg shadow-purple-600/20 shrink-0">
+                                <PieChart className="w-5 h-5 sm:w-7 sm:h-7" />
                             </div>
-                            <div>
-                                <h2 className="text-3xl font-black uppercase tracking-tighter leading-none mb-2">Talabalar Statistikasi</h2>
-                                <p className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-60 flex items-center gap-2">
-                                    Yo'nalishlar va kurslar taqsimoti <div className="w-1 h-1 bg-purple-600 rounded-full" /> {new Date().toLocaleDateString()}
+                            <div className="min-w-0">
+                                <h2 className="text-base sm:text-3xl font-black uppercase tracking-tighter leading-none mb-1 truncate">Talabalar Statistikasi</h2>
+                                <p className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-60 flex items-center gap-2 flex-wrap">
+                                    <span>Yo'nalishlar va kurslar</span>
+                                    <span className="hidden sm:inline">· {new Date().toLocaleDateString()}</span>
                                 </p>
                             </div>
                         </div>
-                        <button onClick={() => setShowAnalysis(false)} className="w-[60px] h-[60px] bg-[var(--crm-bg)]/80 hover:bg-red-500/10 hover:text-red-500 rounded-full text-[var(--crm-text-muted)] transition-all flex items-center justify-center group active:scale-90">
-                            <X className="w-7 h-7 group-hover:rotate-90 transition-transform" />
+                        <button onClick={() => setShowAnalysis(false)} className="w-10 h-10 sm:w-[60px] sm:h-[60px] bg-[var(--crm-bg)]/80 hover:bg-red-500/10 hover:text-red-500 rounded-full text-[var(--crm-text-muted)] transition-all flex items-center justify-center group active:scale-90 shrink-0">
+                            <X className="w-5 h-5 sm:w-7 sm:h-7 group-hover:rotate-90 transition-transform" />
                         </button>
                     </header>
 
-                    <div className="relative z-10 flex-1 overflow-y-auto p-10 sm:p-14 space-y-14 custom-scrollbar">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <div className="relative z-10 flex-1 overflow-y-auto p-5 sm:p-10 lg:p-14 space-y-8 sm:space-y-14 custom-scrollbar">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16">
                             {/* Course Distribution List */}
-                            <div className="space-y-10">
-                                <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--crm-text-muted)] opacity-60 flex items-center gap-4">
-                                    <BookOpen className="w-5 h-5 text-purple-500" />
+                            <div className="space-y-6 sm:space-y-10">
+                                <h3 className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] text-[var(--crm-text-muted)] opacity-60 flex items-center gap-3 sm:gap-4">
+                                    <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500" />
                                     Kurslar Bo'yicha Ma'lumot
                                 </h3>
-                                <div className="space-y-5">
+                                <div className="space-y-3 sm:space-y-5">
                                     {courseStats.length === 0 ? (
-                                        <div className="p-20 border-2 border-dashed border-[var(--crm-border)] rounded-[3rem] text-center space-y-4 opacity-30">
-                                            <Calendar className="w-12 h-12 mx-auto" />
-                                            <p className="text-sm font-black uppercase tracking-widest">Hozircha ma'lumot yo'q</p>
+                                        <div className="p-12 sm:p-20 border-2 border-dashed border-[var(--crm-border)] rounded-[2rem] text-center space-y-4 opacity-30">
+                                            <Calendar className="w-10 h-10 sm:w-12 sm:h-12 mx-auto" />
+                                            <p className="text-xs sm:text-sm font-black uppercase tracking-widest">Hozircha ma'lumot yo'q</p>
                                         </div>
                                     ) : (
                                         courseStats.sort((a,b) => b.studentCount - a.studentCount).map((course, i) => (
@@ -488,27 +494,27 @@ export default function ReportsPage() {
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: i * 0.05 }}
                                                 key={i} 
-                                                className="p-8 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[2.5rem] space-y-6 hover:border-[var(--crm-accent)]/30 hover:bg-[var(--crm-card)] group transition-all duration-300"
+                                                className="p-5 sm:p-8 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.8rem] sm:rounded-[2.5rem] space-y-4 sm:space-y-6 hover:border-[var(--crm-accent)]/30 hover:bg-[var(--crm-card)] group transition-all duration-300"
                                             >
-                                                <div className="flex justify-between items-center">
-                                                    <div className="space-y-1">
-                                                        <span className="text-lg font-black uppercase tracking-tight group-hover:text-[var(--crm-accent)] transition-colors">{course.name}</span>
+                                                <div className="flex justify-between items-center gap-3">
+                                                    <div className="min-w-0">
+                                                        <span className="text-sm sm:text-lg font-black uppercase tracking-tight group-hover:text-[var(--crm-accent)] transition-colors truncate block">{course.name}</span>
                                                         <p className="text-[9px] font-black text-[var(--crm-text-muted)] uppercase tracking-widest opacity-60">Asosiy yo'nalish</p>
                                                     </div>
-                                                    <div className="text-right">
-                                                        <span className="text-2xl font-black text-[var(--crm-accent)]">{course.studentCount}</span>
+                                                    <div className="text-right shrink-0">
+                                                        <span className="text-xl sm:text-2xl font-black text-[var(--crm-accent)]">{course.studentCount}</span>
                                                         <span className="text-[10px] font-black ml-1 text-[var(--crm-text-muted)] uppercase">ta</span>
                                                     </div>
                                                 </div>
-                                                <div className="h-2.5 bg-black/20 rounded-full overflow-hidden p-[2px]">
+                                                <div className="h-2 sm:h-2.5 bg-black/20 rounded-full overflow-hidden p-[2px]">
                                                     <motion.div 
                                                         initial={{ width: 0 }}
                                                         animate={{ width: `${(course.studentCount / (stats?.totalStudents || 1)) * 100}%` }}
-                                                        className="h-full bg-gradient-to-r from-purple-600 to-indigo-500 rounded-full group-hover:opacity-80 transition-opacity shadow-[0_0_10px_rgba(124,58,237,0.3)]" 
+                                                        className="h-full bg-gradient-to-r from-purple-600 to-indigo-500 rounded-full shadow-[0_0_10px_rgba(124,58,237,0.3)]" 
                                                     />
                                                 </div>
-                                                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest">
-                                                    <div className="flex items-center gap-2 text-green-500 bg-green-500/10 px-3 py-1.5 rounded-full">
+                                                <div className="flex justify-between items-center text-[9px] sm:text-[10px] font-black uppercase tracking-widest">
+                                                    <div className="flex items-center gap-1.5 sm:gap-2 text-green-500 bg-green-500/10 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full">
                                                         <ArrowUpRight className="w-3 h-3" />
                                                         {((course.studentCount / (stats?.totalStudents || 1)) * 100).toFixed(1)}% ulush
                                                     </div>
@@ -523,41 +529,41 @@ export default function ReportsPage() {
                             </div>
 
                             {/* Detailed Cards */}
-                            <div className="space-y-10">
-                                <div className="p-10 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-[3rem] text-white shadow-2xl relative overflow-hidden group">
+                            <div className="space-y-5 sm:space-y-10">
+                                <div className="p-6 sm:p-10 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-[2rem] sm:rounded-[3rem] text-white shadow-2xl relative overflow-hidden group">
                                      <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-700" />
                                      <div className="relative z-10">
-                                         <h4 className="text-[11px] font-black uppercase tracking-[0.3em] mb-6 opacity-60">O'rtacha Foyda Koeffitsienti</h4>
-                                         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 mb-6">
-                                            <span className="text-3xl sm:text-5xl font-black tracking-tighter italic leading-none">
+                                         <h4 className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] mb-3 sm:mb-6 opacity-60">O'rtacha Foyda Koeffitsienti</h4>
+                                         <div className="flex items-baseline gap-2 mb-3 sm:mb-6 flex-wrap">
+                                            <span className="text-2xl sm:text-5xl font-black tracking-tighter italic leading-none">
                                                 {Math.round((stats?.periodRevenue ?? stats?.monthlyRevenue ?? 0) / (stats?.totalStudents || 1)).toLocaleString()}
                                             </span>
-                                            <span className="text-[10px] font-black opacity-40 uppercase tracking-widest shrink-0">UZS / TALABA</span>
+                                            <span className="text-[9px] sm:text-[10px] font-black opacity-40 uppercase tracking-widest">UZS / TALABA</span>
                                          </div>
-                                         <p className="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 leading-loose max-w-[80%]">
-                                             Har bir talaba markaz umumiy daromadidiga o'rtacha shuncha miqdorda hissa qo'shmoqda.
+                                         <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] opacity-60 leading-loose">
+                                             Har bir talaba markaz umumiy daromadiga o'rtacha shuncha hissa qo'shmoqda.
                                          </p>
                                      </div>
-                                     <Wallet className="absolute -bottom-10 -right-10 w-48 h-48 opacity-10 -rotate-12" />
+                                     <Wallet className="absolute -bottom-8 -right-8 w-32 h-32 sm:w-48 sm:h-48 opacity-10 -rotate-12" />
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-8">
-                                    <div className="p-10 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[2.5rem] flex flex-col justify-center gap-2 group hover:border-[var(--crm-accent)]/30 transition-all duration-300">
-                                        <div className="text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-[0.25em] opacity-60">Kurslar Jami</div>
-                                        <div className="text-5xl font-black text-[var(--crm-text)] group-hover:text-[var(--crm-accent)] transition-colors italic">{courseStats.length}</div>
+                                <div className="grid grid-cols-2 gap-4 sm:gap-8">
+                                    <div className="p-5 sm:p-10 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.8rem] sm:rounded-[2.5rem] flex flex-col justify-center gap-1.5 sm:gap-2 group hover:border-[var(--crm-accent)]/30 transition-all">
+                                        <div className="text-[9px] sm:text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Kurslar Jami</div>
+                                        <div className="text-3xl sm:text-5xl font-black text-[var(--crm-text)] group-hover:text-[var(--crm-accent)] transition-colors italic">{courseStats.length}</div>
                                     </div>
-                                    <div className="p-10 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[2.5rem] flex flex-col justify-center gap-2 group hover:border-[var(--crm-accent)]/30 transition-all duration-300">
-                                        <div className="text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-[0.25em] opacity-60">O'rtacha Narx</div>
-                                        <div className="text-2xl font-black text-[var(--crm-text)] group-hover:text-[var(--crm-accent)] transition-colors">
+                                    <div className="p-5 sm:p-10 bg-[var(--crm-bg)]/40 border border-[var(--crm-border)] rounded-[1.8rem] sm:rounded-[2.5rem] flex flex-col justify-center gap-1.5 sm:gap-2 group hover:border-[var(--crm-accent)]/30 transition-all">
+                                        <div className="text-[9px] sm:text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">O'rtacha Narx</div>
+                                        <div className="text-lg sm:text-2xl font-black text-[var(--crm-text)] group-hover:text-[var(--crm-accent)] transition-colors">
                                             {Math.round(courseStats.reduce((acc,c) => acc + (c.price || 0), 0) / (courseStats.length || 1)).toLocaleString()}
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="p-10 bg-black/20 border border-dashed border-[var(--crm-border)] rounded-[3rem] text-center space-y-6 relative overflow-hidden group">
+                                <div className="p-6 sm:p-10 bg-black/20 border border-dashed border-[var(--crm-border)] rounded-[2rem] sm:rounded-[3rem] text-center space-y-4 sm:space-y-6 relative overflow-hidden group">
                                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-600 to-transparent sm:opacity-0 sm:group-hover:opacity-100 transition-opacity" />
-                                     <TrendingUp className="w-14 h-14 text-purple-500 mx-auto opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
-                                     <p className="text-[11px] font-black text-[var(--crm-text-muted)] italic leading-relaxed uppercase tracking-[0.25em] px-10">
+                                     <TrendingUp className="w-10 h-10 sm:w-14 sm:h-14 text-purple-500 mx-auto opacity-30 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
+                                     <p className="text-[10px] sm:text-[11px] font-black text-[var(--crm-text-muted)] italic leading-relaxed uppercase tracking-[0.2em] sm:tracking-[0.25em] px-4 sm:px-10">
                                          Tahlillar natijasiga ko'ra markaz o'sish dinamikasi <span className="text-green-500">IJOBIY</span> darajadadir.
                                      </p>
                                 </div>
@@ -565,10 +571,10 @@ export default function ReportsPage() {
                         </div>
                     </div>
 
-                    <footer className="relative z-10 p-10 border-t border-[var(--crm-border)] bg-black/10 flex items-center justify-center">
+                    <footer className="relative z-10 px-5 sm:px-10 py-4 sm:py-8 border-t border-[var(--crm-border)] bg-black/10 flex items-center justify-center shrink-0">
                          <button 
                             onClick={() => setShowAnalysis(false)} 
-                            className="px-20 h-[65px] bg-gradient-to-r from-purple-600 to-indigo-700 text-white rounded-[1.5rem] font-black text-[11px] uppercase tracking-[0.3em] shadow-[0_15px_40px_rgba(124,58,237,0.4)] hover:shadow-[0_20px_60px_rgba(124,58,237,0.6)] hover:-translate-y-1 active:translate-y-0 active:scale-95 transition-all"
+                            className="w-full sm:w-auto px-10 sm:px-20 h-14 sm:h-[65px] bg-gradient-to-r from-purple-600 to-indigo-700 text-white rounded-[1.5rem] sm:rounded-[1.8rem] font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.3em] shadow-lg hover:shadow-[0_20px_60px_rgba(124,58,237,0.6)] active:scale-95 transition-all"
                          >
                             Tahlilni yopish
                          </button>
