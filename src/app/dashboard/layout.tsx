@@ -51,7 +51,7 @@ export default function DashboardLayout({
   };
 
   const daysRemaining = getDaysRemaining();
-  const showWarning = daysRemaining !== null && daysRemaining <= 10;
+  const showWarning = daysRemaining !== null && daysRemaining <= 30; // 30 kunga ko'tardim ko'rinishi uchun
   const [isBannerVisible, setIsBannerVisible] = useState(true);
 
   if (loading || !user) {
@@ -65,40 +65,36 @@ export default function DashboardLayout({
     );
   }
 
-  const BannerX = () => (
-    <button 
-        onClick={() => setIsBannerVisible(false)}
-        className="ml-4 p-1 hover:bg-black/20 rounded-full transition-colors"
-    >
-        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-    </button>
-  );
-
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
-      <Sidebar centerName={user.centerName} role={user.role || "OWNER"} />
-      <main className="flex-1 min-w-0 pb-32 sm:pb-0 relative flex flex-col">
-        {showWarning && isBannerVisible && (
-            <div className="w-full h-8 bg-red-600 flex items-center justify-center relative px-4 z-[110] animate-in slide-in-from-top duration-500">
-                <div className="flex items-center gap-2">
-                   <AlertTriangle className="w-3.5 h-3.5 text-white animate-pulse" />
-                   <span className="text-[10px] font-black uppercase tracking-[0.1em] text-white">
-                       DIQQAT! TO'LOVINGIZGA {daysRemaining <= 0 ? "BIR OZ" : `${daysRemaining} KUN`} QOLDI. ILTIMOS, DARHOL YANGILANG!
-                   </span>
-                   <Link 
-                        href="/dashboard/settings" 
-                        className="ml-4 px-3 py-1 bg-white text-red-600 rounded text-[9px] font-black uppercase tracking-widest hover:bg-red-50 transition-all active:scale-95"
-                    >
-                        Yangilash
-                    </Link>
-                </div>
-                <div className="absolute right-2 top-1/2 -translate-y-1/2">
-                    <BannerX />
-                </div>
+    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30 overflow-x-hidden">
+      {/* GLOBAL RED BANNER - FIXED POS */}
+      {showWarning && isBannerVisible && (
+        <div className="fixed top-0 left-0 w-full h-10 bg-red-600 flex items-center justify-center px-4 z-[9999] shadow-xl animate-in slide-in-from-top duration-700">
+            <div className="flex items-center gap-3">
+               <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center animate-pulse">
+                  <AlertTriangle className="w-3 h-3 text-white" />
+               </div>
+               <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.15em] text-white">
+                   DIQQAT! OBUNA MUDDATIGA {daysRemaining <= 0 ? "BIR OZ" : `${daysRemaining} KUN`} QOLDI. ILTIMOS, TO'LOV QILING!
+               </span>
+               <Link 
+                    href="/dashboard/settings" 
+                    className="ml-4 px-4 py-1.5 bg-white text-red-600 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-lg"
+                >
+                    Yangilash
+                </Link>
             </div>
-        )}
+            <button 
+                onClick={() => setIsBannerVisible(false)}
+                className="absolute right-4 p-1.5 hover:bg-black/20 rounded-full transition-colors text-white/80 hover:text-white"
+            >
+                <X className="w-4 h-4" />
+            </button>
+        </div>
+      )}
+
+      <Sidebar centerName={user.centerName} role={user.role || "OWNER"} />
+      <main className={`flex-1 min-w-0 pb-32 sm:pb-0 relative flex flex-col ${showWarning && isBannerVisible ? 'mt-10' : ''}`}>
         <div className="flex-1 overflow-y-auto no-scrollbar">
             {children}
         </div>
