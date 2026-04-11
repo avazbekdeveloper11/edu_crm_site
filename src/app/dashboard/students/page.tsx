@@ -448,60 +448,60 @@ export default function StudentsPage() {
         {showModal && (
           <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeModal} className="absolute inset-0 bg-black/70" />
-            <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-2xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] max-h-[92vh] overflow-y-auto custom-modal-scroll">
+            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-2xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] p-6 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] max-h-[92vh] overflow-y-auto custom-modal-scroll flex flex-col">
                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
                 
-                <header className="mb-12 relative flex items-center justify-between">
+                <header className="mb-8 sm:mb-12 relative flex items-center justify-between shrink-0">
                     <div>
-                        <h2 className="text-4xl font-black tracking-tighter leading-none">{isEditing ? "Tahrirlash" : "Yangi Talaba"}</h2>
-                        <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">Ma'lumotlar va yo'nalishlar sozlamasi</p>
+                        <h2 className="text-2xl sm:text-4xl font-black tracking-tighter leading-none">{isEditing ? "Tahrirlash" : "Yangi Talaba"}</h2>
+                        <p className="text-[var(--crm-text-muted)] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">Ma'lumotlar va yo'nalishlar sozlamasi</p>
                     </div>
-                    <button onClick={closeModal} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
-                        <X className="w-6 h-6" />
+                    <button onClick={closeModal} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
+                        <X className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                 </header>
 
-                <form onSubmit={handleSubmit} className="space-y-8 relative">
+                <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 relative pb-10">
                     <div className="space-y-2">
-                        <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Ism Familiya</label>
-                        <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="F.I.SH" required />
+                        <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Ism Familiya</label>
+                        <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-5 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="F.I.SH" required />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
                         <div className="space-y-2">
-                            <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Talaba Telefoni</label>
+                            <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Talaba Telefoni</label>
                             <input type="text" value={formatPhone(formData.phone)} onChange={(e) => {
                                 const raw = e.target.value.replace(/[^\d]/g, "");
                                 if (raw.length <= 12) setFormData({...formData, phone: raw});
-                            }} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="+998" required />
+                            }} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-5 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="+998" required />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Ota-Onasi Telefoni</label>
+                            <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Ota-Onasi Telefoni</label>
                             <input type="text" value={formatPhone(formData.parentPhone)} onChange={(e) => {
                                 const raw = e.target.value.replace(/[^\d]/g, "");
                                 if (raw.length <= 12) setFormData({...formData, parentPhone: raw});
-                            }} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="+998" />
+                            }} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-5 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="+998" />
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
                         <div className="space-y-2">
-                            <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Sana (Tug'ilgan)</label>
-                            <input type="date" value={formData.dob} onChange={(e) => setFormData({...formData, dob: e.target.value})} className={theme === 'dark' ? 'w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner invert-0' : 'w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner'} />
+                            <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Sana (Tug'ilgan)</label>
+                            <input type="date" value={formData.dob} onChange={(e) => setFormData({...formData, dob: e.target.value})} className={theme === 'dark' ? 'w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-5 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner invert-0' : 'w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-5 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner'} />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Manzil (Ixtiyoriy)</label>
-                            <input type="text" value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="Masalan: Toshkent" />
+                            <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Manzil (Ixtiyoriy)</label>
+                            <input type="text" value={formData.address} onChange={(e) => setFormData({...formData, address: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-5 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="Masalan: Toshkent" />
                         </div>
                     </div>
 
                     <div className="space-y-4">
-                        <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Yo'nalish / Kurslar</label>
+                        <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Yo'nalish / Kurslar</label>
                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                             {courses.map(c => {
                                 const active = formData.courseIds.includes(c.id.toString());
                                 return (
-                                    <button key={c.id} type="button" onClick={() => toggleCourse(c.id.toString())} className={`p-4 rounded-2xl border flex items-center justify-between transition-all ${active ? 'bg-[var(--crm-accent)] border-[var(--crm-accent)] text-white shadow-xl translate-y-[-2px]' : 'bg-[var(--crm-bg)] border-[var(--crm-border)] text-[var(--crm-text-muted)] hover:border-[var(--crm-accent)]/50'}`}>
-                                        <span className="text-[10px] font-black uppercase truncate">{c.name}</span>
+                                    <button key={c.id} type="button" onClick={() => toggleCourse(c.id.toString())} className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border flex items-center justify-between transition-all ${active ? 'bg-[var(--crm-accent)] border-[var(--crm-accent)] text-white shadow-xl' : 'bg-[var(--crm-bg)] border-[var(--crm-border)] text-[var(--crm-text-muted)] hover:border-[var(--crm-accent)]/50'}`}>
+                                        <span className="text-[9px] sm:text-[10px] font-black uppercase truncate">{c.name}</span>
                                         {active && <Check className="w-3 h-3 shrink-0" />}
                                     </button>
                                 );
@@ -510,19 +510,19 @@ export default function StudentsPage() {
                     </div>
 
                     <div className="space-y-4">
-                        <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Guruh Biriktirish</label>
+                        <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Guruh Biriktirish</label>
                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                             {courses.filter(c => formData.courseIds.includes(c.id.toString())).length === 0 ? (
-                                <div className="col-span-full py-8 bg-[var(--crm-bg)]/30 border border-dashed border-[var(--crm-border)] rounded-3xl flex flex-col items-center justify-center opacity-40">
-                                    <Search className="w-6 h-6 mb-2" />
-                                    <p className="text-[9px] font-black uppercase tracking-widest">Kurs tanlang...</p>
+                                <div className="col-span-full py-6 sm:py-8 bg-[var(--crm-bg)]/30 border border-dashed border-[var(--crm-border)] rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center opacity-40">
+                                    <Search className="w-5 h-5 mb-2" />
+                                    <p className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest">Kurs tanlang...</p>
                                 </div>
                             ) : (
                                 groups.filter(g => formData.courseIds.includes(g.courseId.toString())).map(g => {
                                     const active = formData.groupIds.includes(g.id.toString());
                                     return (
-                                        <button key={g.id} type="button" onClick={() => toggleGroup(g.id.toString())} className={`p-4 rounded-2xl border flex items-center justify-between transition-all ${active ? 'bg-[var(--crm-accent)] border-[var(--crm-accent)] text-white shadow-xl translate-y-[-2px]' : 'bg-[var(--crm-bg)] border-[var(--crm-border)] text-[var(--crm-text-muted)] hover:border-[var(--crm-accent)]/50'}`}>
-                                            <span className="text-[10px] font-black uppercase truncate">{g.name}</span>
+                                        <button key={g.id} type="button" onClick={() => toggleGroup(g.id.toString())} className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border flex items-center justify-between transition-all ${active ? 'bg-[var(--crm-accent)] border-[var(--crm-accent)] text-white shadow-xl' : 'bg-[var(--crm-bg)] border-[var(--crm-border)] text-[var(--crm-text-muted)] hover:border-[var(--crm-accent)]/50'}`}>
+                                            <span className="text-[9px] sm:text-[10px] font-black uppercase truncate">{g.name}</span>
                                             {active && <Check className="w-3 h-3 shrink-0" />}
                                         </button>
                                     );
@@ -533,17 +533,17 @@ export default function StudentsPage() {
 
                     {isEditing && (
                         <div className="space-y-2">
-                             <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">O'quvchi Holati</label>
-                             <select value={formData.status} onChange={(e) => setFormData({...formData, status: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[10px] font-black appearance-none cursor-pointer">
-                                <option value="Active" className="bg-[var(--crm-card)]">AKTIV O'QUVCHI (O'QIYAPTI)</option>
-                                <option value="Passive" className="bg-[var(--crm-card)]">KETGAN O'QUVCHI (ARKHIVED)</option>
+                             <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">O'quvchi Holati</label>
+                             <select value={formData.status} onChange={(e) => setFormData({...formData, status: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-5 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-[9px] sm:text-[10px] font-black appearance-none cursor-pointer">
+                                <option value="Active" className="bg-[var(--crm-card)]">FAOL</option>
+                                <option value="Passive" className="bg-[var(--crm-card)]">KETGAN (ARKHIV)</option>
                              </select>
                         </div>
                     )}
 
-                    <div className="flex gap-4 pt-8">
-                        <button type="button" onClick={closeModal} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
-                        <button type="submit" className="flex-[2] py-5 bg-[var(--crm-accent)] text-white rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all">Ma'lumotlarni Saqlash</button>
+                    <div className="flex gap-4 pt-4 sm:pt-8 shrink-0">
+                        <button type="button" onClick={closeModal} className="flex-1 py-4 sm:py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-2xl sm:rounded-[1.8rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
+                        <button type="submit" className="flex-[2] py-4 sm:py-5 bg-[var(--crm-accent)] text-white rounded-2xl sm:rounded-[1.8rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-[1.02] active:scale-95 transition-all uppercase">Saqlash</button>
                     </div>
                 </form>
             </motion.div>

@@ -242,54 +242,54 @@ export default function CoursesPage() {
         {showModal && (
           <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeModal} className="absolute inset-0 bg-black/70" />
-            <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden group">
+            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] p-6 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden group flex flex-col max-h-[92vh]">
               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
               
-              <header className="mb-12 relative flex items-center justify-between">
+              <header className="mb-8 sm:mb-12 relative flex items-center justify-between shrink-0">
                 <div>
-                    <h2 className="text-4xl font-black tracking-tighter uppercase leading-none">{isEditing ? "Tahrirlash" : "Yangi Kurs"}</h2>
-                    <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">Ta'lim yo'nalishi parametrlarini sozlash</p>
+                    <h2 className="text-2xl sm:text-4xl font-black tracking-tighter uppercase leading-none">{isEditing ? "Tahrirlash" : "Yangi Kurs"}</h2>
+                    <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">kurs parametrlarini sozlash</p>
                 </div>
-                <button onClick={closeModal} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
-                    <X className="w-6 h-6" />
+                <button onClick={closeModal} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
+                    <X className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               </header>
 
-              <form onSubmit={handleSubmit} className="space-y-8 relative">
+              <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 relative overflow-y-auto no-scrollbar pb-10">
                 <div className="space-y-2">
-                    <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Kurs Nomi</label>
+                    <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Kurs Nomi</label>
                     <input 
                         type="text" 
                         value={formData.name} 
                         onChange={(e) => setFormData({...formData, name: e.target.value})} 
-                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold transition-all shadow-inner" 
+                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-6 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold transition-all shadow-inner" 
                         placeholder="Masalan: Web Dasturlash" 
                         required 
                     />
                 </div>
 
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                     <div className="space-y-2">
-                        <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Narxi (UZS)</label>
+                        <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Narxi (UZS)</label>
                         <div className="relative">
                             <input 
                                 type="text" 
                                 value={formatMoney(formData.price)} 
                                 onChange={handlePriceInput} 
-                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-lg font-black transition-all shadow-inner" 
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-6 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-base sm:text-lg font-black transition-all shadow-inner" 
                                 placeholder="0" 
                                 required 
                             />
-                            <span className="absolute right-7 top-1/2 -translate-y-1/2 text-[9px] text-[var(--crm-text-muted)] font-black uppercase">UZS</span>
+                            <span className="absolute right-6 top-1/2 -translate-y-1/2 text-[8px] text-[var(--crm-text-muted)] font-black uppercase">UZS</span>
                         </div>
                     </div>
                     <div className="space-y-2">
-                        <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Davom-i (oy)</label>
+                        <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Davom-i (oy)</label>
                         <input 
                             type="number" 
                             value={formData.duration} 
                             onChange={(e) => setFormData({...formData, duration: e.target.value})} 
-                            className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[1.8rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-lg font-black transition-all shadow-inner" 
+                            className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-6 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-base sm:text-lg font-black transition-all shadow-inner" 
                             placeholder="0" 
                             required 
                         />
@@ -297,19 +297,19 @@ export default function CoursesPage() {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Qisqacha Tavsif</label>
+                    <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Qisqacha Tavsif</label>
                     <textarea 
                         value={formData.description} 
                         onChange={(e) => setFormData({...formData, description: e.target.value})} 
-                        rows={3} 
-                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-[2rem] px-8 py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-xs font-bold transition-all resize-none shadow-inner leading-relaxed" 
+                        rows={2} 
+                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[2rem] px-6 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-xs font-bold transition-all resize-none shadow-inner leading-relaxed" 
                         placeholder="Kurs haqida umumiy tushuncha..." 
                     />
                 </div>
 
-                <div className="flex gap-4 pt-6">
-                  <button type="button" onClick={closeModal} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
-                  <button type="submit" className="flex-[2] py-5 bg-[var(--crm-accent)] text-white rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all">Kursni Saqlash</button>
+                <div className="flex gap-4 pt-4 sm:pt-6 shrink-0">
+                  <button type="button" onClick={closeModal} className="flex-1 py-4 sm:py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-2xl sm:rounded-[1.8rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
+                  <button type="submit" className="flex-[2] py-4 sm:py-5 bg-[var(--crm-accent)] text-white rounded-2xl sm:rounded-[1.8rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-[1.02] active:scale-95 transition-all">Saqlash</button>
                 </div>
               </form>
             </motion.div>

@@ -496,51 +496,54 @@ export default function LeadsPage() {
       {/* Modal */}
       <AnimatePresence>
          {isModalOpen && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-10 backdrop-blur-xl bg-black/60">
+            <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-xl bg-black/60">
                <motion.div 
-                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                 className="bg-[var(--crm-card)] border border-[var(--crm-border)] w-full max-w-xl rounded-[2.5rem] shadow-2xl overflow-hidden"
+                 initial={{ opacity: 0, y: 100 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 exit={{ opacity: 0, y: 100 }}
+                 className="bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] w-full max-w-xl rounded-t-[2.5rem] sm:rounded-[4rem] shadow-2xl overflow-hidden max-h-[95vh] flex flex-col"
                >
-                  <header className="p-8 border-b border-[var(--crm-border)] flex items-center justify-between">
-                     <h2 className="text-xl font-black uppercase tracking-tight italic">{editingLead ? "Leadni Tahrirlash" : "Yangi Lead Qo'shish"}</h2>
-                     <button onClick={() => setIsModalOpen(false)} className="p-3 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-5 h-5"/></button>
+                  <header className="p-6 sm:p-10 border-b border-[var(--crm-border)] flex items-center justify-between shrink-0">
+                     <div>
+                        <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight italic">{editingLead ? "Leadni Tahrirlash" : "Yangi Lead"}</h2>
+                        <p className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest mt-1 opacity-60">Mijoz ma'lumotlarini tahrirlash</p>
+                     </div>
+                     <button onClick={() => setIsModalOpen(false)} className="p-4 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-6 h-6"/></button>
                   </header>
-                  <form onSubmit={handleSubmit} className="p-8 space-y-6">
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-3">
-                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">F.I.SH</label>
-                           <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" placeholder="Masalan: Azizbek Karimov" />
+                  <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-5 sm:space-y-8 overflow-y-auto custom-modal-scroll pb-10 sm:pb-12">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
+                        <div className="space-y-2 sm:space-y-3">
+                           <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">F.I.SH</label>
+                           <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none shadow-inner" placeholder="Masalan: Azizbek Karimov" />
                         </div>
-                        <div className="space-y-3">
-                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Telefon Raqami</label>
+                        <div className="space-y-2 sm:space-y-3">
+                           <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Telefon Raqami</label>
                            <input 
                              required 
                              type="text" 
                              value={formData.phone} 
                              onChange={handlePhoneChange} 
-                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" 
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none shadow-inner" 
                              placeholder="+998 (90) 123 45 67" 
                            />
                         </div>
                      </div>
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-3">
-                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Kutilayotgan Kurs</label>
-                           <select value={formData.courseId} onChange={(e) => setFormData({...formData, courseId: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
+                        <div className="space-y-2 sm:space-y-3">
+                           <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Kutilayotgan Kurs</label>
+                           <select value={formData.courseId} onChange={(e) => setFormData({...formData, courseId: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none appearance-none cursor-pointer shadow-inner">
                               <option value="">Tanlang...</option>
                               {courses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                            </select>
                         </div>
-                        <div className="space-y-3">
-                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Manba (Source)</label>
-                           <input type="text" value={formData.source} onChange={(e) => setFormData({...formData, source: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" placeholder="Masalan: Instagram" />
+                        <div className="space-y-2 sm:space-y-3">
+                           <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Manba (Source)</label>
+                           <input type="text" value={formData.source} onChange={(e) => setFormData({...formData, source: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none shadow-inner" placeholder="Masalan: Instagram" />
                         </div>
                      </div>
-                     <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Eslatma (Qachon telefon qilish?)</label>
-                        <div className="grid grid-cols-2 gap-4">
+                     <div className="space-y-2 sm:space-y-3">
+                        <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Eslatma (Qachon telefon qilish?)</label>
+                        <div className="grid grid-cols-2 gap-4 sm:gap-6">
                            <input 
                              type="date" 
                              value={formData.callbackAt ? formData.callbackAt.split('T')[0] : ''} 
@@ -548,7 +551,7 @@ export default function LeadsPage() {
                                const time = formData.callbackAt?.split('T')[1] || '09:00';
                                setFormData({...formData, callbackAt: e.target.value + 'T' + time});
                              }} 
-                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none transition-all" 
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none shadow-inner" 
                            />
                            <input 
                              type="time" 
@@ -557,15 +560,15 @@ export default function LeadsPage() {
                                const date = formData.callbackAt?.split('T')[0] || new Date().toISOString().split('T')[0];
                                setFormData({...formData, callbackAt: date + 'T' + e.target.value});
                              }} 
-                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none transition-all" 
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none shadow-inner" 
                            />
                         </div>
                      </div>
-                     <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Izohlar</label>
-                        <textarea rows={3} value={formData.notes} onChange={(e) => setFormData({...formData, notes: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none resize-none" placeholder="Qo'shimcha ma'lumotlar..." />
+                     <div className="space-y-2 sm:space-y-3">
+                        <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Izohlar</label>
+                        <textarea rows={2} value={formData.notes} onChange={(e) => setFormData({...formData, notes: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none resize-none shadow-inner" placeholder="Qo'shimcha ma'lumotlar..." />
                      </div>
-                     <button type="submit" className="w-full py-5 bg-purple-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-purple-600/20 hover:scale-[1.02] active:scale-95 transition-all">
+                     <button type="submit" className="w-full py-5 sm:py-6 bg-purple-600 text-white rounded-2xl sm:rounded-[1.8rem] font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] shadow-xl shadow-purple-600/30 hover:scale-[1.02] active:scale-95 transition-all">
                         {editingLead ? "O'zgarishlarni Saqlash" : "Lead Yaratish"}
                      </button>
                   </form>
@@ -577,47 +580,47 @@ export default function LeadsPage() {
       {/* Convert Modal - Accepting Lead */}
       <AnimatePresence>
          {isConvertModalOpen && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-10 backdrop-blur-xl bg-black/60">
+            <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-xl bg-black/60">
                <motion.div 
-                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                 className="bg-[var(--crm-card)] border border-[var(--crm-border)] w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden"
+                 initial={{ opacity: 0, y: 100 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 exit={{ opacity: 0, y: 100 }}
+                 className="bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] w-full max-w-lg rounded-t-[2.5rem] sm:rounded-[4rem] shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
                >
-                  <header className="p-8 border-b border-[var(--crm-border)] flex items-center justify-between">
+                  <header className="p-6 sm:p-10 border-b border-[var(--crm-border)] flex items-center justify-between shrink-0">
                      <div>
-                        <h2 className="text-xl font-black uppercase tracking-tight italic">Talabalikka Qabul</h2>
-                        <p className="text-[9px] font-bold uppercase text-[var(--crm-text-muted)] tracking-widest mt-1 opacity-60">Leadni studentga aylantirish</p>
+                        <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight italic">Talabalikka Qabul</h2>
+                        <p className="text-[9px] sm:text-[10px] font-bold uppercase text-[var(--crm-text-muted)] tracking-widest mt-1 opacity-60">Leadni studentga aylantirish</p>
                      </div>
-                     <button onClick={() => setIsConvertModalOpen(false)} className="p-3 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-5 h-5"/></button>
+                     <button onClick={() => setIsConvertModalOpen(false)} className="p-4 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-6 h-6"/></button>
                   </header>
-                  <form onSubmit={handleConvertSubmit} className="p-8 space-y-6">
-                     <div className="p-6 bg-purple-600/5 border border-purple-600/10 rounded-2xl space-y-2">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-purple-600">Mijoz ma'lumotlari</p>
-                        <h4 className="text-lg font-black">{convertForm.name}</h4>
-                        <p className="text-xs font-bold opacity-60">{convertForm.phone}</p>
+                  <form onSubmit={handleConvertSubmit} className="p-6 sm:p-10 space-y-6 sm:space-y-8 overflow-y-auto custom-modal-scroll pb-10 sm:pb-12">
+                     <div className="p-5 sm:p-8 bg-purple-600/5 border border-purple-600/10 rounded-2xl sm:rounded-[2rem] space-y-2">
+                        <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-purple-600 opacity-60">Mijoz ma'lumotlari</p>
+                        <h4 className="text-base sm:text-2xl font-black">{convertForm.name}</h4>
+                        <p className="text-[10px] sm:text-xs font-bold opacity-60 italic">{convertForm.phone}</p>
                      </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                           <div className="space-y-3">
-                              <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Kursni Tanlang</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
+                           <div className="space-y-2 sm:space-y-3">
+                              <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Kursni Tanlang</label>
                               <select 
                                 value={convertForm.courseId} 
                                 onChange={(e) => setConvertForm({...convertForm, courseId: e.target.value})} 
                                 required
-                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none"
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none appearance-none cursor-pointer shadow-inner"
                               >
                                  <option value="">Tanlang...</option>
                                  {courses.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                               </select>
                            </div>
 
-                           <div className="space-y-3">
-                              <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Guruh (Ixtiyoriy)</label>
+                           <div className="space-y-2 sm:space-y-3">
+                              <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Guruh (Ixtiyoriy)</label>
                               <select 
                                 value={convertForm.groupId} 
                                 onChange={(e) => setConvertForm({...convertForm, groupId: e.target.value})} 
-                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none appearance-none"
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none appearance-none cursor-pointer shadow-inner"
                               >
                                  <option value="">Guruhga qo'shmaslik</option>
                                  {groups.filter(g => !convertForm.courseId || g.courseId === Number(convertForm.courseId)).map(g => (
@@ -627,45 +630,45 @@ export default function LeadsPage() {
                            </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                           <div className="space-y-3">
-                              <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Ota-onasi telefoni</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
+                           <div className="space-y-2 sm:space-y-3">
+                              <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Ota-onasi telefoni</label>
                               <input 
                                 type="text" 
                                 value={formatPhoneNumber(convertForm.parentPhone)} 
                                 onChange={(e) => setConvertForm({...convertForm, parentPhone: e.target.value.replace(/[^\d]/g, '').slice(0, 12)})}
-                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" 
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none shadow-inner" 
                                 placeholder="+998" 
                               />
                            </div>
-                           <div className="space-y-3">
-                              <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Tug'ilgan sanasi</label>
+                           <div className="space-y-2 sm:space-y-3">
+                              <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Tug'ilgan sanasi</label>
                               <input 
                                 type="date" 
                                 value={convertForm.dob} 
                                 onChange={(e) => setConvertForm({...convertForm, dob: e.target.value})}
-                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" 
+                                className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none shadow-inner" 
                               />
                            </div>
                         </div>
 
-                        <div className="space-y-3">
-                           <label className="text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Manzil</label>
+                        <div className="space-y-2 sm:space-y-3">
+                           <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">Manzil</label>
                            <input 
                              type="text" 
                              value={convertForm.address} 
                              onChange={(e) => setConvertForm({...convertForm, address: e.target.value})}
-                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-4 px-6 text-sm font-bold focus:border-purple-600 outline-none" 
+                             className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] py-3.5 sm:py-5 px-6 sm:px-8 text-sm font-bold focus:border-purple-600 outline-none shadow-inner" 
                              placeholder="Masalan: Toshkent sh, Yunusobod tumani" 
                            />
                         </div>
 
-                     <div className="flex gap-4 pt-4">
-                        <button type="button" onClick={() => setIsConvertModalOpen(false)} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
+                     <div className="flex gap-4 pt-6 shrink-0">
+                        <button type="button" onClick={() => setIsConvertModalOpen(false)} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-2xl sm:rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
                         <button 
                           type="submit" 
                           disabled={submittingConvert}
-                          className="flex-[2] py-5 bg-green-500 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-green-500/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
+                          className="flex-[2] py-5 bg-green-500 text-white rounded-2xl sm:rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-green-500/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
                         >
                            {submittingConvert ? "Qilinmoqda..." : "Qabul Qilish"}
                         </button>
@@ -674,7 +677,7 @@ export default function LeadsPage() {
                </motion.div>
             </div>
          )}
-        </AnimatePresence>
+      </AnimatePresence>
 
         <ConfirmDialog 
             isOpen={showDeleteConfirm}

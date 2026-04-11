@@ -400,20 +400,20 @@ export default function GroupsPage() {
         {showModal && (
           <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeModal} className="absolute inset-0 bg-black/70" />
-            <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden">
+            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] p-6 sm:p-10 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col max-h-[92vh]">
               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
 
-              <header className="mb-6 relative flex items-center justify-between">
+              <header className="mb-6 sm:mb-8 relative flex items-center justify-between shrink-0">
                 <div>
                   <h2 className="text-xl sm:text-2xl font-black tracking-tighter uppercase leading-none">{isEditing ? "Tahrirlash" : "Yangi Guruh"}</h2>
-                  <p className="text-[var(--crm-text-muted)] text-[7px] sm:text-[8px] font-black uppercase tracking-[0.2em] mt-1 italic opacity-60">Reja va jadval</p>
+                  <p className="text-[7px] sm:text-[8px] font-black uppercase tracking-[0.2em] mt-1 italic opacity-60">Reja va jadval</p>
                 </div>
                 <button onClick={closeModal} className="p-3 bg-[var(--crm-bg)]/50 rounded-full hover:bg-white/10 text-[var(--crm-text-muted)] transition-all border border-[var(--crm-border)]">
                   <X className="w-5 h-5" />
                 </button>
               </header>
 
-              <form onSubmit={handleSubmit} className="space-y-5 relative">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 relative overflow-y-auto no-scrollbar pb-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-[8px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2 opacity-50">Guruh Nomi</label>
@@ -427,7 +427,7 @@ export default function GroupsPage() {
                         <option value="" className={theme === 'dark' ? 'bg-black' : 'bg-white'}>USTOZNI TANLANG...</option>
                         {teachers.map(t => (
                           <option key={t.id} value={t.name} className={theme === 'dark' ? 'bg-black' : 'bg-white'}>
-                            {t.name} {t.specialization ? `(${t.specialization})` : ''}
+                            {t.name}
                           </option>
                         ))}
                       </select>
@@ -470,19 +470,12 @@ export default function GroupsPage() {
                             }
                             setFormData({ ...formData, days: next.join("-") });
                           }}
-                          className={`px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all duration-300 ${isActive ? 'bg-[var(--crm-accent)] text-white shadow-lg shadow-purple-600/20' : 'bg-[var(--crm-card)]/50 text-[var(--crm-text-muted)] border border-[var(--crm-border)] hover:border-[var(--crm-accent)]/30'}`}
+                          className={`px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all duration-300 ${isActive ? 'bg-[var(--crm-accent)] text-white shadow-lg' : 'bg-[var(--crm-card)]/50 text-[var(--crm-text-muted)] border border-[var(--crm-border)] hover:border-[var(--crm-accent)]/30'}`}
                         >
                           {day}
                         </button>
                       );
                     })}
-                    <button 
-                       type="button"
-                       onClick={() => setFormData({ ...formData, days: "Du-Se-Chor-Pay-Ju-Sha-Yak" })}
-                       className={`px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all duration-300 ${formData.days === "Du-Se-Chor-Pay-Ju-Sha-Yak" ? 'bg-green-500 text-white shadow-lg shadow-green-500/20' : 'bg-[var(--crm-card)]/50 text-[var(--crm-text-muted)] border border-[var(--crm-border)] border-dashed'}`}
-                    >
-                       HAR KUNI
-                    </button>
                   </div>
                 </div>
 
@@ -502,7 +495,7 @@ export default function GroupsPage() {
                       }}
                       className="text-[7px] font-black uppercase text-[var(--crm-accent)] hover:opacity-100 opacity-40 transition-opacity"
                     >
-                      Barchaga qo'llash
+                      Barchaga
                     </button>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -518,11 +511,11 @@ export default function GroupsPage() {
                       </div>
                     ))}
                     {formData.days === "" && (
-                      <div className="col-span-full py-4 text-center border border-[var(--crm-border)] border-dashed rounded-xl italic text-[7px] text-[var(--crm-text-muted)] opacity-30 uppercase font-black">Avval kunlarni tanlang...</div>
+                      <div className="col-span-full py-4 text-center border border-[var(--crm-border)] border-dashed rounded-xl italic text-[7px] text-[var(--crm-text-muted)] opacity-30 uppercase font-black">Kunlarni tanlang...</div>
                     )}
                   </div>
 
-                <div className="flex gap-3 pt-2">
+                <div className="flex gap-3 pt-4 shrink-0">
                   <button type="button" onClick={closeModal} className="flex-1 py-4 bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-2xl font-black text-[9px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
                   <button type="submit" className="flex-[2] py-4 bg-[var(--crm-accent)] text-white rounded-2xl font-black text-[9px] uppercase tracking-widest shadow-xl shadow-purple-600/20 hover:scale-[1.02] active:scale-95 transition-all">Saqlash</button>
                 </div>
@@ -535,20 +528,20 @@ export default function GroupsPage() {
         {showAttendanceModal && (
           <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowAttendanceModal(false)} className="absolute inset-0 bg-black/70" />
-            <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-2xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col h-[90vh] sm:h-auto max-h-[90vh]">
+            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-2xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] p-6 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col h-[92vh] sm:h-auto max-h-[92vh]">
               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
 
-              <header className="mb-8 relative flex items-center justify-between shrink-0">
+              <header className="mb-6 sm:mb-8 relative flex items-center justify-between shrink-0">
                 <div>
-                  <h2 className="text-3xl font-black tracking-tighter uppercase leading-none">{currentGroup?.name}</h2>
-                  <p className="text-[var(--crm-text-muted)] text-[9px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">Davomat va jurnal</p>
+                  <h2 className="text-xl sm:text-3xl font-black tracking-tighter uppercase leading-none italic">{currentGroup?.name}</h2>
+                  <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">Davomat va jurnal</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => setShowHistory(!showHistory)} className={`p-4 rounded-2xl border transition-all ${showHistory ? 'bg-[var(--crm-accent)] text-white border-[var(--crm-accent)]' : 'bg-[var(--crm-bg)] text-[var(--crm-text-muted)] border-[var(--crm-border)]'}`}>
-                    <History className="w-5 h-5" />
+                  <button onClick={() => setShowHistory(!showHistory)} className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border transition-all ${showHistory ? 'bg-[var(--crm-accent)] text-white border-[var(--crm-accent)]' : 'bg-[var(--crm-bg)] text-[var(--crm-text-muted)] border-[var(--crm-border)]'}`}>
+                    <History className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
-                  <button onClick={() => setShowAttendanceModal(false)} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] border border-[var(--crm-border)]">
-                    <X className="w-5 h-5" />
+                  <button onClick={() => setShowAttendanceModal(false)} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] border border-[var(--crm-border)]">
+                    <X className="w-5 h-5 sm:w-6 sm:h-6" />
                   </button>
                 </div>
               </header>
