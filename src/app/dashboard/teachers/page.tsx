@@ -169,12 +169,12 @@ export default function TeachersPage() {
             <div className="flex flex-col sm:flex-row items-center justify-between mb-10 gap-4 px-2">
                 <div>
                     <h2 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none grayscale opacity-30 italic">O'qituvchilar</h2>
-                    <p className="text-[7px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.25em] mt-2 opacity-60 italic">Professor va o'qituvchilar tarkibi</p>
+                    <p className="text-[10px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-2 opacity-60 italic">Professor va o'qituvchilar tarkibi</p>
                 </div>
-                <div className="flex items-center gap-6 bg-[var(--crm-card)] px-6 py-3 rounded-2xl border border-[var(--crm-border)] shadow-sm shrink-0">
+                <div className="flex items-center gap-6 bg-[var(--crm-card)] px-6 py-4 rounded-2xl border border-[var(--crm-border)] shadow-sm shrink-0">
                     <div className="flex flex-col items-end">
-                        <span className="text-[7px] font-black uppercase text-[var(--crm-text-muted)]">Umumiy</span>
-                        <span className="text-xl font-black text-[var(--crm-accent)] tracking-tight leading-none">{teachers.length} ta</span>
+                        <span className="text-[9px] font-black uppercase text-[var(--crm-text-muted)] shadow-sm">Umumiy</span>
+                        <span className="text-2xl font-black text-[var(--crm-accent)] tracking-tight leading-none">{teachers.length} ta</span>
                     </div>
                     <Users2 className="w-6 h-6 text-[var(--crm-accent)] opacity-20" />
                 </div>
@@ -208,24 +208,24 @@ export default function TeachersPage() {
                                         )}
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <h4 className="text-xl sm:text-2xl font-black tracking-tighter uppercase text-[var(--crm-text)] leading-none mb-2 group-hover:text-[var(--crm-accent)] transition-colors truncate">
+                                         <h4 className="text-2xl sm:text-2xl font-black tracking-tighter uppercase text-[var(--crm-text)] leading-none mb-2.5 group-hover:text-[var(--crm-accent)] transition-colors truncate">
                                             {teacher.name}
                                         </h4>
                                         <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                                             {teacher.specialization && (
-                                                <div className="flex items-center gap-2 text-[8px] sm:text-[10px] text-green-500 font-black uppercase tracking-widest shrink-0">
-                                                    <Layers className="w-3 h-3" />
+                                                <div className="flex items-center gap-2 text-[10px] sm:text-[10px] text-green-500 font-black uppercase tracking-widest shrink-0">
+                                                    <Layers className="w-3.5 h-3.5" />
                                                     {teacher.specialization}
                                                 </div>
                                             )}
-                                            {teacher.specialization && <div className="w-1 h-1 rounded-full bg-[var(--crm-border)] opacity-30" />}
-                                            <div className="flex items-center gap-2 text-[8px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-60 shrink-0">
-                                                <Key className="w-3 h-3" />
+                                            {teacher.specialization && <div className="hidden sm:block w-1 h-1 rounded-full bg-[var(--crm-border)] opacity-30" />}
+                                            <div className="flex items-center gap-2 text-[10px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest opacity-60 shrink-0 italic">
+                                                <Key className="w-3.5 h-3.5" />
                                                 {teacher.login}
                                             </div>
-                                            <div className="w-1 h-1 rounded-full bg-[var(--crm-border)] opacity-30" />
-                                            <div className="flex items-center gap-2 text-[8px] sm:text-[10px] text-[var(--crm-accent)] font-black uppercase tracking-widest opacity-80 shrink-0">
-                                                <Calendar className="w-3 h-3" />
+                                            <div className="hidden sm:block w-1 h-1 rounded-full bg-[var(--crm-border)] opacity-30" />
+                                            <div className="flex items-center gap-2 text-[10px] sm:text-[10px] text-[var(--crm-accent)] font-black uppercase tracking-widest opacity-80 shrink-0">
+                                                <Calendar className="w-3.5 h-3.5" />
                                                 {teacherGroups.length} ta guruh
                                             </div>
                                         </div>

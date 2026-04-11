@@ -262,28 +262,28 @@ export default function StudentsPage() {
             <div className="space-y-1">
               <h1 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Talabalar</h1>
               <div className="flex items-center gap-3 sm:gap-4">
-                  <p className="text-[var(--crm-text-muted)] font-black text-[7px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Bazadagi talabalar</p>
-                  <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2 py-0.5 rounded-lg text-[7px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)]">{filteredStudents.length} ta topildi</span>
+                  <p className="text-[var(--crm-text-muted)] font-black text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Bazadagi talabalar</p>
+                  <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2 py-0.5 rounded-lg text-[9px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)]">{filteredStudents.length} ta topildi</span>
               </div>
             </div>
             
             <div className="flex items-center gap-2 sm:gap-4 bg-[var(--crm-card)] p-1.5 sm:p-3 rounded-2xl sm:rounded-[2rem] border border-[var(--crm-border)] shadow-xl w-full lg:w-auto">
                 <div className="relative group flex-1 sm:flex-none">
-                    <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
-                    <select value={filterCourse} onChange={(e) => setFilterCourse(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-[var(--crm-accent)] text-[7px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
+                    <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
+                    <select value={filterCourse} onChange={(e) => setFilterCourse(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-[var(--crm-accent)] text-[9px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
                         <option value="" className="bg-[var(--crm-card)]">Kurslar</option>
                         {courses.map(c => <option key={c.id} value={c.id} className="bg-[var(--crm-card)]">{c.name}</option>)}
                     </select>
                 </div>
                 <div className="relative group flex-1 sm:flex-none">
-                    <Layers className="absolute left-3 top-1/2 -translate-y-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
-                    <select value={filterGroup} onChange={(e) => setFilterGroup(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-[var(--crm-accent)]/50 text-[7px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
+                    <Layers className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
+                    <select value={filterGroup} onChange={(e) => setFilterGroup(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-[var(--crm-accent)]/50 text-[9px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
                         <option value="" className="bg-[var(--crm-card)]">Guruhlar</option>
                         <option value="none" className="bg-[var(--crm-card)] text-blue-500">Hech biri</option>
                         {groups.map(g => <option key={g.id} value={g.id} className="bg-[var(--crm-card)]">{g.name}</option>)}
                     </select>
                 </div>
-                <button onClick={() => { setSearch(""); setFilterCourse(""); setFilterGroup(""); }} className="p-1 px-2 text-[var(--crm-text-muted)] hover:text-red-500 transition-colors"><X className="w-3 h-3" /></button>
+                <button onClick={() => { setSearch(""); setFilterCourse(""); setFilterGroup(""); }} className="p-1 px-2 text-[var(--crm-text-muted)] hover:text-red-500 transition-colors"><X className="w-4 h-4" /></button>
             </div>
           </div>
 
@@ -394,44 +394,44 @@ export default function StudentsPage() {
                             {std.name[0]}
                           </div>
                           <div className="min-w-0">
-                            <Link href={`/dashboard/students/${std.id}`} className="text-lg font-black text-[var(--crm-text)] tracking-tighter truncate block leading-none mb-1">
+                            <span href={`/dashboard/students/${std.id}`} className="text-xl font-black text-[var(--crm-text)] tracking-tighter truncate block leading-none mb-2 hover:text-[var(--crm-accent)] transition-colors">
                               {std.name}
-                            </Link>
-                            <span className={`text-[8px] font-black tracking-widest px-2 py-0.5 rounded-md border ${std.status === 'Active' ? 'bg-green-500/10 text-green-500 border-green-500/10' : 'bg-red-500/10 text-red-500 border-red-500/10'}`}>
+                            </span>
+                            <span className={`text-[10px] font-black tracking-widest px-2.5 py-1 rounded-md border ${std.status === 'Active' ? 'bg-green-500/10 text-green-500 border-green-500/10' : 'bg-red-500/10 text-red-500 border-red-500/10'}`}>
                               {std.status === 'Active' ? 'FAOL O\'QUVCHI' : 'ARKHIV'}
                             </span>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className={`text-lg font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
+                          <div className={`text-xl font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
                             {formatMoney(debt)}
                           </div>
-                          <div className="text-[8px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase tracking-widest">Qarz</div>
+                          <div className="text-[10px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase tracking-widest mt-1">Qarz</div>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-2 py-5 border-y border-[var(--crm-border)]/30">
+                      <div className="flex flex-wrap gap-2 py-6 border-y border-[var(--crm-border)]/30">
                         {(std.courses || []).map((c: any) => (
-                           <span key={c.id} className="px-3 py-1.5 bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl text-[8px] font-black text-[var(--crm-text-muted)] uppercase tracking-widest">
+                           <span key={c.id} className="px-3.5 py-1.5 bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-xl text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-widest shadow-sm">
                              {c.name}
                            </span>
                         ))}
-                        {(std.courses || []).length === 0 && <span className="text-[8px] text-[var(--crm-text-muted)] opacity-30 italic font-black uppercase">Yo'nalishsiz</span>}
+                        {(std.courses || []).length === 0 && <span className="text-[10px] text-[var(--crm-text-muted)] opacity-30 italic font-black uppercase ml-2">Yo'nalishsiz</span>}
                       </div>
 
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between pt-2">
                          <div className="flex flex-col">
-                            <span className="text-xs font-mono text-[var(--crm-text-muted)] opacity-60 tracking-tighter">{formatPhone(std.phone)}</span>
-                            <span className="text-[8px] font-black text-[var(--crm-text-muted)] opacity-30 mt-1 uppercase tracking-widest">{formatDate(std.createdAt)} QABUL</span>
+                            <span className="text-sm font-mono font-bold text-[var(--crm-text)]/80 tracking-tighter">{formatPhone(std.phone)}</span>
+                            <span className="text-[9px] font-black text-[var(--crm-text-muted)] opacity-30 mt-2 uppercase tracking-[0.1em]">{formatDate(std.createdAt)} QABUL</span>
                          </div>
-                         <div className="flex gap-2">
+                         <div className="flex gap-2.5">
                             {debt > 0 && (
-                              <button onClick={() => openPayment(std)} className="w-12 h-12 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-green-500/5">
-                                <Wallet className="w-5 h-5" />
+                              <button onClick={() => openPayment(std)} className="w-12 h-12 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-green-500/20 shadow-lg shadow-green-500/5">
+                                <Wallet className="w-5.5 h-5.5" />
                               </button>
                             )}
-                            <button onClick={() => openEdit(std)} className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-blue-500/5">
-                              <Edit3 className="w-5 h-5" />
+                            <button onClick={() => openEdit(std)} className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-blue-500/20 shadow-lg shadow-blue-500/5">
+                              <Edit3 className="w-5.5 h-5.5" />
                             </button>
                          </div>
                       </div>

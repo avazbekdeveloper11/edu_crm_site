@@ -134,11 +134,11 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
               initial={{ scale: 0.9, opacity: 0, y: 20 }} 
               animate={{ scale: 1, opacity: 1, y: 0 }} 
               exit={{ scale: 0.9, opacity: 0, y: 20 }} 
-              className="w-full max-w-sm bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3rem] p-8 sm:p-10 relative z-10 shadow-[0_30px_100px_rgba(0,0,0,0.5)] overflow-hidden text-center"
+              className="w-full max-w-sm bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3.5rem] p-10 sm:p-12 relative z-10 shadow-[0_40px_120px_rgba(0,0,0,0.6)] overflow-hidden text-center"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-red-500 opacity-5 blur-3xl -mr-16 -mt-16 rounded-full" />
+              <div className="absolute top-0 right-0 w-40 h-40 bg-red-500 opacity-10 blur-3xl -mr-20 -mt-20 rounded-full" />
               
-              <div className="w-20 h-20 bg-red-500/10 border border-red-500/10 rounded-3xl flex items-center justify-center text-red-500 mx-auto mb-8 shadow-inner">
+              <div className="w-20 h-20 bg-red-500/10 border border-red-500/10 rounded-[1.8rem] flex items-center justify-center text-red-500 mx-auto mb-8 shadow-inner">
                 <LogOut className="w-10 h-10" />
               </div>
               
@@ -179,7 +179,7 @@ function MobileNavItem({ icon, href, active, label }: { icon: any; href: string;
         <motion.span 
           initial={{ width: 0, opacity: 0 }}
           animate={{ width: "auto", opacity: 1 }}
-          className="text-[8px] font-black uppercase tracking-widest text-[var(--crm-accent)] whitespace-nowrap"
+          className="text-[10px] font-black uppercase tracking-widest text-[var(--crm-accent)] whitespace-nowrap"
         >
           {label}
         </motion.span>

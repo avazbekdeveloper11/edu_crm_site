@@ -312,8 +312,8 @@ export default function GroupsPage() {
             <div className="space-y-1">
               <h1 className="text-4xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Guruhlar</h1>
               <div className="flex items-center gap-3 sm:gap-4">
-                <p className="text-[var(--crm-text-muted)] font-black text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Dars jadvali va nazorat</p>
-                <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2 py-0.5 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)]">{filteredGroups.length} ta</span>
+                <p className="text-[var(--crm-text-muted)] font-black text-[10px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Dars jadvali va nazorat</p>
+                <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2.5 py-1 rounded-lg text-[10px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)] shadow-sm">{filteredGroups.length} ta</span>
               </div>
             </div>
           </div>
@@ -342,11 +342,11 @@ export default function GroupsPage() {
 
                   <div>
                     <header className="flex items-center justify-between mb-6 sm:mb-8">
-                      <div className="px-4 sm:px-5 py-1.5 rounded-full bg-[var(--crm-accent-soft)] border border-[var(--crm-accent-soft)] text-[var(--crm-accent)] text-[8px] sm:text-[9px] font-black uppercase tracking-widest">
+                      <div className="px-5 py-1.5 rounded-full bg-[var(--crm-accent-soft)] border border-[var(--crm-accent-soft)] text-[var(--crm-accent)] text-[10px] sm:text-[9px] font-black uppercase tracking-widest shadow-sm">
                         {group.course?.name || "YO'Q"}
                       </div>
-                      <div className="flex items-center gap-2 text-[var(--crm-text-muted)] text-[9px] sm:text-[10px] font-black uppercase tracking-widest opacity-60">
-                        <Users className="w-3 h-3 sm:w-4 h-4 text-[var(--crm-accent)]" />
+                      <div className="flex items-center gap-2 text-[var(--crm-text-muted)] text-[11px] sm:text-[10px] font-black uppercase tracking-widest opacity-60">
+                        <Users className="w-4 h-4 sm:w-4 h-4 text-[var(--crm-accent)]" />
                         {group._count?.students || 0}
                       </div>
                     </header>
@@ -361,8 +361,8 @@ export default function GroupsPage() {
                           <Briefcase className="w-4 h-4" />
                         </div>
                         <div className="min-w-0">
-                          <span className="text-[var(--crm-text-muted)] text-[8px] font-black uppercase tracking-[0.2em] block leading-none mb-1 opacity-50">O'qituvchi</span>
-                          <span className="text-[var(--crm-text)] text-xs font-bold truncate block">{group.teacher || "TAYINLANMAGAN"}</span>
+                          <span className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] block leading-none mb-1.5 opacity-50 italic">O'qituvchi</span>
+                          <span className="text-[var(--crm-text)] text-sm font-bold truncate block">{group.teacher || "TAYINLANMAGAN"}</span>
                         </div>
                       </div>
                       <div className="flex items-center gap-5">
@@ -370,8 +370,8 @@ export default function GroupsPage() {
                           <Clock className="w-4 h-4" />
                         </div>
                         <div className="min-w-0">
-                          <span className="text-[var(--crm-text-muted)] text-[8px] font-black uppercase tracking-[0.2em] block leading-none mb-1 opacity-50">Dars Vaqti</span>
-                          <span className="text-[var(--crm-text)] text-[10px] font-bold truncate block uppercase tracking-tighter">
+                          <span className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] block leading-none mb-1.5 opacity-50 italic">Dars Vaqti</span>
+                          <span className="text-[var(--crm-text)] text-[11px] font-bold truncate block uppercase tracking-tighter">
                             {group.time && group.time.includes(": ") ? group.time : `${group.days} | ${group.time || "--:--"}`}
                           </span>
                         </div>

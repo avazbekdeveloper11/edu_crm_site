@@ -1064,14 +1064,14 @@ export default function SettingsPage() {
 
 function SettingsCard({ icon, title, desc, onClick }: any) {
     return (
-        <div onClick={onClick} className={`bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] p-5 sm:p-8 hover:border-[var(--crm-accent)] transition-all group cursor-pointer active:scale-[0.97] shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden flex items-center gap-4 sm:gap-5`}>
-            <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--crm-accent-soft)] blur-[30px] -mr-12 -mt-12 rounded-full group-hover:opacity-[0.08] transition-all" />
-            <div className={`w-11 h-11 sm:w-14 sm:h-14 bg-[var(--crm-accent-soft)] rounded-2xl sm:rounded-[1.5rem] flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-inner shrink-0`}>
+        <div onClick={onClick} className={`bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3rem] p-6 sm:p-10 hover:border-[var(--crm-accent)] transition-all group cursor-pointer active:scale-[0.97] shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden flex items-center gap-4 sm:gap-6`}>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--crm-accent-soft)] blur-[40px] -mr-16 -mt-16 rounded-full group-hover:opacity-[0.08] transition-all" />
+            <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-[var(--crm-accent-soft)] rounded-[1.5rem] sm:rounded-[2rem] flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-inner shrink-0`}>
                 {icon}
             </div>
             <div className="min-w-0">
-                <h4 className="text-base sm:text-lg font-black uppercase tracking-tight text-[var(--crm-text)] leading-none mb-1">{title}</h4>
-                <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider leading-snug opacity-50 italic">{desc}</p>
+                <h4 className="text-lg sm:text-2xl font-black uppercase tracking-tight text-[var(--crm-text)] leading-none mb-1.5">{title}</h4>
+                <p className="text-[11px] sm:text-[12px] font-bold uppercase tracking-wider leading-snug opacity-50 italic">{desc}</p>
             </div>
         </div>
     );

@@ -301,7 +301,7 @@ export default function LeadsPage() {
                   </div>
                   <div>
                      <h3 className="text-xl font-black uppercase tracking-tighter italic">Bugungi Eslatmalar</h3>
-                     <p className="text-[9px] font-bold uppercase tracking-widest text-purple-600/60">Qayta aloqaga chiqilishi kerak bo'lgan leadlar</p>
+                     <p className="text-[10px] font-bold uppercase tracking-widest text-purple-600/60">Qayta aloqaga chiqilishi kerak bo'lgan leadlar</p>
                   </div>
                </div>
                
@@ -393,56 +393,56 @@ export default function LeadsPage() {
                              )}
                           </div>
                           <div className="min-w-0 flex-1">
-                             <div className="flex items-center gap-3">
-                                <h3 className="text-sm font-black uppercase tracking-tight truncate">{lead.name}</h3>
-                                {lead.callbackAt && new Date(lead.callbackAt) <= new Date() && lead.status !== 'Student' && lead.status !== 'Rejected' && (
-                                   <span className="px-2 py-0.5 bg-red-500/10 text-red-500 text-[8px] font-black uppercase tracking-widest rounded-full animate-pulse border border-red-500/20">Kechikkan</span>
-                                )}
-                             </div>
-                             <div className="flex flex-wrap items-center gap-4 mt-1 opacity-60">
-                                <span className="text-[10px] font-bold text-[var(--crm-text-muted)] flex items-center gap-2">
-                                   <Phone className="w-3 h-3" /> {lead.phone}
-                                </span>
-                                {lead.source && (
-                                   <span className="text-[10px] font-bold text-[var(--crm-text-muted)] flex items-center gap-2">
-                                      <Hash className="w-3 h-3" /> {lead.source}
-                                   </span>
-                                )}
-                                {lead.callbackAt && (
-                                   <span className={`text-[10px] font-black flex items-center gap-2 ${new Date(lead.callbackAt) <= new Date() ? 'text-red-500' : 'text-purple-600'}`}>
-                                      <CalendarClock className="w-3 h-3" /> {new Date(lead.callbackAt).toLocaleString([], {day: '2-digit', month: 'short', hour: '2-digit', minute:'2-digit'})}
-                                   </span>
-                                )}
-                             </div>
-                             {lead.notes && (
-                                <p className="text-[10px] font-medium text-[var(--crm-text-muted)] mt-2 line-clamp-1 max-w-xl italic opacity-70 group-hover:opacity-100 transition-opacity">
-                                   "{lead.notes.length > 80 ? lead.notes.slice(0, 80) + '...' : lead.notes}"
-                                </p>
-                             )}
+                              <div className="flex items-center gap-3">
+                                 <h3 className="text-sm sm:text-base font-black uppercase tracking-tight truncate leading-none mb-1">{lead.name}</h3>
+                                 {lead.callbackAt && new Date(lead.callbackAt) <= new Date() && lead.status !== 'Student' && lead.status !== 'Rejected' && (
+                                    <span className="px-2.5 py-1 bg-red-500/10 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-full animate-pulse border border-red-500/20 shadow-sm shadow-red-500/5">Kechikkan</span>
+                                 )}
+                              </div>
+                              <div className="flex flex-wrap items-center gap-4 mt-1.5 opacity-60">
+                                 <span className="text-[11px] font-bold text-[var(--crm-text-muted)] flex items-center gap-2">
+                                    <Phone className="w-3.5 h-3.5" /> {lead.phone}
+                                 </span>
+                                 {lead.source && (
+                                    <span className="text-[11px] font-bold text-[var(--crm-text-muted)] flex items-center gap-2">
+                                       <Hash className="w-3.5 h-3.5" /> {lead.source}
+                                    </span>
+                                 )}
+                                 {lead.callbackAt && (
+                                    <span className={`text-[11px] font-black flex items-center gap-2 ${new Date(lead.callbackAt) <= new Date() ? 'text-red-500' : 'text-purple-600'}`}>
+                                       <CalendarClock className="w-3.5 h-3.5" /> {new Date(lead.callbackAt).toLocaleString([], {day: '2-digit', month: 'short', hour: '2-digit', minute:'2-digit'})}
+                                    </span>
+                                 )}
+                              </div>
+                              {lead.notes && (
+                                 <p className="text-[11px] font-medium text-[var(--crm-text-muted)] mt-2 line-clamp-1 max-w-xl italic opacity-70 group-hover:opacity-100 transition-opacity">
+                                    "{lead.notes.length > 80 ? lead.notes.slice(0, 80) + '...' : lead.notes}"
+                                 </p>
+                              )}
                           </div>
                        </div>
 
                        <div className="flex items-center gap-8 w-full md:w-auto relative z-10">
-                          <div className="flex-1 md:flex-none text-center md:text-left">
-                             <p className="text-[9px] font-black uppercase tracking-widest text-[var(--crm-text-muted)] mb-1 opacity-50">Qiziqqan kursi</p>
-                             <p className="text-[11px] font-black uppercase tracking-tight flex items-center gap-2">
-                                <BookOpen className="w-3 h-3 text-purple-600" />
-                                {lead.course?.name || "Noma'lum"}
-                             </p>
-                          </div>
+                           <div className="flex-1 md:flex-none text-center md:text-left">
+                              <p className="text-[10px] font-black uppercase tracking-widest text-[var(--crm-text-muted)] mb-1 opacity-50 italic">Yo'nalish</p>
+                              <p className="text-xs sm:text-[11px] font-black uppercase tracking-tight flex items-center gap-2 justify-center md:justify-start">
+                                 <BookOpen className="w-3.5 h-3.5 text-purple-600" />
+                                 {lead.course?.name || "Noma'lum"}
+                              </p>
+                           </div>
                           
-                          <select 
-                            value={lead.status}
-                            onChange={(e) => handleStatusChange(lead.id, e.target.value as LeadStatus)}
-                            className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest border outline-none cursor-pointer transition-all ${getStatusColor(lead.status)}`}
-                          >
-                             <option value="New">Yangi</option>
-                             <option value="RECONTACT">Qayta aloqa</option>
-                             <option value="INFO_GIVEN">Ma'lumot berilgan</option>
-                             <option value="Trial">Sinovda</option>
-                             <option value="Student">Talaba bo'ldi</option>
-                             <option value="Rejected">Rad etildi</option>
-                          </select>
+                           <select 
+                             value={lead.status}
+                             onChange={(e) => handleStatusChange(lead.id, e.target.value as LeadStatus)}
+                             className={`px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border outline-none cursor-pointer transition-all ${getStatusColor(lead.status)} shadow-sm`}
+                           >
+                              <option value="New">Yangi</option>
+                              <option value="RECONTACT">Qayta aloqa</option>
+                              <option value="INFO_GIVEN">Ma'lumot berilgan</option>
+                              <option value="Trial">Sinovda</option>
+                              <option value="Student">Talaba bo'ldi</option>
+                              <option value="Rejected">Rad etildi</option>
+                           </select>
                        </div>
 
                        <div className="flex items-center gap-3 w-full md:w-auto relative z-10">

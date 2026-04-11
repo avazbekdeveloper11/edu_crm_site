@@ -179,8 +179,8 @@ export default function CoursesPage() {
             <div className="space-y-1">
               <h1 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Kurslar</h1>
               <div className="flex items-center gap-3 sm:gap-4">
-                  <p className="text-[var(--crm-text-muted)] font-black text-[7px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Yo'nalishlar</p>
-                  <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2 py-0.5 rounded-lg text-[7px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)]">{filteredCourses.length} ta</span>
+                  <p className="text-[var(--crm-text-muted)] font-black text-[10px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Yo'nalishlar</p>
+                  <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2.5 py-1 rounded-lg text-[10px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)] shadow-sm">{filteredCourses.length} ta</span>
               </div>
             </div>
           </div>
@@ -207,7 +207,7 @@ export default function CoursesPage() {
                         <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-[1.5rem] bg-[var(--crm-accent-soft)] border border-[var(--crm-accent-soft)] flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-inner">
                           <Layers className="w-6 h-6 sm:w-8 sm:h-8 text-[var(--crm-accent)]" />
                         </div>
-                        <span className="bg-[var(--crm-success-soft)] text-green-500 text-[7px] sm:text-[9px] font-black uppercase tracking-widest px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-[var(--crm-success-soft)] w-fit mt-1 sm:mt-2">
+                        <span className="bg-[var(--crm-success-soft)] text-green-500 text-[9px] sm:text-[9px] font-black uppercase tracking-[0.2em] px-3 sm:px-3 py-1 sm:py-1 rounded-full border border-[var(--crm-success-soft)] w-fit mt-2 shadow-sm">
                             {crs.duration} Oylik
                         </span>
                     </div>
@@ -217,17 +217,17 @@ export default function CoursesPage() {
                     </div>
                   </div>
 
-                  <h3 className="text-xl sm:text-3xl font-black mb-2 sm:mb-4 tracking-tighter group-hover:text-[var(--crm-accent)] transition-colors uppercase leading-none">{crs.name}</h3>
-                  <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] uppercase font-black tracking-widest leading-relaxed mb-4 sm:mb-6 line-clamp-2 opacity-60">
+                  <h3 className="text-xl sm:text-3xl font-black mb-3 sm:mb-4 tracking-tighter group-hover:text-[var(--crm-accent)] transition-colors uppercase leading-none">{crs.name}</h3>
+                  <p className="text-[var(--crm-text-muted)] text-[10px] sm:text-[10px] uppercase font-black tracking-widest leading-relaxed mb-6 sm:mb-6 line-clamp-2 opacity-60 italic">
                     {crs.description || "Ma'lumot kiritilmagan."}
                   </p>
 
                   <div className="pt-4 sm:pt-6 border-t border-[var(--crm-border)] flex items-end justify-between">
                     <div className="flex flex-col">
-                        <span className="text-[7px] sm:text-[8px] font-black uppercase tracking-[0.2em] text-[var(--crm-text-muted)] mb-0.5 sm:mb-1">Kurs Narxi:</span>
+                        <span className="text-[9px] sm:text-[8px] font-black uppercase tracking-[0.2em] text-[var(--crm-text-muted)] mb-1 sm:mb-1">Kurs Narxi:</span>
                         <div className="flex items-end gap-1.5 sm:gap-2">
-                            <span className="text-xl sm:text-3xl font-black text-[var(--crm-text)] tracking-tighter">{formatMoney(crs.price)}</span>
-                            <span className="text-[8px] sm:text-[10px] font-black text-[var(--crm-text-muted)] mb-0.5 sm:mb-1.5 uppercase tracking-widest">UZS</span>
+                            <span className="text-2xl sm:text-3xl font-black text-[var(--crm-text)] tracking-tighter">{formatMoney(crs.price)}</span>
+                            <span className="text-[10px] sm:text-[10px] font-black text-[var(--crm-text-muted)] mb-1 sm:mb-1.5 uppercase tracking-widest opacity-40">UZS</span>
                         </div>
                     </div>
                   </div>

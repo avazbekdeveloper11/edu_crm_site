@@ -184,12 +184,12 @@ export default function ReportsPage() {
   return (
     <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0">
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 flex-1">
             <div className="p-2 sm:p-3 bg-purple-600/10 rounded-xl shrink-0">
               <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
             </div>
-            <div>
-              <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tighter italic">Hisobotlar</h1>
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tighter italic truncate">Hisobotlar</h1>
               <p className="hidden sm:block text-[10px] text-[var(--crm-text-muted)] font-bold uppercase tracking-widest opacity-60">Markaz tahliliy ko'rsatkichlari</p>
             </div>
           </div>
@@ -338,12 +338,12 @@ export default function ReportsPage() {
                                 <div className="absolute inset-0 bg-white/20 opacity-0 group-hover/bar:opacity-30 transition-opacity rounded-t-2xl" />
                              </motion.div>
                              {currentVal > 0 && (
-                               <div className={`absolute -top-12 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md text-white text-[9px] font-black px-3 py-1.5 rounded-xl transition-all whitespace-nowrap z-20 border border-white/10 shadow-2xl ${activeBar === i ? 'opacity-100 translate-y-0' : 'opacity-0 group-hover/bar:opacity-100 -translate-y-2 group-hover/bar:translate-y-0'}`}>
+                               <div className={`absolute -top-12 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md text-white text-[10px] font-black px-3 py-1.5 rounded-xl transition-all whitespace-nowrap z-20 border border-white/10 shadow-2xl ${activeBar === i ? 'opacity-100 translate-y-0' : 'opacity-0 group-hover/bar:opacity-100 -translate-y-2 group-hover/bar:translate-y-0'}`}>
                                  {currentVal.toLocaleString()}
                                </div>
                              )}
                           </div>
-                          <span className={`text-[8px] font-black uppercase transition-colors text-center leading-tight ${activeBar === i ? 'text-[var(--crm-accent)] opacity-100' : 'text-[var(--crm-text-muted)] opacity-50'}`}>
+                          <span className={`text-[10px] font-black uppercase transition-colors text-center leading-tight whitespace-nowrap ${activeBar === i ? 'text-[var(--crm-accent)] opacity-100' : 'text-[var(--crm-text-muted)] opacity-50'}`}>
                             {day.paymentDate ? new Date(day.paymentDate).toLocaleDateString(undefined, {day:'2-digit', month:'short'}) : `KUN ${i+1}`}
                           </span>
                         </div>
@@ -365,13 +365,13 @@ export default function ReportsPage() {
                                <Wallet className="w-5 h-5" />
                              </div>
                              <div>
-                               <p className="text-[13px] font-black uppercase tracking-tight group-hover/item:text-[var(--crm-accent)] transition-colors">{payment.student?.name}</p>
-                               <p className="text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.1em] opacity-60">{payment.course?.name}</p>
+                               <p className="text-[14px] font-black uppercase tracking-tight group-hover/item:text-[var(--crm-accent)] transition-colors">{payment.student?.name}</p>
+                               <p className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.1em] opacity-60 italic">{payment.course?.name}</p>
                              </div>
                            </div>
                            <div className="text-right">
-                             <p className="text-[14px] font-black text-green-500 tracking-tight">+{payment.amount.toLocaleString()} UZS</p>
-                             <p className="text-[8px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] opacity-40">{new Date(payment.createdAt).toLocaleDateString()}</p>
+                             <p className="text-base font-black text-green-500 tracking-tight">+{payment.amount.toLocaleString()}</p>
+                             <p className="text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] opacity-40">{new Date(payment.createdAt).toLocaleDateString()}</p>
                            </div>
                         </div>
                       ))}
