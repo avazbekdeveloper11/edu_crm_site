@@ -88,6 +88,7 @@ export default function SettingsPage() {
   const [showSystemModal, setShowSystemModal] = useState(false);
   const [showTariffsModal, setShowTariffsModal] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
   const [requestingUpgrade, setRequestingUpgrade] = useState(false);
   const [fullCenter, setFullCenter] = useState<any>(null);
@@ -121,8 +122,9 @@ export default function SettingsPage() {
             body: JSON.stringify({ tariff, billingCycle })
         });
         if (res.ok) {
-            alert("So'rov yuborildi! Tez orada Super Admin siz bilan bog'lanadi.");
             setShowTariffsModal(false);
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 3000);
         }
     } catch (err) { console.error("Upgrade request failed", err); }
     finally { setRequestingUpgrade(false); }
@@ -968,6 +970,23 @@ export default function SettingsPage() {
 
                             <button onClick={() => setShowHelpModal(false)} className="w-full py-5 bg-[var(--crm-accent)] text-white rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all">Yopish</button>
                         </div>
+                    </motion.div>
+                </div>
+            )}
+        </AnimatePresence>
+
+        {/* Success Modal */}
+        <AnimatePresence>
+            {showSuccess && (
+                <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 backdrop-blur-sm">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowSuccess(false)} className="absolute inset-0 bg-black/40" />
+                    <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} className="relative bg-[var(--crm-card)] border border-green-500/30 p-10 rounded-[3rem] shadow-[0_0_100px_rgba(34,197,94,0.2)] flex flex-col items-center text-center max-w-sm w-full outline-none">
+                        <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mb-6">
+                            <CheckCircle2 className="w-12 h-12 text-green-500" />
+                        </div>
+                        <h3 className="text-3xl font-black italic uppercase tracking-tighter mb-2 text-green-500">Done!</h3>
+                        <p className="text-sm font-bold opacity-60 uppercase tracking-widest leading-relaxed">So'rov yuborildi!<br/>Tez orada siz bilan bog'lanamiz.</p>
+                        <div className="absolute inset-0 border-2 border-green-500/50 rounded-[3rem] animate-pulse pointer-events-none" />
                     </motion.div>
                 </div>
             )}
