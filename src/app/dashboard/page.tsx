@@ -247,9 +247,9 @@ export default function CenterDashboard() {
           </div>
         </header>
 
-        <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
+        <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen pb-32 sm:pb-12">
           {/* KPI Statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-16">
             <StatCard 
                 icon={<TrendingUp className="w-5 h-5 sm:w-6 h-6" />} 
                 label={`Oylik Tushum`} 
@@ -297,10 +297,10 @@ export default function CenterDashboard() {
                 <Zap className="w-5 h-5 sm:w-6 h-6 text-yellow-500" />
                 Tezkor Amallar
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-                <QuickAction icon={<Plus className="w-5 h-5" />} label="Yangi Talaba" href="/dashboard/students" />
-                <QuickAction icon={<Wallet className="w-5 h-5" />} label="To'lov Qabul" href="/dashboard/payments" />
-                <QuickAction icon={<LayoutDashboard className="w-5 h-5" />} label="Guruh Boshqaruvi" href="/dashboard/groups" />
+            <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-6">
+                <QuickAction icon={<Plus className="w-5 h-5 sm:w-5" />} label="Talaba" href="/dashboard/students" />
+                <QuickAction icon={<Wallet className="w-5 h-5 sm:w-5" />} label="To'lov" href="/dashboard/payments" />
+                <QuickAction icon={<LayoutDashboard className="w-5 h-5 sm:w-5" />} label="Guruh" href="/dashboard/groups" />
             </div>
           </div>
 
@@ -450,18 +450,18 @@ export default function CenterDashboard() {
 
 function StatCard({ icon, label, value, unit = "", highlight = false, action, trend, onClick }: any) {
   return (
-    <div onClick={onClick} className={`p-6 sm:p-10 bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.8rem] sm:rounded-[3.8rem] flex flex-col gap-6 sm:gap-10 relative group overflow-hidden ${highlight ? 'hover:border-red-500/30' : 'hover:border-[var(--crm-accent)]/50'} transition-all shadow-[0_30px_60px_rgba(0,0,0,0.1)] active:scale-[0.98] cursor-pointer`}>
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--crm-accent-soft)] blur-[40px] -mr-16 -mt-16 rounded-full group-hover:opacity-[0.12] transition-all" />
+    <div onClick={onClick} className={`p-4 sm:p-10 bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] sm:rounded-[3.8rem] flex flex-col gap-4 sm:gap-10 relative group overflow-hidden ${highlight ? 'hover:border-red-500/30' : 'hover:border-[var(--crm-accent)]/50'} transition-all shadow-[0_15px_40px_rgba(0,0,0,0.1)] active:scale-[0.98] cursor-pointer`}>
+      <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-[var(--crm-accent-soft)] blur-[25px] sm:blur-[40px] -mr-12 -mt-12 sm:-mr-16 sm:-mt-16 rounded-full group-hover:opacity-[0.12] transition-all" />
       
       <div className="flex items-center justify-between relative z-10">
-          <div className={`w-14 h-14 sm:w-16 sm:h-16 bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.5rem] flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-xl`}>
+          <div className={`w-10 h-10 sm:w-16 sm:h-16 bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-xl sm:rounded-[1.5rem] flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-xl`}>
             {icon}
           </div>
-          <div className="flex flex-col items-end gap-1">
+          <div className="flex flex-col items-end gap-1 scale-75 sm:scale-100 origin-right">
               {trend && (
-                <div className="px-3 py-1.5 bg-emerald-500/[0.08] dark:bg-emerald-500/10 border border-emerald-500/10 dark:border-emerald-500/20 rounded-full flex items-center gap-1.5 shadow-[0_2px_8px_rgba(16,185,129,0.05)] backdrop-blur-md">
-                   <TrendingUp className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" />
-                   <span className="text-[9px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-tighter">{trend}</span>
+                <div className="px-2 sm:px-3 py-1 bg-emerald-500/[0.08] dark:bg-emerald-500/10 border border-emerald-500/10 dark:border-emerald-500/20 rounded-full flex items-center gap-1 shadow-[0_2px_8px_rgba(16,185,129,0.05)] backdrop-blur-md">
+                   <TrendingUp className="w-2 h-2 sm:w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" />
+                   <span className="text-[7px] sm:text-[9px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-tighter">{trend}</span>
                 </div>
               )}
              {action}
@@ -469,12 +469,12 @@ function StatCard({ icon, label, value, unit = "", highlight = false, action, tr
       </div>
 
       <div className="relative z-10">
-        <div className="text-[8px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.25em] mb-2 sm:mb-4 opacity-50 italic group-hover:opacity-100 transition-opacity">{label}</div>
-        <div className="flex flex-col leading-none gap-2">
-            <span className={`text-3xl sm:text-4xl font-black tracking-tighter ${highlight ? 'text-red-500' : 'text-[var(--crm-text)]'} transition-colors italic drop-shadow-sm`}>
+        <div className="text-[7px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] sm:tracking-[0.25em] mb-1 sm:mb-4 opacity-50 italic group-hover:opacity-100 transition-opacity truncate">{label}</div>
+        <div className="flex flex-col leading-none gap-1 sm:gap-2">
+            <span className={`text-xl sm:text-4xl font-black tracking-tighter ${highlight ? 'text-red-500' : 'text-[var(--crm-text)]'} transition-colors italic drop-shadow-sm truncate`}>
                 {value}
             </span>
-            {unit && <span className="text-[10px] sm:text-xs font-black text-[var(--crm-text)] uppercase tracking-[0.2em] opacity-40 italic">{unit}</span>}
+            {unit && <span className="text-[7px] sm:text-xs font-black text-[var(--crm-text)] uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-40 italic">{unit}</span>}
         </div>
       </div>
     </div>
@@ -483,11 +483,11 @@ function StatCard({ icon, label, value, unit = "", highlight = false, action, tr
 
 function QuickAction({ icon, label, href }: any) {
     return (
-        <Link href={href} className="flex items-center gap-6 p-6 bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] hover:bg-[var(--crm-accent)] hover:text-white transition-all group active:scale-95 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(139,92,246,0.2)]">
-           <div className={`w-12 h-12 rounded-[1.25rem] bg-[var(--crm-accent-soft)] flex items-center justify-center text-[var(--crm-accent)] group-hover:bg-white/10 group-hover:text-white transition-all shadow-inner`}>
+        <Link href={href} className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-2 sm:gap-6 p-3 sm:p-6 bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.5rem] sm:rounded-[2rem] hover:bg-[var(--crm-accent)] hover:text-white transition-all group active:scale-95 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(139,92,246,0.2)]">
+           <div className={`w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-[1.25rem] bg-[var(--crm-accent-soft)] flex items-center justify-center text-[var(--crm-accent)] group-hover:bg-white/10 group-hover:text-white transition-all shadow-inner`}>
              {icon}
            </div>
-           <span className="font-black text-xs uppercase tracking-widest group-hover:translate-x-2 transition-transform">{label}</span>
+           <span className="font-black text-[7px] sm:text-xs uppercase tracking-widest sm:group-hover:translate-x-2 transition-transform text-center">{label}</span>
         </Link>
     );
 }

@@ -101,27 +101,20 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
       </aside>
 
       {/* Mobile Bottom Nav */}
-      <div ref={scrollRef} className="md:hidden fixed bottom-10 left-4 right-4 h-20 bg-[var(--crm-sidebar)]/80 backdrop-blur-3xl border border-[var(--crm-border)] rounded-[2.5rem] z-50 flex items-center px-4 shadow-[0_20px_60px_rgba(0,0,0,0.4)] overflow-x-auto no-scrollbar gap-2 scroll-smooth">
-        <div className="flex items-center justify-around w-full min-w-max gap-4 px-4 pr-10">
+      <div ref={scrollRef} className="md:hidden fixed bottom-6 left-4 right-4 h-16 bg-[var(--crm-sidebar)]/60 backdrop-blur-3xl border border-white/5 rounded-[2rem] z-50 flex items-center px-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-x-auto no-scrollbar gap-2 scroll-smooth">
+        <div className="flex items-center w-full min-w-max gap-1 px-4 pr-10">
           {isOwner && <MobileNavItem icon={<LayoutDashboard className="w-5 h-5" />} href="/dashboard" active={pathname === "/dashboard"} label="Asosiy" />}
           {isOwner && <MobileNavItem icon={<Target className="w-5 h-5" />} href="/dashboard/leads" active={pathname === "/dashboard/leads"} label="Leadlar" />}
           <MobileNavItem icon={<Users className="w-5 h-5" />} href="/dashboard/students" active={pathname === "/dashboard/students"} label="Talabalar" />
-          {isOwner && <MobileNavItem icon={<Users2 className="w-5 h-5" />} href="/dashboard/teachers" active={pathname === "/dashboard/teachers"} label="Ustozlar" />}
           {isOwner && <MobileNavItem icon={<Layers className="w-5 h-5" />} href="/dashboard/courses" active={pathname === "/dashboard/courses"} label="Kurslar" />}
           {isAdminOrTeacher && <MobileNavItem icon={<Calendar className="w-5 h-5" />} href="/dashboard/groups" active={pathname === "/dashboard/groups"} label="Guruhlar" />}
           {isOwner && <MobileNavItem icon={<Wallet className="w-5 h-5" />} href="/dashboard/payments" active={pathname === "/dashboard/payments"} label="Kassa" />}
-          {isOwner && <MobileNavItem icon={<BarChart3 className="w-5 h-5" />} href="/dashboard/reports" active={pathname === "/dashboard/reports"} label="Hisobotlar" />}
           {isOwner && <MobileNavItem icon={<Settings className="w-5 h-5" />} href="/dashboard/settings" active={pathname === "/dashboard/settings"} label="Sozlamalar" />}
 
-          <button onClick={toggleTheme} className="w-11 h-11 rounded-2xl flex items-center justify-center text-[var(--crm-text-muted)] bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] shrink-0">
+          <div className="w-[1px] h-6 bg-[var(--crm-border)] mx-2 opacity-30" />
+
+          <button onClick={toggleTheme} className="w-10 h-10 rounded-xl flex items-center justify-center text-[var(--crm-text-muted)] hover:text-[var(--crm-accent)] transition-all">
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          </button>
-          <button 
-            onClick={() => setShowLogoutConfirm(true)} 
-            className="w-11 h-11 rounded-2xl flex items-center justify-center text-red-500 bg-red-500/10 border border-red-500/20 shrink-0 active:scale-90 transition-all"
-            title="Tizimdan chiqish"
-          >
-            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -178,11 +171,26 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
 
 function MobileNavItem({ icon, href, active, label }: { icon: any; href: string; active: boolean; label: string }) {
   return (
-    <Link href={href} data-active={active} className="flex flex-col items-center gap-1 shrink-0">
-      <div className={`w-11 h-11 flex items-center justify-center rounded-2xl transition-all ${active ? "bg-[var(--crm-accent)] text-white shadow-lg shadow-purple-600/30 scale-110" : "text-[var(--crm-text-muted)] bg-[var(--crm-bg)]/30 border border-transparent"}`}>
+    <Link href={href} data-active={active} className="flex items-center gap-2 shrink-0 h-10 px-3 rounded-2xl transition-all relative overflow-hidden group">
+      <div className={`flex items-center justify-center transition-all ${active ? "text-[var(--crm-accent)] scale-110" : "text-[var(--crm-text-muted)]"}`}>
         {icon}
       </div>
-      {active && <span className="text-[7px] font-black uppercase tracking-widest text-[var(--crm-accent)]">{label}</span>}
+      {active && (
+        <motion.span 
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ width: "auto", opacity: 1 }}
+          className="text-[8px] font-black uppercase tracking-widest text-[var(--crm-accent)] whitespace-nowrap"
+        >
+          {label}
+        </motion.span>
+      )}
+      {active && (
+        <motion.div 
+          layoutId="mobileNavActive" 
+          className="absolute inset-0 bg-[var(--crm-accent)]/10 rounded-2xl -z-10"
+          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+        />
+      )}
     </Link>
   );
 }
