@@ -248,20 +248,21 @@ export default function CoursesPage() {
         {showModal && (
           <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeModal} className="absolute inset-0 bg-black/70" />
-            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] p-6 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden group flex flex-col max-h-[92vh]">
-              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
-              
-              <header className="mb-8 sm:mb-12 relative flex items-center justify-between shrink-0">
-                <div>
-                    <h2 className="text-2xl sm:text-4xl font-black tracking-tighter uppercase leading-none">{isEditing ? "Tahrirlash" : "Yangi Kurs"}</h2>
-                    <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">kurs parametrlarini sozlash</p>
-                </div>
+            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-lg bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] flex flex-col max-h-[92vh] overflow-hidden">
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
+                
+                <header className="p-6 sm:p-12 pb-0 sm:pb-0 relative flex items-center justify-between shrink-0 z-10">
+                    <div>
+                        <h2 className="text-xl sm:text-4xl font-black tracking-tighter uppercase leading-none">{isEditing ? "Tahrirlash" : "Yangi Kurs"}</h2>
+                        <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mt-1.5 sm:mt-2 italic opacity-60">kurs parametrlarini sozlash</p>
+                    </div>
                 <button onClick={closeModal} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
                     <X className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               </header>
 
-              <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 relative overflow-y-auto no-scrollbar pb-10">
+              <div className="flex-1 overflow-y-auto custom-modal-scroll p-6 sm:p-12 pt-8 sm:pt-12">
+              <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 relative pb-10">
                 <div className="space-y-2">
                     <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Kurs Nomi</label>
                     <input 
@@ -318,6 +319,7 @@ export default function CoursesPage() {
                   <button type="submit" className="flex-[2] py-4 sm:py-5 bg-[var(--crm-accent)] text-white rounded-2xl sm:rounded-[1.8rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-[1.02] active:scale-95 transition-all">Saqlash</button>
                 </div>
               </form>
+              </div>
             </motion.div>
           </div>
         )}

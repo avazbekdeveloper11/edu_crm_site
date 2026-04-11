@@ -507,16 +507,17 @@ export default function LeadsPage() {
                  initial={{ opacity: 0, y: 100 }}
                  animate={{ opacity: 1, y: 0 }}
                  exit={{ opacity: 0, y: 100 }}
-                 className="bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] w-full max-w-xl rounded-t-[2.5rem] sm:rounded-[4rem] shadow-2xl overflow-hidden max-h-[95vh] flex flex-col"
+                 className="bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] w-full max-w-xl rounded-t-[2.5rem] sm:rounded-[4rem] shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
                >
-                  <header className="p-6 sm:p-10 border-b border-[var(--crm-border)] flex items-center justify-between shrink-0">
+                  <header className="p-6 sm:p-10 pb-0 sm:pb-0 relative flex items-center justify-between shrink-0 z-10">
                      <div>
                         <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight italic">{editingLead ? "Leadni Tahrirlash" : "Yangi Lead"}</h2>
                         <p className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest mt-1 opacity-60">Mijoz ma'lumotlarini tahrirlash</p>
                      </div>
-                     <button onClick={() => setIsModalOpen(false)} className="p-4 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-6 h-6"/></button>
+                     <button onClick={() => setIsModalOpen(false)} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-5 h-5 sm:w-6 sm:h-6"/></button>
                   </header>
-                  <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-5 sm:space-y-8 overflow-y-auto custom-modal-scroll pb-10 sm:pb-12">
+                  <div className="flex-1 overflow-y-auto custom-modal-scroll p-6 sm:p-10 pt-8 sm:pt-10">
+                  <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 relative pb-10 sm:pb-12">
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
                         <div className="space-y-2 sm:space-y-3">
                            <label className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest ml-1">F.I.SH</label>
@@ -578,6 +579,7 @@ export default function LeadsPage() {
                         {editingLead ? "O'zgarishlarni Saqlash" : "Lead Yaratish"}
                      </button>
                   </form>
+                  </div>
                </motion.div>
             </div>
          )}
@@ -586,21 +588,25 @@ export default function LeadsPage() {
       {/* Convert Modal - Accepting Lead */}
       <AnimatePresence>
          {isConvertModalOpen && (
-            <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-xl bg-black/60">
+            <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-xl bg-black/60">
                <motion.div 
                  initial={{ opacity: 0, y: 100 }}
                  animate={{ opacity: 1, y: 0 }}
                  exit={{ opacity: 0, y: 100 }}
-                 className="bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] w-full max-w-lg rounded-t-[2.5rem] sm:rounded-[4rem] shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
+                 className="bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] w-full max-w-xl rounded-t-[2.5rem] sm:rounded-[4rem] shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
                >
-                  <header className="p-6 sm:p-10 border-b border-[var(--crm-border)] flex items-center justify-between shrink-0">
-                     <div>
-                        <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight italic">Talabalikka Qabul</h2>
-                        <p className="text-[9px] sm:text-[10px] font-bold uppercase text-[var(--crm-text-muted)] tracking-widest mt-1 opacity-60">Leadni studentga aylantirish</p>
+                  <header className="p-6 sm:p-10 pb-0 sm:pb-0 relative flex items-center justify-between shrink-0 z-10">
+                     <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 sm:w-14 sm:h-14 bg-green-500/10 border border-green-500/10 rounded-xl sm:rounded-2xl flex items-center justify-center text-green-500"><UserPlus className="w-5 h-5 sm:w-7 sm:h-7" /></div>
+                        <div>
+                           <h2 className="text-xl sm:text-3xl font-black uppercase tracking-tight italic">Talabaga Aylantirish</h2>
+                           <p className="text-[9px] sm:text-[10px] font-black uppercase text-[var(--crm-text-muted)] tracking-widest mt-1 opacity-60">Statusni yangilash tizimi</p>
+                        </div>
                      </div>
-                     <button onClick={() => setIsConvertModalOpen(false)} className="p-4 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-6 h-6"/></button>
+                     <button onClick={() => setIsConvertModalOpen(false)} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full text-[var(--crm-text-muted)] hover:text-red-500 transition-all"><X className="w-5 h-5 sm:w-6 sm:h-6"/></button>
                   </header>
-                  <form onSubmit={handleConvertSubmit} className="p-6 sm:p-10 space-y-6 sm:space-y-8 overflow-y-auto custom-modal-scroll pb-10 sm:pb-12">
+                  <div className="flex-1 overflow-y-auto custom-modal-scroll p-6 sm:p-10 pt-8 sm:pt-10">
+                  <form onSubmit={handleConvertSubmit} className="space-y-6 sm:space-y-8 relative pb-10 sm:pb-12">
                      <div className="p-5 sm:p-8 bg-purple-600/5 border border-purple-600/10 rounded-2xl sm:rounded-[2rem] space-y-2">
                         <p className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-purple-600 opacity-60">Mijoz ma'lumotlari</p>
                         <h4 className="text-base sm:text-2xl font-black">{convertForm.name}</h4>
@@ -669,7 +675,7 @@ export default function LeadsPage() {
                            />
                         </div>
 
-                     <div className="flex gap-4 pt-6 shrink-0">
+                      <div className="flex gap-4 pt-6 shrink-0">
                         <button type="button" onClick={() => setIsConvertModalOpen(false)} className="flex-1 py-5 bg-[var(--crm-bg)] border border-[var(--crm-border)] text-[var(--crm-text-muted)] rounded-2xl sm:rounded-[1.8rem] font-black text-[10px] uppercase tracking-widest hover:bg-[var(--crm-border)] transition-all">Bekor</button>
                         <button 
                           type="submit" 
@@ -678,8 +684,9 @@ export default function LeadsPage() {
                         >
                            {submittingConvert ? "Qilinmoqda..." : "Qabul Qilish"}
                         </button>
-                     </div>
+                      </div>
                   </form>
+                  </div>
                </motion.div>
             </div>
          )}

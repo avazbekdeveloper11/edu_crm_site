@@ -461,20 +461,21 @@ export default function StudentsPage() {
         {showModal && (
           <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={closeModal} className="absolute inset-0 bg-black/70" />
-            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-2xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] p-6 sm:p-12 relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] max-h-[92vh] overflow-y-auto custom-modal-scroll flex flex-col">
+            <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-2xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[4rem] relative z-10 shadow-[0_0_100px_rgba(0,0,0,0.5)] max-h-[92vh] flex flex-col overflow-hidden">
                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
                 
-                <header className="mb-8 sm:mb-12 relative flex items-center justify-between shrink-0">
+                <header className="p-6 sm:p-12 pb-0 sm:pb-0 relative flex items-center justify-between shrink-0 z-10">
                     <div>
-                        <h2 className="text-2xl sm:text-4xl font-black tracking-tighter leading-none">{isEditing ? "Tahrirlash" : "Yangi Talaba"}</h2>
-                        <p className="text-[var(--crm-text-muted)] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">Ma'lumotlar va yo'nalishlar sozlamasi</p>
+                        <h2 className="text-xl sm:text-4xl font-black tracking-tighter leading-none">{isEditing ? "Tahrirlash" : "Yangi Talaba"}</h2>
+                        <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mt-1.5 sm:mt-2 italic opacity-60">Ma'lumotlar va yo'nalishlar</p>
                     </div>
                     <button onClick={closeModal} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
                         <X className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                 </header>
 
-                <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 relative pb-10">
+                <div className="flex-1 overflow-y-auto custom-modal-scroll p-6 sm:p-12 pt-8 sm:pt-12">
+                    <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8 relative pb-10">
                     <div className="space-y-2">
                         <label className="text-[9px] sm:text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] ml-2">Ism Familiya</label>
                         <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl sm:rounded-[1.8rem] px-5 sm:px-8 py-3.5 sm:py-5 focus:border-[var(--crm-accent)] outline-none text-[var(--crm-text)] text-sm font-bold shadow-inner" placeholder="F.I.SH" required />
@@ -559,6 +560,7 @@ export default function StudentsPage() {
                         <button type="submit" className="flex-[2] py-4 sm:py-5 bg-[var(--crm-accent)] text-white rounded-2xl sm:rounded-[1.8rem] font-black text-[9px] sm:text-[10px] uppercase tracking-widest shadow-2xl shadow-purple-600/30 hover:scale-[1.02] active:scale-95 transition-all uppercase">Saqlash</button>
                     </div>
                 </form>
+                </div>
             </motion.div>
           </div>
         )}
@@ -569,20 +571,21 @@ export default function StudentsPage() {
         {showPaymentModal && (
           <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowPaymentModal(false)} className="absolute inset-0 bg-black/80" />
-            <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-2xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative z-10 shadow-2xl max-h-[95vh] overflow-y-auto custom-modal-scroll">
-                <header className="mb-10 relative flex items-center justify-between">
-                   <div className="flex items-center gap-5">
-                      <div className="w-16 h-16 rounded-[1.5rem] bg-green-500/10 border border-green-500/10 flex items-center justify-center text-green-500 shadow-xl"><Wallet className="w-8 h-8 shrink-0" /></div>
+            <motion.div initial={{ scale: 0.95, opacity: 0, y: 100 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 100 }} className="w-full max-w-2xl bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[3rem] sm:rounded-[4rem] relative z-10 shadow-2xl max-h-[95vh] flex flex-col overflow-hidden">
+                <header className="p-6 sm:p-12 pb-0 sm:pb-0 relative flex items-center justify-between z-10 shrink-0">
+                   <div className="flex items-center gap-4 sm:gap-5">
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl sm:rounded-[1.5rem] bg-green-500/10 border border-green-500/10 flex items-center justify-center text-green-500 shadow-xl"><Wallet className="w-6 h-6 sm:w-8 sm:h-8 shrink-0" /></div>
                       <div>
-                          <h2 className="text-3xl font-black tracking-tighter leading-none">To'lov Qabul Qilish</h2>
-                          <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-2 italic opacity-60">{paymentData?.name}</p>
+                          <h2 className="text-xl sm:text-3xl font-black tracking-tighter leading-none">To'lov Qabul Qilish</h2>
+                          <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mt-1.5 sm:mt-2 italic opacity-60 truncate max-w-[150px] sm:max-w-none">{paymentData?.name}</p>
                       </div>
                    </div>
-                   <button onClick={() => setShowPaymentModal(false)} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
-                       <X className="w-6 h-6" />
+                   <button onClick={() => setShowPaymentModal(false)} className="p-3 sm:p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
+                       <X className="w-5 h-5 sm:w-6 sm:h-6" />
                    </button>
                 </header>
 
+                <div className="flex-1 overflow-y-auto custom-modal-scroll p-6 sm:p-12 pt-8 sm:pt-12">
                 <form onSubmit={handleMultiPaymentSubmit} className="space-y-10 relative">
                     <div className="space-y-6">
                         <label className="text-[10px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.25em] ml-2 opacity-50">Kurslar bo'yicha taqsimot</label>
@@ -620,14 +623,14 @@ export default function StudentsPage() {
                                                 </div>
                                             </div>
                                             
-                                            <div className="grid grid-cols-2 gap-6 mt-8 pt-8 border-t border-[var(--crm-border)]">
+                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-8 pt-8 border-t border-[var(--crm-border)]">
                                                 <div className="space-y-2">
                                                     <label className="text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest ml-1 opacity-50">Dan (Muddat)</label>
-                                                    <input type="date" value={period.from} onChange={(e) => setCoursePeriods(prev => ({ ...prev, [c.id]: { ...prev[c.id], from: e.target.value } }))} className="w-full bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.25rem] px-6 py-3.5 outline-none text-xs font-black text-[var(--crm-text)] uppercase focus:border-[var(--crm-accent)] shadow-xl" />
+                                                    <input type="date" value={period.from} onChange={(e) => setCoursePeriods(prev => ({ ...prev, [c.id]: { ...prev[c.id], from: e.target.value } }))} className="w-full bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.25rem] px-5 sm:px-6 py-3 sm:py-3.5 outline-none text-xs font-black text-[var(--crm-text)] uppercase focus:border-[var(--crm-accent)] shadow-xl" />
                                                 </div>
                                                 <div className="space-y-2">
                                                     <label className="text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-widest ml-1 opacity-50">Gacha</label>
-                                                    <input type="date" value={period.to} onChange={(e) => setCoursePeriods(prev => ({ ...prev, [c.id]: { ...prev[c.id], to: e.target.value } }))} className="w-full bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.25rem] px-6 py-3.5 outline-none text-xs font-black text-[var(--crm-text)] uppercase focus:border-[var(--crm-accent)] shadow-xl" />
+                                                    <input type="date" value={period.to} onChange={(e) => setCoursePeriods(prev => ({ ...prev, [c.id]: { ...prev[c.id], to: e.target.value } }))} className="w-full bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.25rem] px-5 sm:px-6 py-3 sm:py-3.5 outline-none text-xs font-black text-[var(--crm-text)] uppercase focus:border-[var(--crm-accent)] shadow-xl" />
                                                 </div>
                                             </div>
                                         </div>
@@ -664,19 +667,20 @@ export default function StudentsPage() {
                         </div>
                     </div>
 
-                    <div className="bg-green-500/5 border border-green-500/10 rounded-[3rem] p-10 flex flex-col md:flex-row items-center justify-between gap-10 shadow-inner">
+                    <div className="bg-green-500/5 border border-green-500/10 rounded-[2rem] sm:rounded-[3rem] p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 shadow-inner">
                         <div className="text-center md:text-left">
-                            <div className="text-[10px] text-green-500 font-black uppercase tracking-[0.4em] mb-2 opacity-60 italic">KASSA JAMI</div>
-                            <div className="flex items-end gap-3 leading-none">
-                                <span className="text-5xl font-black text-[var(--crm-text)] tracking-tighter leading-none italic">{formatMoney(Object.values(courseAmounts).reduce((acc, amt) => acc + (parseFloat(amt.replace(/\s/g, "")) || 0), 0))}</span>
-                                <span className="text-xs font-black text-green-500 uppercase tracking-widest mb-1.5 opacity-80">UZS</span>
+                            <div className="text-[8px] sm:text-[10px] text-green-500 font-black uppercase tracking-[0.4em] mb-1 sm:mb-2 opacity-60 italic">KASSA JAMI</div>
+                            <div className="flex items-end justify-center md:justify-start gap-2 sm:gap-3 leading-none">
+                                <span className="text-3xl sm:text-5xl font-black text-[var(--crm-text)] tracking-tighter leading-none italic">{formatMoney(Object.values(courseAmounts).reduce((acc, amt) => acc + (parseFloat(amt.replace(/\s/g, "")) || 0), 0))}</span>
+                                <span className="text-[10px] sm:text-xs font-black text-green-500 uppercase tracking-widest mb-1 sm:mb-1.5 opacity-80">UZS</span>
                             </div>
                         </div>
                         <div className="flex gap-4 w-full md:w-auto">
-                            <button type="submit" className="flex-1 md:flex-none px-12 py-6 bg-green-600 rounded-[2rem] font-black text-[11px] uppercase tracking-widest text-white shadow-2xl shadow-green-500/40 hover:bg-green-500 hover:scale-105 active:scale-95 transition-all">To'lovni Tasdiqlash</button>
+                            <button type="submit" className="flex-1 md:flex-none px-12 py-5 sm:py-6 bg-green-600 rounded-2xl sm:rounded-[2rem] font-black text-[10px] sm:text-[11px] uppercase tracking-widest text-white shadow-2xl shadow-green-500/40 hover:bg-green-500 hover:scale-105 active:scale-95 transition-all">To'lovni Tasdiqlash</button>
                         </div>
                     </div>
                 </form>
+                </div>
             </motion.div>
           </div>
         )}
