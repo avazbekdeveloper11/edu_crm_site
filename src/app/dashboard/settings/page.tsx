@@ -89,6 +89,13 @@ export default function SettingsPage() {
   const [showSystemModal, setShowSystemModal] = useState(false);
   const [showTariffsModal, setShowTariffsModal] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
+  const [statusTitle, setStatusTitle] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [statusType, setStatusType] = useState<"success" | "danger" | "warning" | "info">("info");
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmItemId, setConfirmItemId] = useState<number | null>(null);
+  const [deletingUser, setDeletingUser] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">("Monthly");
   const [requestingUpgrade, setRequestingUpgrade] = useState(false);
@@ -943,7 +950,7 @@ export default function SettingsPage() {
                         <header className="mb-10 relative flex items-center justify-between">
                             <div>
                                 <h2 className="text-4xl font-black tracking-tighter uppercase leading-none italic">Yordam</h2>
-                                <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-3 italic opacity-60">Qo'llab-quvvatlash markazi</p>
+                                <p className="text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em] mt-3 italic opacity-60">Qo&apos;llab-quvvatlash markazi</p>
                             </div>
                             <button onClick={() => setShowHelpModal(false)} className="p-4 bg-[var(--crm-bg)] rounded-full hover:bg-white/5 text-[var(--crm-text-muted)] transition-all">
                                 <X className="w-6 h-6" />
@@ -963,7 +970,7 @@ export default function SettingsPage() {
                                 </div>
                                 <p className="text-sm text-[var(--crm-text-muted)] leading-relaxed">
                                     CRM tizimi bo'yicha har qanday savol, taklif yoki muammolar bo'lsa, 
-                                    bizning qo'llab-quvvatlash xizmatiga murojaat qiling. Biz tez orada javob beramiz.
+                                    bizning qo&apos;llab-quvvatlash xizmatiga murojaat qiling. Biz tez orada javob beramiz.
                                 </p>
                             </div>
 
@@ -1105,7 +1112,7 @@ function TariffCard({ name, price, yearlyTotal, billingCycle, students, staff, f
             <div className="flex flex-wrap gap-2 mb-10">
                 <div className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 flex items-center gap-2">
                     <Users className="w-3 h-3 opacity-40" />
-                    <span className="text-[10px] font-black uppercase italic">{students} O'QUVCHI</span>
+                    <span className="text-[10px] font-black uppercase italic">{students} O&apos;QUVCHI</span>
                 </div>
                 <div className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 flex items-center gap-2">
                     <Building2 className="w-3 h-3 opacity-40" />
