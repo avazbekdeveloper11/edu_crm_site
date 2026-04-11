@@ -48,6 +48,7 @@ export default function SetupDashboard() {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [apiUrl, setApiUrl] = useState("");
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
 
   useEffect(() => {
     setApiUrl(getApiBaseUrl());
@@ -179,8 +180,41 @@ export default function SetupDashboard() {
   if (!isAuth) return null;
 
   return (
-    <div className="min-h-screen bg-[#050505] text-gray-100 flex font-sans relative">
-      <AnimatePresence>
+    <div className="min-h-screen bg-[#050505] text-gray-100 flex flex-col font-sans relative">
+      <AnimatePresence mode="wait">
+        {centers.filter(c => {
+          if (!c.tariffExpiresAt) return false;
+          const diff = Math.ceil((new Date(c.tariffExpiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+          return diff >= 0 && diff <= 3;
+        }).length > 0 && isBannerVisible && (
+          <motion.div 
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="w-full bg-red-600 flex items-center justify-center relative px-10 z-[200] border-b border-white/10 shadow-[0_0_40px_rgba(220,38,38,0.2)] sticky top-0"
+          >
+            <div className="flex items-center gap-3 py-2">
+              <AlertTriangle className="w-4 h-4 text-white animate-pulse" />
+              <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.15em] text-white">
+                DIQQAT! {centers.filter(c => {
+                  if (!c.tariffExpiresAt) return false;
+                  const diff = Math.ceil((new Date(c.tariffExpiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                  return diff >= 0 && diff <= 3;
+                }).length} TA MARKAZNING TO'LOV MUDDATI TUGASH ARAKASIDA!
+              </span>
+            </div>
+            <button 
+              onClick={() => setIsBannerVisible(false)}
+              className="absolute right-4 p-1 hover:bg-black/20 rounded-full transition-colors"
+            >
+              <Trash2 className="w-3.5 h-3.5 text-white/60" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="flex-1 flex flex-col relative">
+        <AnimatePresence>
         {showModal && (
           <motion.div
             initial={{ opacity: 0 }}
