@@ -163,7 +163,7 @@ export default function SetupDashboard() {
                         nextWeek.setDate(now.getDate() + 7);
                         setNewCenter({
                           ...newCenter,
-                          tariff: "Standart",
+                          tariff: "Demo",
                           tariffType: "Monthly",
                           tariffStartedAt: now.toISOString().split('T')[0],
                           tariffExpiresAt: nextWeek.toISOString().split('T')[0]
@@ -182,20 +182,20 @@ export default function SetupDashboard() {
                   onChange={(e: any) => setNewCenter({ ...newCenter, name: e.target.value })}
                 />
                 <InputField
-                  label="Login"
-                  value={newCenter.login}
-                  onChange={(e: any) => setNewCenter({ ...newCenter, login: e.target.value })}
-                />
-                <InputField
-                  label="Parol"
-                  value={newCenter.pass}
-                  onChange={(e: any) => setNewCenter({ ...newCenter, pass: e.target.value })}
-                />
-                <InputField
                   label="Telegram Bot Token"
                   value={newCenter.botToken}
                   onChange={(e: any) => setNewCenter({ ...newCenter, botToken: e.target.value })}
                   placeholder="7483...:AAH... (optional)"
+                />
+                <InputField
+                  label="Admin Login"
+                  value={newCenter.login}
+                  onChange={(e: any) => setNewCenter({ ...newCenter, login: e.target.value })}
+                />
+                <InputField
+                  label="Admin Parol"
+                  value={newCenter.pass}
+                  onChange={(e: any) => setNewCenter({ ...newCenter, pass: e.target.value })}
                 />
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -209,6 +209,7 @@ export default function SetupDashboard() {
                          <option value="Standart" className="bg-[#0a0a0a]">Standart</option>
                          <option value="Premium" className="bg-[#0a0a0a]">Premium</option>
                          <option value="VIP" className="bg-[#0a0a0a]">VIP</option>
+                         <option value="Demo" className="bg-[#0a0a0a]">Demo (Sinov)</option>
                       </select>
                    </div>
                    <div className="space-y-1.5">
@@ -302,6 +303,46 @@ export default function SetupDashboard() {
           <StatCard title="Connected DB" value="Postgres" icon={<Database className="text-yellow-500" />} />
           <StatCard title="Active Centers" value={centers.length} icon={<ShieldCheck className="text-green-500" />} />
         </div>
+
+        {/* Subscription Alerts */}
+        {centers.filter(c => {
+          if (!c.tariffExpiresAt) return false;
+          const diff = Math.ceil((new Date(c.tariffExpiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+          return diff >= 0 && diff <= 5;
+        }).length > 0 && (
+          <section className="mb-10 p-6 rounded-3xl bg-orange-500/10 border border-orange-500/20 space-y-4">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="w-6 h-6 text-orange-500" />
+              <h2 className="text-xl font-bold text-orange-500">Muddati tugayotgan markazlar</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+               {centers.filter(c => {
+                  if (!c.tariffExpiresAt) return false;
+                  const diff = Math.ceil((new Date(c.tariffExpiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                  return diff >= 0 && diff <= 5;
+               }).map(center => {
+                  const diffDays = Math.ceil((new Date(center.tariffExpiresAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+                  return (
+                    <div key={center.id} className="p-4 rounded-2xl bg-black/40 border border-white/5 flex flex-col gap-2">
+                       <div className="flex justify-between items-start">
+                          <span className="font-bold">{center.name}</span>
+                          <span className="text-[10px] bg-orange-500 text-white px-2 py-0.5 rounded-full font-bold">
+                             {diffDays === 0 ? "Bugun" : `${diffDays} kun qoldi`}
+                          </span>
+                       </div>
+                       <p className="text-xs text-gray-500">Tarif: {center.tariff} ({center.tariffType === 'Monthly' ? 'Oylik' : 'Yillik'})</p>
+                       <button 
+                        onClick={() => openEdit(center)}
+                        className="mt-2 text-[10px] text-orange-500 font-bold hover:underline text-left"
+                       >
+                         Muddatni uzaytirish →
+                       </button>
+                    </div>
+                  )
+               })}
+            </div>
+          </section>
+        )}
 
         {/* Centers Management Section */}
         <section className="mb-10 p-8 rounded-3xl bg-[#0a0a0a] border border-white/5 space-y-8">
@@ -418,6 +459,7 @@ function CenterRow({ name, login, tariff, tariffType, tariffExpiresAt, onEdit }:
         <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${
           tariff === "VIP" ? "bg-orange-500/10 text-orange-500" : 
           tariff === "Premium" ? "bg-purple-500/10 text-purple-500" : 
+          tariff === "Demo" ? "bg-pink-500/10 text-pink-500" :
           "bg-blue-500/10 text-blue-500"
         }`}>
           {tariff || "Standart"} <span className="opacity-40 ml-1 text-[8px] italic">({tariffType === 'Monthly' ? 'M' : 'Y'})</span>
