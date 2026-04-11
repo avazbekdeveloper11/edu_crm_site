@@ -373,7 +373,7 @@ export default function SettingsPage() {
                 <SettingsCard onClick={() => setShowHelpModal(true)} icon={<HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />} title="Yordam" desc="Qo'llab-quvvatlash" />
             </div>
 
-            <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[4rem] p-8 sm:p-12 relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.2)] mb-12 sm:mb-20">
+            <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.1)] mb-12 sm:mb-20">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--crm-accent)] opacity-5 blur-[120px] -mr-48 -mt-48 rounded-full" />
                 <h3 className="text-3xl sm:text-4xl font-black mb-6 sm:mb-8 uppercase tracking-tighter leading-none">Profil Atributlari</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 relative z-10">
@@ -420,11 +420,11 @@ export default function SettingsPage() {
                             </div>
                         ) : (
                             users.map(u => (
-                                <div key={u.id} className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 group hover:border-[var(--crm-accent)] transition-all shadow-[0_20px_60px_rgba(0,0,0,0.1)] relative overflow-hidden active:scale-[0.98]">
+                                <div key={u.id} className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3rem] p-6 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 group hover:border-[var(--crm-accent)] transition-all shadow-[0_20px_60px_rgba(0,0,0,0.05)] relative overflow-hidden active:scale-[0.98]">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--crm-accent)] opacity-[0.02] blur-[40px] -mr-16 -mt-16 rounded-full group-hover:opacity-[0.08] transition-all" />
                                     
                                     <div className="flex items-center gap-4 sm:gap-6 min-w-0 w-full">
-                                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[1.2rem] sm:rounded-[1.5rem] bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] flex items-center justify-center font-black text-[var(--crm-text)] text-lg sm:text-xl group-hover:bg-[var(--crm-accent)] group-hover:text-white transition-all duration-500 shadow-lg capitalize shrink-0">
+                                        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[1.5rem] bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] flex items-center justify-center font-black text-[var(--crm-text)] text-lg sm:text-xl group-hover:bg-[var(--crm-accent)] group-hover:text-white transition-all duration-500 shadow-lg capitalize shrink-0">
                                             {u.name[0]}
                                         </div>
                                         <div className="min-w-0 flex-1">
@@ -446,12 +446,12 @@ export default function SettingsPage() {
                                                 setIsEditingUser(true); 
                                                 setShowUserModal(true); 
                                             }}
-                                            className="p-4 bg-[var(--crm-bg)] hover:bg-blue-600 hover:text-white rounded-[1.25rem] border border-[var(--crm-border)] text-blue-500 transition-all shadow-xl active:scale-90"
+                                            className="p-4 bg-[var(--crm-bg)]/80 hover:bg-blue-600 hover:text-white rounded-[1.5rem] border border-[var(--crm-border)] text-blue-500 transition-all shadow-xl active:scale-90"
                                         >
                                             <Key className="w-5 h-5 shadow-lg" />
                                         </button>
                                         {u.login !== center.login && (
-                                            <button onClick={() => deleteUser(u.id)} className="p-4 bg-[var(--crm-bg)] hover:bg-red-600 hover:text-white rounded-[1.25rem] border border-[var(--crm-border)] text-red-500 transition-all shadow-xl active:scale-90">
+                                            <button onClick={() => deleteUser(u.id)} className="p-4 bg-[var(--crm-bg)]/80 hover:bg-red-600 hover:text-white rounded-[1.5rem] border border-[var(--crm-border)] text-red-500 transition-all shadow-xl active:scale-90">
                                                 <Trash2 className="w-5 h-5 shadow-lg" />
                                             </button>
                                         )}
@@ -1064,9 +1064,9 @@ export default function SettingsPage() {
 
 function SettingsCard({ icon, title, desc, onClick }: any) {
     return (
-        <div onClick={onClick} className={`bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-8 hover:border-[var(--crm-accent)] transition-all group cursor-pointer active:scale-[0.97] shadow-[0_20px_50px_rgba(0,0,0,0.1)] relative overflow-hidden flex items-center gap-4 sm:gap-5`}>
+        <div onClick={onClick} className={`bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] p-5 sm:p-8 hover:border-[var(--crm-accent)] transition-all group cursor-pointer active:scale-[0.97] shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative overflow-hidden flex items-center gap-4 sm:gap-5`}>
             <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--crm-accent-soft)] blur-[30px] -mr-12 -mt-12 rounded-full group-hover:opacity-[0.08] transition-all" />
-            <div className={`w-11 h-11 sm:w-14 sm:h-14 bg-[var(--crm-accent-soft)] rounded-xl sm:rounded-2xl flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-inner shrink-0`}>
+            <div className={`w-11 h-11 sm:w-14 sm:h-14 bg-[var(--crm-accent-soft)] rounded-2xl sm:rounded-[1.5rem] flex items-center justify-center text-[var(--crm-accent)] group-hover:scale-110 transition-transform duration-500 shadow-inner shrink-0`}>
                 {icon}
             </div>
             <div className="min-w-0">
