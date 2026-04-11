@@ -824,9 +824,9 @@ export default function SettingsPage() {
         {/* Tariffs / Subscription Modal */}
         <AnimatePresence>
             {showTariffsModal && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6 backdrop-blur-2xl">
+                <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-2xl">
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowTariffsModal(false)} className="absolute inset-0 bg-black/80" />
-                    <motion.div initial={{ scale: 0.9, opacity: 0, y: 50 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 50 }} className="w-full max-w-6xl bg-[#0a0a0a]/90 border border-white/10 rounded-[3rem] sm:rounded-[4rem] p-8 sm:p-14 relative z-10 shadow-[0_0_150px_rgba(139,92,246,0.15)] overflow-y-auto max-h-[92vh] no-scrollbar">
+                    <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-6xl bg-[#0a0a0a]/90 border-t sm:border border-white/10 rounded-t-[2.5rem] sm:rounded-[4rem] p-8 sm:p-14 relative z-10 shadow-[0_0_150px_rgba(139,92,246,0.15)] overflow-y-auto max-h-[92vh] no-scrollbar">
                         <header className="mb-10 text-center">
                             <h2 className="text-4xl sm:text-6xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-4">FAOL TARIFLAR</h2>
                             <p className="text-[var(--crm-text-muted)] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] opacity-60">Markazingiz uchun mukammal rejani tanlang</p>
@@ -1056,9 +1056,9 @@ export default function SettingsPage() {
         {/* Success Modal */}
         <AnimatePresence>
             {showSuccess && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 backdrop-blur-sm">
+                <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-sm">
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowSuccess(false)} className="absolute inset-0 bg-black/40" />
-                    <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} className="relative bg-[var(--crm-card)] border border-green-500/30 p-10 rounded-[3rem] shadow-[0_0_100px_rgba(34,197,94,0.2)] flex flex-col items-center text-center max-w-sm w-full outline-none">
+                    <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="relative bg-[var(--crm-card)] border-t sm:border border-green-500/30 p-10 rounded-t-[2.5rem] sm:rounded-[3rem] shadow-[0_0_100px_rgba(34,197,94,0.2)] flex flex-col items-center text-center max-w-sm w-full outline-none">
                         <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mb-6">
                             <CheckCircle2 className="w-12 h-12 text-green-500" />
                         </div>

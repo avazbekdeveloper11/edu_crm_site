@@ -40,7 +40,7 @@ export function ConfirmDialog({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-6 backdrop-blur-md">
+        <div className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -49,10 +49,10 @@ export function ConfirmDialog({
             className="absolute inset-0 bg-black/70"
           />
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="w-full max-w-sm bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3.5rem] p-10 sm:p-12 relative z-10 shadow-[0_40px_120px_rgba(0,0,0,0.6)] overflow-hidden text-center"
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            className="w-full max-w-sm bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[3.5rem] p-10 sm:p-12 relative z-10 shadow-[0_40px_120px_rgba(0,0,0,0.6)] overflow-hidden text-center"
           >
             <div className={`absolute top-0 right-0 w-40 h-40 ${current.bg} opacity-10 blur-3xl -mr-20 -mt-20 rounded-full`} />
             

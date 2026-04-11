@@ -334,10 +334,10 @@ export default function StudentProfilePage() {
 
                 {/* Edit Payment Modal */}
                 {showEditModal && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md">
+                    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-black/70" onClick={() => setShowEditModal(false)} />
-                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-full max-w-md bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3rem] p-10 relative z-10 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
-                            <h3 className="text-3xl font-black uppercase tracking-tighter italic mb-8">To&apos;lovni tahrirlash</h3>
+                        <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="w-full max-w-md bg-[var(--crm-card)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[3rem] p-10 relative z-10 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
+                            <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter italic mb-8">To&apos;lovni tahrirlash</h3>
                             
                             <form onSubmit={handleUpdatePayment} className="space-y-6">
                                 <div>

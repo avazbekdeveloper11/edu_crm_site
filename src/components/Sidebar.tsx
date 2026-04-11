@@ -123,20 +123,14 @@ export function Sidebar({ centerName, role }: { centerName: string; role: string
       {/* Logout Confirmation Modal */}
       <AnimatePresence>
         {showLogoutConfirm && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }} 
-              onClick={() => setShowLogoutConfirm(false)} 
-              className="absolute inset-0 bg-black/70" 
-            />
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0, y: 20 }} 
-              animate={{ scale: 1, opacity: 1, y: 0 }} 
-              exit={{ scale: 0.9, opacity: 0, y: 20 }} 
-              className="w-full max-w-sm bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3.5rem] p-10 sm:p-12 relative z-10 shadow-[0_40px_120px_rgba(0,0,0,0.6)] overflow-hidden text-center"
-            >
+          <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-md">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowLogoutConfirm(false)} className="absolute inset-0 bg-black/70" />
+          <motion.div 
+             initial={{ y: 100, opacity: 0 }} 
+             animate={{ y: 0, opacity: 1 }} 
+             exit={{ y: 100, opacity: 0 }} 
+             className="w-full max-w-sm bg-[var(--crm-sidebar)] border-t sm:border border-[var(--crm-border)] rounded-t-[2.5rem] sm:rounded-[3.5rem] p-10 sm:p-12 relative z-10 shadow-[0_40px_120px_rgba(0,0,0,0.6)] overflow-hidden text-center"
+          >
               <div className="absolute top-0 right-0 w-40 h-40 bg-red-500 opacity-10 blur-3xl -mr-20 -mt-20 rounded-full" />
               
               <div className="w-20 h-20 bg-red-500/10 border border-red-500/10 rounded-[1.8rem] flex items-center justify-center text-red-500 mx-auto mb-8 shadow-inner">
