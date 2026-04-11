@@ -236,8 +236,8 @@ export default function StudentsPage() {
 
   return (
     <>
-        <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-3 sm:gap-6">
-          <div className="relative group flex-1 max-w-[200px] sm:max-w-md">
+        <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-2 sm:gap-6">
+          <div className="relative group flex-1 max-w-[180px] sx:max-w-[220px] sm:max-w-md">
             <Search className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--crm-text-muted)] group-focus-within:text-[var(--crm-accent)] transition-colors" />
             <input 
               type="text" 
@@ -249,11 +249,11 @@ export default function StudentsPage() {
           </div>
           <button 
             onClick={() => { setIsEditing(false); setFormData({ name: "", phone: "998", address: "", dob: "", status: "Active", courseIds: [], groupIds: [], parentPhone: "998" }); setShowModal(true); }} 
-            className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-4 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-purple-600/30 active:scale-95 uppercase whitespace-nowrap shrink-0"
+            className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-3 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-purple-600/30 active:scale-95 uppercase whitespace-nowrap shrink-0"
           >
             <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
-            <span className="hidden xs:inline">Yangi Talaba</span>
-            <span className="xs:hidden">Yangi</span>
+            <span className="hidden sm:inline">Yangi Talaba</span>
+            <span className="sm:hidden">YANGI</span>
           </button>
         </header>
 
@@ -293,8 +293,8 @@ export default function StudentsPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {/* Desktop Table */}
-              <div className="hidden md:block bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.2)]">
+              {/* Desktop Table (Only for large screens) */}
+              <div className="hidden lg:block bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.2)]">
                 <table className="w-full text-left min-w-[1000px]">
                   <thead>
                       <tr className="bg-[var(--crm-bg)]/30 border-b border-[var(--crm-border)] text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em]">
@@ -376,62 +376,62 @@ export default function StudentsPage() {
                 </table>
               </div>
 
-              {/* Mobile Cards */}
-              <div className="grid grid-cols-1 gap-4 md:hidden pb-20">
+              {/* Mobile/Tablet Cards (Standard for smaller screens) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:hidden gap-4 pb-32">
                 {filteredStudents.map((std) => {
                   const debt = totalDebt(std);
                   return (
                     <motion.div 
                       layout
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
                       key={std.id} 
-                      className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] p-5 shadow-xl space-y-4"
+                      className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] p-6 shadow-xl space-y-5"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-2xl bg-[var(--crm-accent-soft)] flex items-center justify-center font-black text-[var(--crm-accent)] shadow-inner uppercase">
+                          <div className="w-14 h-14 rounded-[1.25rem] bg-[var(--crm-accent-soft)] flex items-center justify-center font-black text-[var(--crm-accent)] text-xl shadow-inner uppercase">
                             {std.name[0]}
                           </div>
                           <div className="min-w-0">
-                            <Link href={`/dashboard/students/${std.id}`} className="text-sm font-black text-[var(--crm-text)] tracking-tight truncate block mb-1">
+                            <Link href={`/dashboard/students/${std.id}`} className="text-lg font-black text-[var(--crm-text)] tracking-tighter truncate block leading-none mb-1">
                               {std.name}
                             </Link>
-                            <span className={`text-[7px] font-black tracking-widest px-2 py-0.5 rounded-md border ${std.status === 'Active' ? 'bg-green-500/10 text-green-500 border-green-500/10' : 'bg-red-500/10 text-red-500 border-red-500/10'}`}>
-                              {std.status === 'Active' ? 'FAOL' : 'ARKHIV'}
+                            <span className={`text-[8px] font-black tracking-widest px-2 py-0.5 rounded-md border ${std.status === 'Active' ? 'bg-green-500/10 text-green-500 border-green-500/10' : 'bg-red-500/10 text-red-500 border-red-500/10'}`}>
+                              {std.status === 'Active' ? 'FAOL O\'QUVCHI' : 'ARKHIV'}
                             </span>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className={`text-sm font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
+                          <div className={`text-lg font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
                             {formatMoney(debt)}
                           </div>
-                          <div className="text-[7px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase tracking-widest">Qarz</div>
+                          <div className="text-[8px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase tracking-widest">Qarz</div>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-1.5 py-4 border-y border-[var(--crm-border)]/50">
+                      <div className="flex flex-wrap gap-2 py-5 border-y border-[var(--crm-border)]/30">
                         {(std.courses || []).map((c: any) => (
-                           <span key={c.id} className="px-2 py-1 bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-lg text-[7px] font-black text-[var(--crm-text-muted)] uppercase tracking-tighter">
+                           <span key={c.id} className="px-3 py-1.5 bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl text-[8px] font-black text-[var(--crm-text-muted)] uppercase tracking-widest">
                              {c.name}
                            </span>
                         ))}
-                        {(std.courses || []).length === 0 && <span className="text-[7px] text-[var(--crm-text-muted)] opacity-30 italic uppercase font-black">Yo'nalishsiz</span>}
+                        {(std.courses || []).length === 0 && <span className="text-[8px] text-[var(--crm-text-muted)] opacity-30 italic font-black uppercase">Yo'nalishsiz</span>}
                       </div>
 
-                      <div className="flex items-center justify-between pt-1">
+                      <div className="flex items-center justify-between">
                          <div className="flex flex-col">
-                            <span className="text-[9px] font-mono text-[var(--crm-text-muted)] opacity-60">{formatPhone(std.phone)}</span>
-                            <span className="text-[7px] font-black text-[var(--crm-text-muted)] opacity-30 mt-0.5">{formatDate(std.createdAt)} QABUL</span>
+                            <span className="text-xs font-mono text-[var(--crm-text-muted)] opacity-60 tracking-tighter">{formatPhone(std.phone)}</span>
+                            <span className="text-[8px] font-black text-[var(--crm-text-muted)] opacity-30 mt-1 uppercase tracking-widest">{formatDate(std.createdAt)} QABUL</span>
                          </div>
                          <div className="flex gap-2">
                             {debt > 0 && (
-                              <button onClick={() => openPayment(std)} className="w-10 h-10 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center active:scale-90 transition-all">
-                                <Wallet className="w-4 h-4" />
+                              <button onClick={() => openPayment(std)} className="w-12 h-12 bg-green-500/10 text-green-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-green-500/5">
+                                <Wallet className="w-5 h-5" />
                               </button>
                             )}
-                            <button onClick={() => openEdit(std)} className="w-10 h-10 bg-blue-500/10 text-blue-500 rounded-xl flex items-center justify-center active:scale-90 transition-all">
-                              <Edit3 className="w-4 h-4" />
+                            <button onClick={() => openEdit(std)} className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center active:scale-90 transition-all border border-blue-500/5">
+                              <Edit3 className="w-5 h-5" />
                             </button>
                          </div>
                       </div>
