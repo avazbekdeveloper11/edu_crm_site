@@ -24,6 +24,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
 import { API_BASE_URL } from "@/app/constants";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 export default function GroupsPage() {
   const router = useRouter();
@@ -43,6 +44,10 @@ export default function GroupsPage() {
   const [attendanceHistory, setAttendanceHistory] = useState<any[]>([]);
   const [attendanceDate, setAttendanceDate] = useState(new Date().toLocaleDateString('en-CA'));
   const [showHistory, setShowHistory] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const { theme } = useTheme();
 
   const [formData, setFormData] = useState({
@@ -123,15 +128,29 @@ export default function GroupsPage() {
   };
 
   const deleteGroup = async (id: number) => {
-    if (!confirm("Ushbu guruhni o'chirishni xohlaysizmi?")) return;
+    setItemToDelete(id);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+    setDeleting(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch(`${API_BASE_URL}/groups/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/groups/${itemToDelete}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
-      if (res.ok) fetchData();
-    } catch (err) { console.error("Delete failed", err); }
+      if (res.ok) {
+        fetchData();
+        setShowDeleteConfirm(false);
+        setItemToDelete(null);
+      }
+    } catch (err) { 
+        console.error("Delete failed", err); 
+    } finally {
+        setDeleting(false);
+    }
   };
 
   const closeModal = () => {
@@ -628,6 +647,17 @@ export default function GroupsPage() {
           </div>
         )}
       </AnimatePresence>
+
+        <ConfirmDialog 
+            isOpen={showDeleteConfirm}
+            onClose={() => setShowDeleteConfirm(false)}
+            onConfirm={confirmDelete}
+            loading={deleting}
+            title="Guruhni o'chirish?"
+            message="Ushbu guruh va uning barcha davomat ma'lumotlari butunlay o'chiriladi."
+            confirmText="Ha, o'chirish"
+            type="danger"
+        />
     </>
   );
 }

@@ -31,6 +31,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
 import { API_BASE_URL } from "@/app/constants";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -163,7 +164,10 @@ export default function SettingsPage() {
   const handleUserSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (userForm.password !== userForm.confirmPassword) {
-        alert("Parollar mos kelmadi!");
+        setStatusTitle("Xatolik!");
+        setStatusMessage("Parollar mos kelmadi. Iltimos tekshirib ko'ring.");
+        setStatusType("warning");
+        setShowStatusModal(true);
         return;
     }
     const token = localStorage.getItem("access_token");
@@ -184,15 +188,29 @@ export default function SettingsPage() {
   };
 
   const deleteUser = async (id: number) => {
-    if (!confirm("Ushbu xodimni o'chirishni xohlaysizmi?")) return;
+    setConfirmItemId(id);
+    setShowConfirmModal(true);
+  };
+
+  const confirmDeleteUser = async () => {
+    if (!confirmItemId) return;
+    setDeletingUser(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch(`${API_BASE_URL}/users/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/users/${confirmItemId}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
-      if (res.ok) fetchUsers();
-    } catch (err) { console.error("Delete user failed", err); }
+      if (res.ok) {
+        fetchUsers();
+        setShowConfirmModal(false);
+        setConfirmItemId(null);
+      }
+    } catch (err) { 
+        console.error("Delete user failed", err); 
+    } finally {
+        setDeletingUser(false);
+    }
   };
 
   const handleSendNotification = async (e: React.FormEvent) => {
@@ -206,16 +224,25 @@ export default function SettingsPage() {
         body: JSON.stringify(notificationForm)
       });
       if (res.ok) {
-        alert("Xabar yuborilmoqda!");
+        setStatusTitle("Muvaffaqiyat!");
+        setStatusMessage("Xabar yuborildi.");
+        setStatusType("success");
+        setShowStatusModal(true);
         setShowNotificationModal(false);
         setNotificationForm({ target: "STUDENTS", message: "", groupId: "" });
       } else {
         const error = await res.json();
-        alert(`Xatolik: ${error.message || 'Xabar yuborib bo\'lmadi'}`);
+        setStatusTitle("Xatolik!");
+        setStatusMessage(error.message || "Xabarni yuborib bo'lmadi.");
+        setStatusType("danger");
+        setShowStatusModal(true);
       }
     } catch (err) { 
       console.error("Notification send failed", err); 
-      alert("Xabar yuborishda xatolik yuz berdi");
+      setStatusTitle("Xatolik!");
+      setStatusMessage("Xizmat bilan bog'lanishda xatolik yuz berdi.");
+      setStatusType("danger");
+      setShowStatusModal(true);
     } finally {
       setSendingNotification(false);
     }
@@ -224,7 +251,10 @@ export default function SettingsPage() {
   const handleUpdateCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
     if (credentialsForm.password !== credentialsForm.confirmPassword) {
-        alert("Parollar mos kelmadi!");
+        setStatusTitle("Xatolik!");
+        setStatusMessage("Yangi parollar mos kelmadi.");
+        setStatusType("warning");
+        setShowStatusModal(true);
         return;
     }
     setUpdatingCredentials(true);
@@ -236,16 +266,25 @@ export default function SettingsPage() {
         body: JSON.stringify({ login: credentialsForm.login, password: credentialsForm.password })
       });
       if (res.ok) {
-        alert("Login va parol o'zgartirildi!");
+        setStatusTitle("Bajarildi!");
+        setStatusMessage("Login va parol muvaffaqiyatli yangilandi.");
+        setStatusType("success");
+        setShowStatusModal(true);
         setShowCredentialsModal(false);
         setCredentialsForm({ login: "", password: "", confirmPassword: "" });
       } else {
         const error = await res.json();
-        alert(`Xatolik: ${error.message || 'O\'zgartirishda xatolik'}`);
+        setStatusTitle("Xatolik!");
+        setStatusMessage(error.message || "Ma'lumotlarni o'zgartirib bo'lmadi.");
+        setStatusType("danger");
+        setShowStatusModal(true);
       }
     } catch (err) { 
       console.error("Credentials update failed", err); 
-      alert("Xatolik yuz berdi");
+      setStatusTitle("Xatolik!");
+      setStatusMessage("Xatolik yuz berdi. Iltimos qaytadan urinib ko'ring.");
+      setStatusType("danger");
+      setShowStatusModal(true);
     } finally {
       setUpdatingCredentials(false);
     }
@@ -991,6 +1030,27 @@ export default function SettingsPage() {
                 </div>
             )}
         </AnimatePresence>
+
+        <ConfirmDialog 
+            isOpen={showConfirmModal}
+            onClose={() => setShowConfirmModal(false)}
+            onConfirm={confirmDeleteUser}
+            loading={deletingUser}
+            title="Xodimni o'chirish?"
+            message="Ushbu xodim tizimga kirish huquqini yo'qotadi."
+            confirmText="Ha, o'chirish"
+            type="danger"
+        />
+
+        <ConfirmDialog 
+            isOpen={showStatusModal}
+            onClose={() => setShowStatusModal(false)}
+            onConfirm={() => setShowStatusModal(false)}
+            title={statusTitle}
+            message={statusMessage}
+            type={statusType}
+            isAlert={true}
+        />
     </>
   );
 }

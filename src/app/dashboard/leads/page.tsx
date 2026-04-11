@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { API_BASE_URL } from "@/app/constants";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 type LeadStatus = 'New' | 'RECONTACT' | 'INFO_GIVEN' | 'Trial' | 'Student' | 'Rejected';
 
@@ -63,6 +64,9 @@ export default function LeadsPage() {
   const [reminders, setReminders] = useState<Lead[]>([]);
   const [isConvertModalOpen, setIsConvertModalOpen] = useState(false);
   const [convertingLead, setConvertingLead] = useState<Lead | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const [convertForm, setConvertForm] = useState({
     groupId: "",
     courseId: "",
@@ -210,16 +214,28 @@ export default function LeadsPage() {
   };
 
   const deleteLead = async (id: number) => {
-    if (!confirm("Ushbu leadni o'chirishni xohlaysizmi?")) return;
+    setItemToDelete(id);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+    setDeleting(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch(`${API_BASE_URL}/leads/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/leads/${itemToDelete}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
-      if (res.ok) fetchData();
-    } catch (err) {
-      console.error("Delete failed", err);
+      if (res.ok) {
+        fetchData();
+        setShowDeleteConfirm(false);
+        setItemToDelete(null);
+      }
+    } catch (err) { 
+        console.error("Delete failed", err); 
+    } finally {
+        setDeleting(false);
     }
   };
 
@@ -658,7 +674,18 @@ export default function LeadsPage() {
                </motion.div>
             </div>
          )}
-      </AnimatePresence>
+        </AnimatePresence>
+
+        <ConfirmDialog 
+            isOpen={showDeleteConfirm}
+            onClose={() => setShowDeleteConfirm(false)}
+            onConfirm={confirmDelete}
+            loading={deleting}
+            title="Leadni o'chirish?"
+            message="Ushbu lead ma'lumotlari butunlay o'chiriladi."
+            confirmText="Ha, o'chirish"
+            type="danger"
+        />
     </>
   );
 }

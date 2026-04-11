@@ -20,6 +20,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
 import { API_BASE_URL } from "@/app/constants";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 export default function TeachersPage() {
   const router = useRouter();
@@ -41,6 +42,11 @@ export default function TeachersPage() {
     role: "TEACHER",
     specialization: ""
   });
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showCustomAlert, setShowCustomAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState({ title: "", message: "", type: "danger" as any });
+  const [itemToDelete, setItemToDelete] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const { theme } = useTheme();
 
   const fetchData = async () => {
@@ -74,7 +80,8 @@ export default function TeachersPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isEditing && form.password !== form.confirmPassword) {
-      alert("Parollar mos kelmadi!");
+      setAlertContent({ title: "Xatolik!", message: "Kiritilgan parollar bir-biriga mos kelmadi. Iltimos, qaytadan tekshirib ko'ring.", type: "warning" });
+      setShowCustomAlert(true);
       return;
     }
     const token = localStorage.getItem("access_token");
@@ -96,15 +103,29 @@ export default function TeachersPage() {
   };
 
   const deleteTeacher = async (id: number) => {
-    if (!confirm("Ushbu o'qituvchini o'chirishni xohlaysizmi?")) return;
+    setItemToDelete(id);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
+    setDeleting(true);
     const token = localStorage.getItem("access_token");
     try {
-      const res = await fetch(`${API_BASE_URL}/users/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/users/${itemToDelete}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` }
       });
-      if (res.ok) fetchData();
-    } catch (err) { console.error("Delete failed", err); }
+      if (res.ok) {
+        fetchData();
+        setShowDeleteConfirm(false);
+        setItemToDelete(null);
+      }
+    } catch (err) { 
+        console.error("Delete failed", err); 
+    } finally {
+        setDeleting(false);
+    }
   };
 
   const copyCredentials = (teacher: any) => {
@@ -298,6 +319,27 @@ export default function TeachersPage() {
                 </div>
             )}
         </AnimatePresence>
+
+        <ConfirmDialog 
+            isOpen={showDeleteConfirm}
+            onClose={() => setShowDeleteConfirm(false)}
+            onConfirm={confirmDelete}
+            loading={deleting}
+            title="O'chirishni tasdiqlaysizmi?"
+            message="Ushbu o'qituvchi tizimdan butunlay o'chiriladi. Ushbu amalni bekor qilib bo'lmaydi."
+            confirmText="Ha, o'chirish"
+            type="danger"
+        />
+
+        <ConfirmDialog 
+            isOpen={showCustomAlert}
+            onClose={() => setShowCustomAlert(false)}
+            onConfirm={() => setShowCustomAlert(false)}
+            title={alertContent.title}
+            message={alertContent.message}
+            type={alertContent.type}
+            isAlert={true}
+        />
     </>
   );
 }
