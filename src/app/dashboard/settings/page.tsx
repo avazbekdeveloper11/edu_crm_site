@@ -782,7 +782,7 @@ export default function SettingsPage() {
                                 students="100"
                                 staff="5"
                                 features={["CRM Lead boshqaruv", "To'lovlar va Kassa", "Telegram Bot xabarnomalari", "SMS xizmati (Eskiz)"]}
-                                active={fullCenter?.tariff === "Standart" && fullCenter?.tariffType === billingCycle}
+                                active={fullCenter?.tariff === "Standart"}
                                 themeColor="blue"
                                 icon={<Plus className="w-8 h-8" />}
                                 onSelect={() => handleRequestUpgrade("Standart")}
@@ -795,7 +795,7 @@ export default function SettingsPage() {
                                 students="400"
                                 staff="25"
                                 features={["Barcha Standart imkoniyatlar", "Kengaytirilgan Statistika", "Davomat va Jurnallar", "Prioritetli qo'llab-quvvatlash"]}
-                                active={fullCenter?.tariff === "Premium" && fullCenter?.tariffType === billingCycle}
+                                active={fullCenter?.tariff === "Premium"}
                                 themeColor="purple"
                                 popular
                                 icon={<CheckCircle2 className="w-8 h-8" />}
@@ -809,7 +809,7 @@ export default function SettingsPage() {
                                 students="CHEKSIZ"
                                 staff="CHEKSIZ"
                                 features={["Barcha Premium imkoniyatlar", "Shaxsiy menejer", "Brand xabarlar", "Maxsus funksiyalar (Custom)"]}
-                                active={fullCenter?.tariff === "VIP" && fullCenter?.tariffType === billingCycle}
+                                active={fullCenter?.tariff === "VIP"}
                                 themeColor="orange"
                                 icon={<ShieldCheck className="w-8 h-8" />}
                                 onSelect={() => handleRequestUpgrade("VIP")}
@@ -952,11 +952,17 @@ function TariffCard({ name, price, yearlyTotal, billingCycle, students, staff, f
                 ))}
             </ul>
 
+            {active && (
+                <div className="w-full py-3 rounded-2xl font-black text-[10px] uppercase tracking-[.2em] bg-green-500/10 text-green-500 border border-green-500/20 text-center mb-3">
+                    ✓ HOZIRGI TARIF
+                </div>
+            )}
             <button 
                 onClick={onSelect}
-                className={`w-full py-5 rounded-2xl font-black text-[10px] uppercase tracking-[.2em] transition-all duration-300 shadow-xl ${active ? 'bg-purple-600/10 text-purple-500 border border-purple-500/20 cursor-default' : 'bg-white hover:bg-white/90 text-black active:scale-95'}`}
+                disabled={active}
+                className={`w-full py-5 rounded-2xl font-black text-[10px] uppercase tracking-[.2em] transition-all duration-300 shadow-xl ${active ? 'bg-white/5 text-gray-500 border border-white/10 cursor-not-allowed' : 'bg-white hover:bg-white/90 text-black active:scale-95'}`}
             >
-                {active ? "FAOL TARIF" : "TARIFNI TANLASH"}
+                {active ? "FAOL TARIF" : "SO'ROV YUBORISH"}
             </button>
         </div>
     );

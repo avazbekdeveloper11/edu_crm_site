@@ -540,6 +540,78 @@ export default function SetupDashboard() {
           </div>
         </section>
 
+        {/* Tarif So'rovlari */}
+        {upgradeRequests.length > 0 && (
+          <section className="mt-10 bg-[#111] rounded-2xl border border-orange-500/20 overflow-hidden">
+            <div className="px-6 py-4 bg-orange-500/5 border-b border-orange-500/10 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <AlertTriangle className="w-5 h-5 text-orange-500" />
+                <h3 className="text-sm font-black uppercase tracking-wider text-orange-500">Tarif O'zgartirish So'rovlari</h3>
+              </div>
+              <span className="px-3 py-1 bg-orange-500/10 border border-orange-500/20 text-orange-500 text-[10px] font-black rounded-full uppercase">
+                {upgradeRequests.length} ta kutilmoqda
+              </span>
+            </div>
+            <div className="divide-y divide-white/5">
+              {upgradeRequests.map((req: any) => (
+                <div key={req.id} className="px-6 py-4 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                      <Building2 className="w-5 h-5 text-orange-500" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-sm">{req.center?.name || 'Noma\'lum markaz'}</div>
+                      <div className="flex items-center gap-3 mt-1">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">{req.center?.tariff || '—'}</span>
+                        <span className="text-[10px] text-gray-600">→</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-purple-500">{req.tariff}</span>
+                        <span className="text-[9px] font-bold text-gray-600 italic">({req.tariffType === 'Yearly' ? 'Yillik' : 'Oylik'})</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={async () => {
+                        const token = localStorage.getItem("access_token");
+                        const currentApiUrl = getApiBaseUrl();
+                        try {
+                          const res = await fetch(`${currentApiUrl}/centers/approve-upgrade/${req.id}`, {
+                            method: "POST",
+                            headers: { "Authorization": `Bearer ${token}` }
+                          });
+                          if (res.ok) {
+                            fetchUpgradeRequests();
+                            fetchCenters();
+                          }
+                        } catch (err) { console.error("Approve failed", err); }
+                      }}
+                      className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg"
+                    >
+                      ✓ Tasdiqlash
+                    </button>
+                    <button
+                      onClick={async () => {
+                        const token = localStorage.getItem("access_token");
+                        const currentApiUrl = getApiBaseUrl();
+                        try {
+                          const res = await fetch(`${currentApiUrl}/centers/reject-upgrade/${req.id}`, {
+                            method: "POST",
+                            headers: { "Authorization": `Bearer ${token}` }
+                          });
+                          if (res.ok) fetchUpgradeRequests();
+                        } catch (err) { console.error("Reject failed", err); }
+                      }}
+                      className="px-4 py-2 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 border border-red-500/20"
+                    >
+                      ✗ Rad etish
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Health Check */}
         <div className="mt-10 p-6 rounded-2xl bg-green-500/5 border border-green-500/20 flex items-center justify-between">
           <div className="flex items-center gap-3">
