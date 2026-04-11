@@ -153,33 +153,34 @@ export default function CoursesPage() {
 
   return (
     <>
-        <header className="min-h-[70px] sm:min-h-24 border-b border-[var(--crm-border)] flex flex-col md:flex-row items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-4 md:py-0 gap-4 sm:gap-6">
-          <div className="relative group w-full max-w-md">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--crm-text-muted)] group-focus-within:text-[var(--crm-accent)] transition-colors" />
+        <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-3 sm:gap-6">
+          <div className="relative group flex-1 max-w-[200px] sm:max-w-md">
+            <Search className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--crm-text-muted)] group-focus-within:text-[var(--crm-accent)] transition-colors" />
             <input 
               type="text" 
               value={search} 
               onChange={(e) => setSearch(e.target.value)} 
               placeholder="Qidiruv..." 
-              className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl py-2.5 sm:py-3.5 pl-14 pr-6 focus:outline-none focus:border-[var(--crm-accent)] text-xs sm:text-sm font-bold transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner" 
+              className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl sm:rounded-2xl py-2 sm:py-3.5 pl-9 sm:pl-14 pr-4 text-[10px] sm:text-sm font-bold focus:outline-none focus:border-[var(--crm-accent)] transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner" 
             />
           </div>
           <button 
             onClick={() => { setIsEditing(false); setFormData({ name: "", description: "", price: "", duration: "" }); setShowModal(true); }} 
-            className="w-full md:w-auto bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-6 sm:px-10 py-3 sm:py-4 rounded-[1rem] sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-3 shadow-2xl shadow-purple-600/30 active:scale-95 uppercase whitespace-nowrap"
+            className="bg-[var(--crm-accent)] hover:scale-105 transition-all text-white px-4 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-purple-600/30 active:scale-95 uppercase whitespace-nowrap shrink-0"
           >
-            <Plus className="w-5 h-5 shadow-lg" />
-            Yangi Kurs
+            <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
+            <span className="hidden xs:inline">Yangi Kurs</span>
+            <span className="xs:hidden">Yangi</span>
           </button>
         </header>
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
-          <div className="flex items-center justify-between mb-10 sm:mb-16 px-2 sm:px-0">
+          <div className="flex items-center justify-between mb-8 sm:mb-16 px-1 sm:px-0">
             <div className="space-y-1">
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Kurslar</h1>
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Kurslar</h1>
               <div className="flex items-center gap-3 sm:gap-4">
-                  <p className="text-[var(--crm-text-muted)] font-black text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Ta'lim yo'nalishlari</p>
-                  <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2 py-0.5 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)]">{filteredCourses.length} ta</span>
+                  <p className="text-[var(--crm-text-muted)] font-black text-[7px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Yo'nalishlar</p>
+                  <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2 py-0.5 rounded-lg text-[7px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)]">{filteredCourses.length} ta</span>
               </div>
             </div>
           </div>
@@ -196,37 +197,37 @@ export default function CoursesPage() {
               <p className="text-[var(--crm-text-muted)] font-bold text-sm max-w-sm mx-auto opacity-60 italic">Hali birorta ham ta'lim yo'nalishi qo'shilmagan yoki qidiruv natijasi mavjud emas.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-10 pb-24">
               {filteredCourses.map((crs) => (
-                <div key={crs.id} className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 hover:border-[var(--crm-accent)] transition-all group relative overflow-hidden shadow-2xl active:scale-[0.98] cursor-default">
-                  <div className="absolute top-0 right-0 w-40 h-40 bg-[var(--crm-accent)] opacity-[0.03] blur-[50px] -mr-20 -mt-20 rounded-full group-hover:bg-[var(--crm-accent)] group-hover:opacity-[0.08] transition-all" />
+                <div key={crs.id} className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] sm:rounded-[3rem] p-5 sm:p-10 hover:border-[var(--crm-accent)] transition-all group relative overflow-hidden shadow-2xl active:scale-[0.98] cursor-default">
+                  <div className="absolute top-0 right-0 w-32 h-32 sm:w-40 sm:h-40 bg-[var(--crm-accent)] opacity-[0.03] blur-[40px] sm:blur-[50px] -mr-16 -mt-16 sm:-mr-20 sm:-mt-20 rounded-full group-hover:bg-[var(--crm-accent)] group-hover:opacity-[0.08] transition-all" />
                   
-                  <div className="flex items-start justify-between mb-10">
+                  <div className="flex items-start justify-between mb-6 sm:mb-10">
                     <div className="flex flex-col gap-2">
-                        <div className="w-16 h-16 rounded-[1.5rem] bg-[var(--crm-accent-soft)] border border-[var(--crm-accent-soft)] flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-inner">
-                          <Layers className="w-8 h-8 text-[var(--crm-accent)]" />
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-[1.5rem] bg-[var(--crm-accent-soft)] border border-[var(--crm-accent-soft)] flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                          <Layers className="w-6 h-6 sm:w-8 sm:h-8 text-[var(--crm-accent)]" />
                         </div>
-                        <span className="bg-[var(--crm-success-soft)] text-green-500 text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-[var(--crm-success-soft)] w-fit mt-2">
+                        <span className="bg-[var(--crm-success-soft)] text-green-500 text-[7px] sm:text-[9px] font-black uppercase tracking-widest px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-[var(--crm-success-soft)] w-fit mt-1 sm:mt-2">
                             {crs.duration} Oylik
                         </span>
                     </div>
-                    <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all translate-y-0 sm:translate-y-2 sm:group-hover:translate-y-0 duration-300">
-                       <button onClick={() => openEdit(crs)} className="p-4 bg-[var(--crm-bg)]/80 rounded-2xl hover:bg-blue-600/10 hover:text-blue-500 transition-all text-[var(--crm-text-muted)] shadow-xl border border-[var(--crm-border)]"><Edit3 className="w-5 h-5" /></button>
-                       <button onClick={() => { setDeleteData({ id: crs.id, name: crs.name }); setShowDeleteModal(true); }} className="p-4 bg-[var(--crm-bg)]/80 rounded-2xl hover:bg-red-600/10 hover:text-red-500 transition-all text-[var(--crm-text-muted)] shadow-xl border border-[var(--crm-border)]"><Trash2 className="w-5 h-5" /></button>
+                    <div className="flex gap-2">
+                       <button onClick={() => openEdit(crs)} className="p-3 sm:p-4 bg-[var(--crm-bg)]/80 rounded-xl sm:rounded-2xl hover:bg-blue-600/10 hover:text-blue-500 transition-all text-[var(--crm-text-muted)] shadow-xl border border-[var(--crm-border)]"><Edit3 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
+                       <button onClick={() => { setDeleteData({ id: crs.id, name: crs.name }); setShowDeleteModal(true); }} className="p-3 sm:p-4 bg-[var(--crm-bg)]/80 rounded-xl sm:rounded-2xl hover:bg-red-600/10 hover:text-red-500 transition-all text-[var(--crm-text-muted)] shadow-xl border border-[var(--crm-border)]"><Trash2 className="w-4 h-4 sm:w-5 sm:h-5" /></button>
                     </div>
                   </div>
 
-                  <h3 className="text-3xl font-black mb-4 tracking-tighter group-hover:text-[var(--crm-accent)] transition-colors uppercase leading-none">{crs.name}</h3>
-                  <p className="text-[var(--crm-text-muted)] text-[10px] uppercase font-black tracking-widest leading-relaxed mb-6 line-clamp-2 opacity-60">
-                    {crs.description || "Ushbu kurs haqida batafsil ma'lumot kiritilmagan."}
+                  <h3 className="text-xl sm:text-3xl font-black mb-2 sm:mb-4 tracking-tighter group-hover:text-[var(--crm-accent)] transition-colors uppercase leading-none">{crs.name}</h3>
+                  <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[10px] uppercase font-black tracking-widest leading-relaxed mb-4 sm:mb-6 line-clamp-2 opacity-60">
+                    {crs.description || "Ma'lumot kiritilmagan."}
                   </p>
 
-                  <div className="pt-6 border-t border-[var(--crm-border)] flex items-end justify-between">
+                  <div className="pt-4 sm:pt-6 border-t border-[var(--crm-border)] flex items-end justify-between">
                     <div className="flex flex-col">
-                        <span className="text-[8px] font-black uppercase tracking-[0.2em] text-[var(--crm-text-muted)] mb-1">Kurs Narxi:</span>
-                        <div className="flex items-end gap-2">
-                            <span className="text-3xl font-black text-[var(--crm-text)] tracking-tighter">{formatMoney(crs.price)}</span>
-                            <span className="text-[10px] font-black text-[var(--crm-text-muted)] mb-1.5 uppercase tracking-widest">UZS</span>
+                        <span className="text-[7px] sm:text-[8px] font-black uppercase tracking-[0.2em] text-[var(--crm-text-muted)] mb-0.5 sm:mb-1">Kurs Narxi:</span>
+                        <div className="flex items-end gap-1.5 sm:gap-2">
+                            <span className="text-xl sm:text-3xl font-black text-[var(--crm-text)] tracking-tighter">{formatMoney(crs.price)}</span>
+                            <span className="text-[8px] sm:text-[10px] font-black text-[var(--crm-text-muted)] mb-0.5 sm:mb-1.5 uppercase tracking-widest">UZS</span>
                         </div>
                     </div>
                   </div>
