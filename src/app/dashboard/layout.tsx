@@ -70,7 +70,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30 overflow-x-hidden">
+    <div className="h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30 overflow-hidden">
       {/* GLOBAL RED BANNER - 30PX FIXED */}
       {showWarning && isBannerVisible && (
         <div className="fixed top-0 left-0 w-full h-[30px] bg-red-600 flex items-center justify-between px-6 z-[9999] shadow-2xl animate-in slide-in-from-top duration-700 border-b border-white/10">
@@ -98,7 +98,7 @@ export default function DashboardLayout({
       )}
 
       <Sidebar centerName={user.centerName} role={user.role || "OWNER"} />
-      <main className={`flex-1 min-w-0 pb-32 sm:pb-0 relative flex flex-col ${showWarning && isBannerVisible ? 'mt-[30px]' : ''}`}>
+      <main className={`flex-1 h-full min-w-0 relative flex flex-col ${showWarning && isBannerVisible ? 'pt-[30px]' : ''}`}>
         <div className="flex-1 overflow-y-auto no-scrollbar">
             {children}
         </div>
