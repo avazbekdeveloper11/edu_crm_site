@@ -69,24 +69,27 @@ export default function DashboardLayout({
       <Sidebar centerName={user.centerName} role={user.role || "OWNER"} />
       <main className="flex-1 min-w-0 pb-32 sm:pb-0 relative flex flex-col">
         {showWarning && (
-            <div className="w-full bg-gradient-to-r from-red-600/10 via-red-600/20 to-red-600/10 border-b border-red-500/20 px-4 py-3 flex items-center justify-center gap-3 sm:gap-6 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-red-600/5 animate-pulse" />
-                <div className="flex items-center gap-2 relative z-10">
-                    <div className="w-6 h-6 rounded-lg bg-red-500 flex items-center justify-center shadow-lg shadow-red-500/30">
-                        <AlertTriangle className="w-3.5 h-3.5 text-white" />
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[100] w-max max-w-[90vw]">
+                <div className="bg-black/80 backdrop-blur-xl border border-red-500/30 px-4 py-2 rounded-2xl flex items-center gap-3 shadow-2xl shadow-red-500/20 animate-bounce-subtle">
+                    <div className="flex h-2 w-2 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                     </div>
+                    <div className="flex flex-col">
+                        <span className="text-[10px] font-black text-white/90 uppercase tracking-widest leading-none">
+                            Obuna muddati {daysRemaining <= 0 ? "tugadi" : "yaqin"}
+                        </span>
+                        <span className="text-[8px] font-bold text-red-500 uppercase tracking-tighter mt-1 opacity-80">
+                            {daysRemaining <= 0 ? "Darhol yangilang" : `${daysRemaining} kun qoldi`}
+                        </span>
+                    </div>
+                    <Link 
+                        href="/dashboard/settings" 
+                        className="ml-2 px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-red-600/20"
+                    >
+                        Yangilash
+                    </Link>
                 </div>
-                <div className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-red-500 relative z-10 text-center">
-                    DIQQAT! <span className="text-white mx-1">{fullCenter.tariff}</span> TARIFI MUDDATI <span className="bg-red-500 text-white px-2 py-0.5 rounded ml-1">{daysRemaining <= 0 ? "TUGADI" : `${daysRemaining} KUNDA TUGAYDI`}</span>
-                </div>
-                <Link 
-                    href="/dashboard/settings" 
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-black rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-red-50 transition-all shadow-xl active:scale-95 relative z-10"
-                >
-                    <Zap className="w-3 h-3 text-red-600 fill-red-600" />
-                    Yangilash
-                    <ChevronRight className="w-3 h-3 opacity-40" />
-                </Link>
             </div>
         )}
         <div className="flex-1 overflow-y-auto no-scrollbar">
