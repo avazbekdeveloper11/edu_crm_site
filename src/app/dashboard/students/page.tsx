@@ -48,6 +48,12 @@ const formatPhone = (value: string) => {
     return `+${phoneNumber.slice(0, 3)} (${phoneNumber.slice(3, 5)}) ${phoneNumber.slice(5, 8)} ${phoneNumber.slice(8, 10)} ${phoneNumber.slice(10, 12)}`;
 };
 
+const formatDate = (dateStr: string) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric" });
+};
+
 export default function StudentsPage() {
   const router = useRouter();
   const [center, setCenter] = useState<any>(null);
@@ -293,6 +299,7 @@ export default function StudentsPage() {
                         <th className="py-8 pl-12">Ism Familiya</th>
                         <th className="py-8">Telefon</th>
                         <th className="py-8">Kurs / Guruh</th>
+                        <th className="py-8 text-center px-4">Qabul</th>
                         <th className="py-8">Qarz</th>
                         <th className="py-8 pr-12 text-right">Amallar</th>
                     </tr>
@@ -318,7 +325,7 @@ export default function StudentsPage() {
                                 </div>
                             </td>
                             <td className="py-8 text-[var(--crm-text-muted)] font-mono text-sm tracking-tight">{formatPhone(std.phone)}</td>
-                            <td className="py-8">
+                            <td className="py-8 px-4">
                                 <div className="flex flex-wrap gap-2 max-w-[240px]">
                                     {(std.courses || []).map((c: any) => {
                                         const grp = (std.groups || []).find((g: any) => g.courseId === c.id);
@@ -336,6 +343,11 @@ export default function StudentsPage() {
                                             </div>
                                         );
                                     })}
+                                </div>
+                            </td>
+                            <td className="py-8 text-center px-4">
+                                <div className="text-[10px] font-black text-[var(--crm-text-muted)] opacity-60 tracking-widest">
+                                    {formatDate(std.createdAt)}
                                 </div>
                             </td>
                             <td className="py-8">
