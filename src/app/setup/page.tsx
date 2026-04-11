@@ -27,7 +27,14 @@ export default function SetupDashboard() {
   const [isAuth, setIsAuth] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [centers, setCenters] = useState<any[]>([]);
-  const [newCenter, setNewCenter] = useState({ name: "", login: "", pass: "", botToken: "" });
+  const [newCenter, setNewCenter] = useState({ 
+    name: "", 
+    login: "", 
+    pass: "", 
+    botToken: "",
+    tariff: "Standart",
+    tariffType: "Monthly"
+  });
   const [config, setConfig] = useState({
     botToken: "**********",
     dbUrl: "postgresql://localhost:5432/edu_crm",
@@ -72,7 +79,11 @@ export default function SetupDashboard() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(newCenter),
+        body: JSON.stringify({
+           ...newCenter,
+           // Default to 7 days for new centers if no expiry is set
+           tariffExpiresAt: isEditing ? undefined : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+        }),
       });
 
       if (response.ok) {
@@ -89,7 +100,9 @@ export default function SetupDashboard() {
       name: center.name,
       login: center.login,
       pass: center.password || center.pass,
-      botToken: center.botToken || ""
+      botToken: center.botToken || "",
+      tariff: center.tariff || "Standart",
+      tariffType: center.tariffType || "Monthly"
     });
     setEditingId(center.id);
     setIsEditing(true);
@@ -99,7 +112,7 @@ export default function SetupDashboard() {
   const closeModal = () => {
     setShowModal(false);
     setIsEditing(false);
-    setNewCenter({ name: "", login: "", pass: "", botToken: "" });
+    setNewCenter({ name: "", login: "", pass: "", botToken: "", tariff: "Standart", tariffType: "Monthly" });
     setEditingId(null);
   };
 
@@ -154,11 +167,34 @@ export default function SetupDashboard() {
                   onChange={(e: any) => setNewCenter({ ...newCenter, pass: e.target.value })}
                 />
                 <InputField
-                  label="Telegram Bot Token"
-                  value={newCenter.botToken}
-                  onChange={(e: any) => setNewCenter({ ...newCenter, botToken: e.target.value })}
                   placeholder="7483...:AAH... (optional)"
                 />
+                
+                <div className="grid grid-cols-2 gap-4">
+                   <div className="space-y-1.5">
+                      <label className="text-xs text-gray-500 uppercase tracking-widest font-bold ml-1">Tarif</label>
+                      <select 
+                        value={newCenter.tariff}
+                        onChange={(e) => setNewCenter({ ...newCenter, tariff: e.target.value })}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-all text-sm appearance-none"
+                      >
+                         <option value="Standart" className="bg-[#0a0a0a]">Standart</option>
+                         <option value="Premium" className="bg-[#0a0a0a]">Premium</option>
+                         <option value="VIP" className="bg-[#0a0a0a]">VIP</option>
+                      </select>
+                   </div>
+                   <div className="space-y-1.5">
+                      <label className="text-xs text-gray-500 uppercase tracking-widest font-bold ml-1">Turi</label>
+                      <select 
+                        value={newCenter.tariffType}
+                        onChange={(e) => setNewCenter({ ...newCenter, tariffType: e.target.value })}
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-all text-sm appearance-none"
+                      >
+                         <option value="Monthly" className="bg-[#0a0a0a]">Oylik</option>
+                         <option value="Yearly" className="bg-[#0a0a0a]">Yillik</option>
+                      </select>
+                   </div>
+                </div>
               </div>
               <div className="flex gap-3 mt-8">
                 <button
@@ -249,8 +285,8 @@ export default function SetupDashboard() {
                 <tr className="border-b border-white/5 text-gray-500 text-xs font-bold uppercase tracking-widest">
                   <th className="pb-4 pl-4">Markaz Nomi</th>
                   <th className="pb-4">Admin Login</th>
-                  <th className="pb-4">Password</th>
-                  <th className="pb-4">Status</th>
+                  <th className="pb-4">Tarif</th>
+                  <th className="pb-4">Amal qilish</th>
                   <th className="pb-4 pr-4 text-right">Actions</th>
                 </tr>
               </thead>
@@ -259,7 +295,6 @@ export default function SetupDashboard() {
                   <CenterRow
                     key={center.id}
                     {...center}
-                    pass={center.password}
                     onEdit={() => openEdit(center)}
                   />
                 ))}
@@ -317,17 +352,22 @@ export default function SetupDashboard() {
   );
 }
 
-function CenterRow({ name, login, pass, status, onEdit }: any) {
+function CenterRow({ name, login, tariff, tariffType, tariffExpiresAt, onEdit }: any) {
   return (
     <tr className="group border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
       <td className="py-4 pl-4 font-bold">{name}</td>
       <td className="py-4 text-gray-400 font-mono text-xs">{login}</td>
-      <td className="py-4 text-gray-400 font-mono text-xs">{pass}</td>
       <td className="py-4">
-        <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${status === "Active" ? "bg-green-500/10 text-green-500" : "bg-red-500/10 text-red-500"
-          }`}>
-          {status}
+        <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${
+          tariff === "VIP" ? "bg-orange-500/10 text-orange-500" : 
+          tariff === "Premium" ? "bg-purple-500/10 text-purple-500" : 
+          "bg-blue-500/10 text-blue-500"
+        }`}>
+          {tariff || "Standart"} <span className="opacity-40 ml-1 text-[8px] italic">({tariffType === 'Monthly' ? 'M' : 'Y'})</span>
         </span>
+      </td>
+      <td className="py-4 text-gray-400 font-mono text-[10px]">
+        {tariffExpiresAt ? new Date(tariffExpiresAt).toLocaleDateString() : "No Date"}
       </td>
       <td className="py-4 pr-4 transition-all lg:opacity-0 group-hover:opacity-100">
         <div className="flex justify-end gap-2">
