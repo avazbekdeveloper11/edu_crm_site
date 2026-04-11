@@ -44,14 +44,18 @@ export default function DashboardLayout({
 
   const getDaysRemaining = () => {
     if (!fullCenter?.tariffExpiresAt) return null;
-    const expiry = new Date(fullCenter.tariffExpiresAt).getTime();
-    const now = new Date().getTime();
-    const diff = expiry - now;
-    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+    const expiryDate = new Date(fullCenter.tariffExpiresAt);
+    const today = new Date();
+    
+    // Farqni millisoniyalarda olamiz va kunlarga o'tkazamiz
+    const diffTime = expiryDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
   };
 
   const daysRemaining = getDaysRemaining();
-  const showWarning = daysRemaining !== null && daysRemaining <= 3; 
+  // 3 kundan kam qolganda yoki bugun oxirgi kun bo'lsa chiqadi
+  const showWarning = daysRemaining !== null && daysRemaining <= 3;
   const [isBannerVisible, setIsBannerVisible] = useState(true);
 
   if (loading || !user) {
