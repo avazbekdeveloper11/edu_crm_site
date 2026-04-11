@@ -44,7 +44,6 @@ export default function GroupsPage() {
   const [attendanceHistory, setAttendanceHistory] = useState<any[]>([]);
   const [attendanceDate, setAttendanceDate] = useState(new Date().toLocaleDateString('en-CA'));
   const [showHistory, setShowHistory] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
   const [deleting, setDeleting] = useState(false);
