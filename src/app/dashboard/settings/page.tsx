@@ -777,6 +777,7 @@ export default function SettingsPage() {
                             <TariffCard 
                                 name="Standart"
                                 price={billingCycle === 'Monthly' ? "299 000" : "2 990 000"}
+                                billingCycle={billingCycle}
                                 students="100"
                                 staff="5"
                                 features={["CRM Lead boshqaruv", "To'lovlar va Kassa", "Telegram Bot xabarnomalari", "SMS xizmati (Eskiz)"]}
@@ -788,6 +789,7 @@ export default function SettingsPage() {
                             <TariffCard 
                                 name="Premium"
                                 price={billingCycle === 'Monthly' ? "499 000" : "4 990 000"}
+                                billingCycle={billingCycle}
                                 students="400"
                                 staff="25"
                                 features={["Barcha Standart imkoniyatlar", "Kengaytirilgan Statistika", "Davomat va Jurnallar", "Prioritetli qo'llab-quvvatlash"]}
@@ -800,6 +802,7 @@ export default function SettingsPage() {
                             <TariffCard 
                                 name="VIP"
                                 price={billingCycle === 'Monthly' ? "999 000" : "9 990 000"}
+                                billingCycle={billingCycle}
                                 students="CHEKSIZ"
                                 staff="CHEKSIZ"
                                 features={["Barcha Premium imkoniyatlar", "Shaxsiy menejer", "Brand xabarlar", "Maxsus funksiyalar (Custom)"]}
