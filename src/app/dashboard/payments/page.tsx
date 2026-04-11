@@ -163,39 +163,23 @@ export default function PaymentsPage() {
   return (
     <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-3 sm:gap-6">
-          <div className="relative group flex-1 max-w-[180px] sm:max-w-md">
+          <div className="relative group flex-1 max-w-[150px] sm:max-w-md">
             <Search className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--crm-text-muted)] group-focus-within:text-[var(--crm-accent)] transition-colors" />
             <input 
               type="text" 
               value={search} 
               onChange={(e) => setSearch(e.target.value)} 
               placeholder="Qidiruv..." 
-              className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl sm:rounded-2xl py-2 sm:py-3.5 pl-10 sm:pl-14 pr-4 text-[10px] sm:text-sm font-bold focus:outline-none focus:border-[var(--crm-accent)] transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner" 
+              className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl sm:rounded-2xl py-2 sm:py-3.5 pl-9 sm:pl-14 pr-4 text-[10px] sm:text-sm font-bold focus:outline-none focus:border-[var(--crm-accent)] transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner" 
             />
           </div>
-          <div className="flex items-center gap-3 sm:gap-10 shrink-0">
-             <div className="flex flex-col items-end shrink-0 group relative">
-                <span className="text-[7px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] opacity-60">Tushum</span>
-                <span className="text-xs sm:text-2xl font-black text-green-500 tracking-tighter leading-none italic">{formatMoney(totalIncome)}<span className="text-[7px] sm:text-[10px] opacity-40 uppercase ml-0.5 sm:ml-1">UZS</span></span>
-                
-                {/* Breakdown Tooltip/Display */}
-                <div className="flex gap-2 sm:gap-4 mt-1">
-                   {['CASH', 'CARD', 'TRANSFER'].map(type => {
-                      const amount = filteredPayments.filter(p => p.paymentType === type).reduce((acc, p) => acc + p.amount, 0);
-                      if (amount === 0) return null;
-                      const labels: any = { CASH: 'Naqt', CARD: 'Karta', TRANSFER: 'O\'tkazma' };
-                      const colors: any = { CASH: 'text-orange-500', CARD: 'text-blue-500', TRANSFER: 'text-purple-500' };
-                      return (
-                         <div key={type} className="flex flex-col items-end">
-                            <span className="text-[6px] sm:text-[8px] font-black uppercase opacity-40">{labels[type]}</span>
-                            <span className={`text-[8px] sm:text-xs font-black ${colors[type]} leading-tight tracking-tight`}>{formatMoney(amount)}</span>
-                         </div>
-                      );
-                   })}
-                </div>
+          <div className="flex items-center gap-2 sm:gap-10 shrink-0">
+             <div className="flex flex-col items-end shrink-0 pointer-events-none sm:pointer-events-auto">
+                <span className="text-[6px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] opacity-60 leading-none mb-0.5 sm:mb-1">Tushum</span>
+                <span className="text-[10px] sm:text-2xl font-black text-green-500 tracking-tighter leading-none italic">{formatMoney(totalIncome)}<span className="text-[6px] sm:text-[10px] opacity-40 uppercase ml-0.5 sm:ml-1">UZS</span></span>
              </div>
-             <button onClick={() => setShowAddModal(true)} className="bg-green-600 hover:scale-105 transition-all text-white px-4 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-green-600/30 active:scale-95 uppercase whitespace-nowrap">
-                <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
+             <button onClick={() => setShowAddModal(true)} className="bg-green-600 hover:scale-105 transition-all text-white px-3 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-green-600/30 active:scale-95 uppercase whitespace-nowrap">
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="hidden xs:inline">To'lov Qabul</span>
                 <span className="xs:hidden">To'lov</span>
              </button>
@@ -203,31 +187,31 @@ export default function PaymentsPage() {
         </header>
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 mb-10 sm:mb-16 px-2 sm:px-0">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-8 mb-8 sm:mb-16 px-1 sm:px-0">
             <div className="space-y-1">
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Kassa</h1>
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Kassa</h1>
               <div className="flex items-center gap-3 sm:gap-4">
-                  <p className="text-[var(--crm-text-muted)] font-black text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Moliya va to'lovlar jurnali</p>
-                  <span className="bg-[var(--crm-success-soft)] text-green-500 px-2 py-0.5 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-success-soft)]">{filteredPayments.length} ta</span>
+                  <p className="text-[var(--crm-text-muted)] font-black text-[7px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Moliya jurnali</p>
+                  <span className="bg-[var(--crm-success-soft)] text-green-500 px-2 py-0.5 rounded-lg text-[7px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-success-soft)]">{filteredPayments.length} ta operatsiya</span>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 sm:gap-4 bg-[var(--crm-card)] p-2 sm:p-3 rounded-2xl sm:rounded-[2rem] border border-[var(--crm-border)] shadow-xl w-full lg:w-auto">
-                <div className="relative group flex-1 md:flex-none md:min-w-[140px]">
-                    <CalendarDays className="absolute left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--crm-text-muted)] pointer-events-none" />
-                    <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2.5 pl-10 pr-8 outline-none focus:border-green-500/50 text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
-                        <option value="" className="bg-[var(--crm-card)]">Barcha Oylar</option>
+            <div className="flex items-center gap-2 sm:gap-4 bg-[var(--crm-card)] p-1.5 sm:p-3 rounded-2xl sm:rounded-[2rem] border border-[var(--crm-border)] shadow-xl w-full lg:w-auto">
+                <div className="relative group flex-1 sm:flex-none">
+                    <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
+                    <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-green-500/50 text-[7px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
+                        <option value="" className="bg-[var(--crm-card)]">Oylar</option>
                         {months.map(m => <option key={m.v} value={m.v} className="bg-[var(--crm-card)]">{m.l}</option>)}
                     </select>
                 </div>
-                <div className="relative group flex-1 md:flex-none md:min-w-[140px]">
-                    <Layers className="absolute left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--crm-text-muted)] pointer-events-none" />
-                    <select value={filterCourse} onChange={(e) => setFilterCourse(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2.5 pl-10 pr-8 outline-none focus:border-green-500/50 text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
-                        <option value="" className="bg-[var(--crm-card)]">Barcha Kurslar</option>
+                <div className="relative group flex-1 sm:flex-none">
+                    <Layers className="absolute left-3 top-1/2 -translate-y-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
+                    <select value={filterCourse} onChange={(e) => setFilterCourse(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-green-500/50 text-[7px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
+                        <option value="" className="bg-[var(--crm-card)]">Kurslar</option>
                         {courses.map(c => <option key={c.id} value={c.id} className="bg-[var(--crm-card)]">{c.name}</option>)}
                     </select>
                 </div>
-                <button onClick={() => { setSearch(""); setFilterMonth(""); setFilterCourse(""); setFilterGroup(""); }} className="p-2 sm:p-2.5 text-[var(--crm-text-muted)] hover:text-red-500 transition-colors"><X className="w-4 h-4" /></button>
+                <button onClick={() => { setSearch(""); setFilterMonth(""); setFilterCourse(""); setFilterGroup(""); }} className="p-1 px-2 text-[var(--crm-text-muted)] hover:text-red-500 transition-colors"><X className="w-3 h-3" /></button>
             </div>
           </div>
 
@@ -242,73 +226,126 @@ export default function PaymentsPage() {
               <p className="text-[var(--crm-text-muted)] font-bold text-sm max-w-sm mx-auto opacity-60 italic">Hali birorta ham to'lov amalga oshirilmagan yoki qidiruv natijasi mavjud emas.</p>
             </div>
           ) : (
-            <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[3.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.2)] relative overflow-x-auto no-scrollbar">
-              <table className="w-full text-left min-w-[800px] sm:min-w-[1000px]">
-                <thead>
-                    <tr className="bg-[var(--crm-bg)]/30 border-b border-[var(--crm-border)] text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em]">
-                        <th className="py-8 pl-12">Talaba / Guruh</th>
-                        <th className="py-8">Muddat (Period)</th>
-                        <th className="py-8">Miqdor / Turi</th>
-                        <th className="py-8">Tranzaksiya Sanasi</th>
-                        <th className="py-8 pr-12 text-right">Status</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-[var(--crm-border)] font-bold uppercase transition-colors">
-                  {filteredPayments.map((p) => (
-                    <tr key={p.id} className="group hover:bg-green-500/[0.02] transition-all">
-                        <td className="py-8 pl-12">
-                            <div className="flex items-center gap-5">
-                                <div className="w-12 h-12 rounded-[1.25rem] bg-[var(--crm-success-soft)] border border-[var(--crm-success-soft)] flex items-center justify-center font-black text-green-500 text-lg group-hover:bg-green-600 group-hover:text-white transition-all duration-500 shrink-0 shadow-lg capitalize">
-                                    {p.student?.name[0]}
-                                </div>
-                                <div className="min-w-0">
-                                    <div className="text-[var(--crm-text)] text-lg tracking-tighter leading-none mb-1 group-hover:text-green-500 transition-colors truncate">{p.student?.name}</div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[8px] text-[var(--crm-text-muted)] font-black tracking-widest opacity-60 line-clamp-1">
-                                            {p.course?.name} {p.student?.groups?.length > 0 && `• ${p.student.groups.map((g: any) => g.name).join(', ')}`}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td className="py-8 text-[var(--crm-text-muted)] font-mono text-xs tracking-tight opacity-60 lowercase">
-                            {p.periodFrom ? `${new Date(p.periodFrom).toLocaleDateString()} — ${new Date(p.periodTo).toLocaleDateString()}` : "belgilanmagan"}
-                        </td>
-                        <td className="py-8">
-                            <div className="text-xl font-black text-green-500 tracking-tighter leading-none mb-1">
-                                {formatMoney(p.amount)} <span className="text-[9px] font-bold opacity-40">UZS</span>
-                            </div>
-                            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-gray-500 opacity-40">
-                                {p.paymentType === 'CASH' ? 'Naqd To\'lov' : p.paymentType === 'CARD' ? 'Plastik Karta' : 'Bank O\'tkazmasi'}
-                            </span>
-                        </td>
-                        <td className="py-8">
-                             <div className="text-[var(--crm-text-muted)] text-[10px] font-mono opacity-50 uppercase mb-1">
-                                {new Date(p.paymentDate).toLocaleDateString("ru-RU")}
+            <div className="space-y-4">
+              {/* Desktop Table View */}
+              <div className="hidden md:block bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.2)]">
+                <table className="w-full text-left min-w-[1000px]">
+                  <thead>
+                      <tr className="bg-[var(--crm-bg)]/30 border-b border-[var(--crm-border)] text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em]">
+                          <th className="py-8 pl-12">Talaba / Guruh</th>
+                          <th className="py-8">Muddat (Period)</th>
+                          <th className="py-8">Miqdor / Turi</th>
+                          <th className="py-8">Sanasi</th>
+                          <th className="py-8 pr-12 text-right">Amaliyotchi</th>
+                      </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--crm-border)] font-bold uppercase transition-colors">
+                    {filteredPayments.map((p) => (
+                      <tr key={p.id} className="group hover:bg-green-500/[0.02] transition-all">
+                          <td className="py-8 pl-12">
+                              <div className="flex items-center gap-5">
+                                  <div className="w-12 h-12 rounded-[1.25rem] bg-[var(--crm-success-soft)] border border-[var(--crm-success-soft)] flex items-center justify-center font-black text-green-500 text-lg group-hover:bg-green-600 group-hover:text-white transition-all duration-500 shrink-0 shadow-lg capitalize">
+                                      {p.student?.name[0]}
+                                  </div>
+                                  <div className="min-w-0">
+                                      <div className="text-[var(--crm-text)] text-lg tracking-tighter leading-none mb-1 group-hover:text-green-500 transition-colors truncate">{p.student?.name}</div>
+                                      <div className="flex items-center gap-2">
+                                          <span className="text-[8px] text-[var(--crm-text-muted)] font-black tracking-widest opacity-60 line-clamp-1">
+                                              {p.course?.name} {p.student?.groups?.length > 0 && `• ${p.student.groups.map((g: any) => g.name).join(', ')}`}
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </td>
+                          <td className="py-8 text-[var(--crm-text-muted)] font-mono text-xs tracking-tight opacity-60 lowercase">
+                              {p.periodFrom ? `${new Date(p.periodFrom).toLocaleDateString()} — ${new Date(p.periodTo).toLocaleDateString()}` : "belgilanmagan"}
+                          </td>
+                          <td className="py-8">
+                              <div className="text-xl font-black text-green-500 tracking-tighter leading-none mb-1">
+                                  {formatMoney(p.amount)} <span className="text-[9px] font-bold opacity-40">UZS</span>
+                              </div>
+                              <span className="text-[8px] font-black uppercase tracking-[0.2em] text-gray-500 opacity-40">
+                                  {p.paymentType === 'CASH' ? 'Naqd To\'lov' : p.paymentType === 'CARD' ? 'Plastik Karta' : 'Bank O\'tkazmasi'}
+                              </span>
+                          </td>
+                          <td className="py-8 font-mono text-[10px] text-[var(--crm-text-muted)] opacity-60">
+                              {new Date(p.paymentDate).toLocaleDateString("ru-RU")}
+                          </td>
+                          <td className="py-8 pr-12 text-right">
+                               {p.user && (
+                                  <div className="flex items-center justify-end gap-2">
+                                     <span className="text-[9px] font-black uppercase tracking-widest text-[var(--crm-text-muted)] opacity-60 truncate">
+                                        {p.user.name?.split(' ')[0] || 'Admin'}
+                                     </span>
+                                     <div className="w-8 h-8 rounded-lg bg-green-500/10 border border-green-500/10 flex items-center justify-center text-green-600 text-[10px] font-black uppercase shadow-sm">
+                                        {p.user.name?.[0] || 'A'}
+                                     </div>
+                                  </div>
+                               )}
+                          </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="grid grid-cols-1 gap-4 md:hidden pb-24">
+                {filteredPayments.map((p) => (
+                  <motion.div 
+                    layout
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    key={p.id} 
+                    className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] p-5 shadow-xl space-y-4"
+                  >
+                    <div className="flex items-start justify-between">
+                       <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center font-black text-green-500 shadow-inner uppercase text-xs">
+                             {p.student?.name[0]}
+                          </div>
+                          <div className="min-w-0">
+                             <div className="text-sm font-black text-[var(--crm-text)] tracking-tight truncate mb-0.5">{p.student?.name}</div>
+                             <div className="text-[7px] font-black text-[var(--crm-text-muted)] uppercase tracking-widest opacity-40 truncate max-w-[150px]">
+                                {p.course?.name}
                              </div>
-                             {p.user && (
-                                <div className="flex items-center gap-2 group-hover:opacity-100 transition-all">
-                                   <div className="w-5 h-5 rounded-md bg-purple-500/10 border border-purple-500/10 flex items-center justify-center text-purple-600 text-[9px] font-black uppercase tracking-tighter shadow-sm">
-                                      {p.user.name?.[0] || 'A'}
-                                   </div>
-                                   <span className="text-[9px] font-black uppercase tracking-widest text-[var(--crm-text-muted)] opacity-60 group-hover:opacity-100 group-hover:text-purple-600 transition-colors truncate max-w-[100px]">
-                                      {p.user.name?.split(' ')[0] || 'Admin'}
-                                   </span>
-                                </div>
-                             )}
-                        </td>
-                        <td className="py-8 pr-12 text-right">
-                           <div className="flex items-center justify-end gap-3 sm:translate-x-4 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:translate-x-0 transition-all duration-300">
-                                <div className="flex items-center gap-2 px-3 py-1.5 bg-[var(--crm-success-soft)] border border-[var(--crm-success-soft)] rounded-full text-green-500 text-[9px] font-black uppercase tracking-widest">
-                                    <CheckCircle2 className="w-3.5 h-3.5" />
-                                    Muvaffaqiyatli
-                                </div>
-                           </div>
-                        </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                          </div>
+                       </div>
+                       <div className="text-right">
+                          <div className="text-sm font-black text-green-500 tracking-tighter leading-none">{formatMoney(p.amount)}</div>
+                          <div className="text-[7px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase tracking-widest mt-0.5">Mablag'</div>
+                       </div>
+                    </div>
+
+                    <div className="py-3 border-y border-[var(--crm-border)]/50 flex flex-col gap-1.5">
+                       <div className="flex items-center justify-between">
+                          <span className="text-[7px] font-black text-[var(--crm-text-muted)] uppercase opacity-30">Muddat:</span>
+                          <span className="text-[8px] font-mono text-[var(--crm-text-muted)] opacity-60 lowercase">
+                             {p.periodFrom ? `${new Date(p.periodFrom).toLocaleDateString()} — ${new Date(p.periodTo).toLocaleDateString()}` : "belgilanmagan"}
+                          </span>
+                       </div>
+                       <div className="flex items-center justify-between">
+                          <span className="text-[7px] font-black text-[var(--crm-text-muted)] uppercase opacity-30">Turi:</span>
+                          <span className="text-[7px] font-black text-blue-500 px-2 py-0.5 bg-blue-500/10 rounded-md border border-blue-500/10 uppercase tracking-widest">
+                             {p.paymentType}
+                          </span>
+                       </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-1">
+                       <span className="text-[8px] font-mono text-[var(--crm-text-muted)] opacity-40">{new Date(p.paymentDate).toLocaleDateString("ru-RU")}</span>
+                       {p.user && (
+                          <div className="flex items-center gap-2">
+                             <span className="text-[8px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase">{p.user.name?.split(' ')[0]}</span>
+                             <div className="w-5 h-5 rounded-md bg-[var(--crm-bg)] border border-[var(--crm-border)] flex items-center justify-center text-[var(--crm-text-muted)] text-[8px] font-black uppercase">
+                                {p.user.name?.[0]}
+                             </div>
+                          </div>
+                       )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           )}
         </section>
