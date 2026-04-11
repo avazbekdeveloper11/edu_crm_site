@@ -174,9 +174,25 @@ export default function PaymentsPage() {
             />
           </div>
           <div className="flex items-center gap-3 sm:gap-10 shrink-0">
-             <div className="flex flex-col items-end shrink-0">
+             <div className="flex flex-col items-end shrink-0 group relative">
                 <span className="text-[7px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] opacity-60">Tushum</span>
                 <span className="text-xs sm:text-2xl font-black text-green-500 tracking-tighter leading-none italic">{formatMoney(totalIncome)}<span className="text-[7px] sm:text-[10px] opacity-40 uppercase ml-0.5 sm:ml-1">UZS</span></span>
+                
+                {/* Breakdown Tooltip/Display */}
+                <div className="flex gap-2 sm:gap-4 mt-1">
+                   {['CASH', 'CARD', 'TRANSFER'].map(type => {
+                      const amount = filteredPayments.filter(p => p.paymentType === type).reduce((acc, p) => acc + p.amount, 0);
+                      if (amount === 0) return null;
+                      const labels: any = { CASH: 'Naqt', CARD: 'Karta', TRANSFER: 'O\'tkazma' };
+                      const colors: any = { CASH: 'text-orange-500', CARD: 'text-blue-500', TRANSFER: 'text-purple-500' };
+                      return (
+                         <div key={type} className="flex flex-col items-end">
+                            <span className="text-[6px] sm:text-[8px] font-black uppercase opacity-40">{labels[type]}</span>
+                            <span className={`text-[8px] sm:text-xs font-black ${colors[type]} leading-tight tracking-tight`}>{formatMoney(amount)}</span>
+                         </div>
+                      );
+                   })}
+                </div>
              </div>
              <button onClick={() => setShowAddModal(true)} className="bg-green-600 hover:scale-105 transition-all text-white px-4 sm:px-10 h-10 sm:h-14 rounded-xl sm:rounded-[1.5rem] font-black text-[9px] sm:text-xs tracking-[0.1em] sm:tracking-[0.15em] flex items-center justify-center gap-1.5 sm:gap-3 shadow-2xl shadow-green-600/30 active:scale-95 uppercase whitespace-nowrap">
                 <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
