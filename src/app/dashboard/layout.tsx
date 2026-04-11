@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/Sidebar";
 import { API_BASE_URL } from "@/app/constants";
-import { AlertTriangle, ChevronRight, Zap } from "lucide-react";
+import { AlertTriangle, ChevronRight, Zap, X } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardLayout({
