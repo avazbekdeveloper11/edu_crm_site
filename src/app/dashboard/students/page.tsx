@@ -281,7 +281,7 @@ export default function StudentsPage() {
                 </div>
                 <div className="relative group flex-1 sm:flex-none">
                     <Layers className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
-                    <select value={filterGroup} onChange={(e) => setFilterGroup(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-[var(--crm-accent)]/50 text-[9px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
+                    <select value={filterGroup} onChange={(e) => setFilterGroup(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-[var(--crm-accent)]/50 text-[9px] sm:text-[9px] font-black uppercase tracking-wider sm:tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
                         <option value="" className="bg-[var(--crm-card)]">Guruhlar</option>
                         <option value="none" className="bg-[var(--crm-card)] text-blue-500">Hech biri</option>
                         {groups.map(g => <option key={g.id} value={g.id} className="bg-[var(--crm-card)]">{g.name}</option>)}

@@ -360,7 +360,7 @@ export default function SettingsPage() {
           <div className="flex items-center gap-2 sm:gap-6">
               <div className="flex flex-col items-end">
                   <span className="text-[9px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] opacity-60 leading-none mb-1 shadow-sm">{isTeacher ? "O'qituvchi" : "Boshqaruvchi"}</span>
-                  <span className="text-sm sm:text-xl font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[120px] sm:max-w-[150px]">{center?.displayName || center?.login || center?.name}</span>
+                  <span className="text-sm sm:text-lg font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[150px] sm:max-w-[300px]">{center?.displayName || center?.login || center?.name}</span>
               </div>
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-[1.25rem] bg-[var(--crm-accent)]/10 border border-[var(--crm-accent)]/10 flex items-center justify-center text-[var(--crm-accent)] shadow-xl shrink-0">
                   <User className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -387,8 +387,8 @@ export default function SettingsPage() {
                   setShowNotificationModal(true);
                 }} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />}
                 {isOwner && <SettingsCard onClick={() => setShowTariffsModal(true)} icon={<Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />} title="Tarif" desc="Subscription plan" /> }
-                <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual sozlamalar" />
-                <SettingsCard onClick={() => setShowHelpModal(true)} icon={<HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />} title="Yordam" desc="Qo'llab-quvvatlash" />
+                {isOwner && <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual sozlamalar" />}
+                {isOwner && <SettingsCard onClick={() => setShowHelpModal(true)} icon={<HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" />} title="Yordam" desc="Qo'llab-quvvatlash" />}
             </div>
 
             <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3rem] sm:rounded-[4rem] p-8 sm:p-12 relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.1)] mb-12 sm:mb-20">
