@@ -20,6 +20,8 @@ import {
 import { motion } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
 import { API_BASE_URL } from "@/app/constants";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { Edit2, Trash2, X } from "lucide-react";
 
 const formatMoney = (val: any) => {
     if (!val && val !== 0) return "0";
@@ -53,6 +55,31 @@ export default function StudentProfilePage() {
     const [centerUser, setCenterUser] = useState<any>(null);
     const { theme } = useTheme();
 
+    // Edit Payment State
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editingPayment, setEditingPayment] = useState<any>(null);
+    const [editForm, setEditForm] = useState({
+        amount: "",
+        paymentType: "CASH",
+        notes: "",
+        periodFrom: "",
+        periodTo: ""
+    });
+    const [updating, setUpdating] = useState(false);
+
+    // Delete Payment State
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState<number | null>(null);
+    const [deleting, setDeleting] = useState(false);
+
+    // Toast/Status State
+    const [showStatus, setShowStatus] = useState(false);
+    const [statusTitle, setStatusTitle] = useState("");
+    const [statusMessage, setStatusMessage] = useState("");
+    const [statusType, setStatusType] = useState<"success" | "danger" | "warning" | "info">("info");
+
+    const isAuthorized = centerUser?.role === 'OWNER' || centerUser?.role === 'SUPER_ADMIN';
+
     const fetchStudent = async () => {
         const token = localStorage.getItem("access_token");
         try {
@@ -69,6 +96,81 @@ export default function StudentProfilePage() {
             console.error("Fetch student failed", err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleEditClick = (p: any) => {
+        setEditingPayment(p);
+        setEditForm({
+            amount: p.amount.toString(),
+            paymentType: p.paymentType || "CASH",
+            notes: p.notes || "",
+            periodFrom: p.periodFrom ? new Date(p.periodFrom).toISOString().split('T')[0] : "",
+            periodTo: p.periodTo ? new Date(p.periodTo).toISOString().split('T')[0] : ""
+        });
+        setShowEditModal(true);
+    };
+
+    const handleUpdatePayment = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setUpdating(true);
+        const token = localStorage.getItem("access_token");
+        try {
+            const res = await fetch(`${API_BASE_URL}/payments/${editingPayment.id}`, {
+                method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` 
+                },
+                body: JSON.stringify(editForm)
+            });
+            if (res.ok) {
+                fetchStudent();
+                setShowEditModal(false);
+                setStatusTitle("Muvaffaqiyat!");
+                setStatusMessage("To'lov ma'lumotlari yangilandi");
+                setStatusType("success");
+                setShowStatus(true);
+            } else {
+                const err = await res.json();
+                setStatusTitle("Xatolik!");
+                setStatusMessage(err.message || "Tahrirlashda xato yuz berdi");
+                setStatusType("danger");
+                setShowStatus(true);
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setUpdating(false);
+        }
+    };
+
+    const handleDeleteClick = (pid: number) => {
+        setItemToDelete(pid);
+        setShowDeleteConfirm(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!itemToDelete) return;
+        setDeleting(true);
+        const token = localStorage.getItem("access_token");
+        try {
+            const res = await fetch(`${API_BASE_URL}/payments/${itemToDelete}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if (res.ok) {
+                fetchStudent();
+                setShowDeleteConfirm(false);
+                setStatusTitle("O'chirildi");
+                setStatusMessage("To'lov o'chirib tashlandi");
+                setStatusType("success");
+                setShowStatus(true);
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setDeleting(false);
         }
     };
 
@@ -183,6 +285,7 @@ export default function StudentProfilePage() {
                                                     <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest opacity-50">Sana</th>
                                                     <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest opacity-50">Summa</th>
                                                     <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest opacity-50">Izoh</th>
+                                                    {isAuthorized && <th className="px-8 py-6 text-[9px] font-black uppercase tracking-widest opacity-50 text-right">Amallar</th>}
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-[var(--crm-border)]">
@@ -194,10 +297,23 @@ export default function StudentProfilePage() {
                                                         </td>
                                                         <td className="px-8 py-6">
                                                             <div className="text-sm font-black text-green-500 tracking-tighter italic">+ {formatMoney(p.amount)} sum</div>
+                                                            <div className="text-[7px] font-black uppercase tracking-widest opacity-40">{p.paymentType}</div>
                                                         </td>
                                                         <td className="px-8 py-6">
-                                                            <div className="text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-widest truncate max-w-[150px]">{p.comment || "Xizmat uchun to'lov"}</div>
+                                                            <div className="text-[10px] font-black text-[var(--crm-text-muted)] uppercase tracking-widest truncate max-w-[150px]">{p.notes || "Xizmat uchun to'lov"}</div>
                                                         </td>
+                                                        {isAuthorized && (
+                                                            <td className="px-8 py-6 text-right">
+                                                                <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                                    <button onClick={() => handleEditClick(p)} className="p-2 rounded-lg bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white transition-all">
+                                                                        <Edit2 className="w-3 h-3" />
+                                                                    </button>
+                                                                    <button onClick={() => handleDeleteClick(p.id)} className="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all">
+                                                                        <Trash2 className="w-3 h-3" />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        )}
                                                     </tr>
                                                 ))}
                                                 {(!student.payments || student.payments.length === 0) && (
@@ -212,9 +328,86 @@ export default function StudentProfilePage() {
                             </section>
 
                         </div>
+                                </div>
+                            </section>
+
+                        </div>
 
                     </div>
                 </div>
+
+                {/* Edit Payment Modal */}
+                {showEditModal && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-md">
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-black/70" onClick={() => setShowEditModal(false)} />
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-full max-w-md bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3rem] p-10 relative z-10 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
+                            <h3 className="text-3xl font-black uppercase tracking-tighter italic mb-8">To&apos;lovni tahrirlash</h3>
+                            
+                            <form onSubmit={handleUpdatePayment} className="space-y-6">
+                                <div>
+                                    <label className="text-[8px] font-black uppercase tracking-[0.2em] opacity-40 ml-4 mb-2 block">Summa (UZS)</label>
+                                    <input 
+                                        type="number" 
+                                        value={editForm.amount} 
+                                        onChange={e => setEditForm({...editForm, amount: e.target.value})}
+                                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl px-6 py-4 font-black text-sm outline-none focus:border-[var(--crm-accent)] transition-all"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="text-[8px] font-black uppercase tracking-[0.2em] opacity-40 ml-4 mb-2 block">To&apos;lov turi</label>
+                                    <select 
+                                        value={editForm.paymentType}
+                                        onChange={e => setEditForm({...editForm, paymentType: e.target.value})}
+                                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl px-6 py-4 font-black text-sm outline-none focus:border-[var(--crm-accent)] transition-all"
+                                    >
+                                        <option value="CASH">NAQD</option>
+                                        <option value="CARD">PLASTIK (CARD)</option>
+                                        <option value="TRANSFER">PERECHISLENIYE</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label className="text-[8px] font-black uppercase tracking-[0.2em] opacity-40 ml-4 mb-2 block">Izoh</label>
+                                    <input 
+                                        type="text" 
+                                        value={editForm.notes} 
+                                        onChange={e => setEditForm({...editForm, notes: e.target.value})}
+                                        className="w-full bg-[var(--crm-bg)] border border-[var(--crm-border)] rounded-2xl px-6 py-4 font-black text-sm outline-none focus:border-[var(--crm-accent)] transition-all"
+                                        placeholder="To'lov haqida qo'shimcha ma'lumot..."
+                                    />
+                                </div>
+
+                                <div className="flex gap-4 pt-4">
+                                    <button type="button" onClick={() => setShowEditModal(false)} className="flex-1 py-4 bg-[var(--crm-bg)] text-[var(--crm-text-muted)] rounded-2xl font-black text-[10px] uppercase tracking-widest border border-[var(--crm-border)] hover:bg-[var(--crm-border)] transition-all">Bekor qilish</button>
+                                    <button type="submit" disabled={updating} className="flex-1 py-4 bg-[var(--crm-accent)] text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-purple-600/30 hover:scale-[1.02] active:scale-95 transition-all">
+                                        {updating ? "Saqlanmoqda..." : "Saqlash"}
+                                    </button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+
+                <ConfirmDialog 
+                    isOpen={showDeleteConfirm}
+                    onClose={() => setShowDeleteConfirm(false)}
+                    onConfirm={confirmDelete}
+                    loading={deleting}
+                    title="To'lovni o'chirish?"
+                    message="Ushbu to'lov ma'lumotlari butunlay o'chiriladi. Balansga ta'sir qilishi mumkin."
+                />
+
+                <ConfirmDialog 
+                    isOpen={showStatus}
+                    onClose={() => setShowStatus(false)}
+                    onConfirm={() => setShowStatus(false)}
+                    title={statusTitle}
+                    message={statusMessage}
+                    type={statusType}
+                    isAlert={true}
+                />
         </>
     );
 }
