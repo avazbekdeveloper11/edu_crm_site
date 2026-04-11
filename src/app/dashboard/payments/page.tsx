@@ -282,8 +282,20 @@ export default function PaymentsPage() {
                                 {p.paymentType === 'CASH' ? 'Naqd To\'lov' : p.paymentType === 'CARD' ? 'Plastik Karta' : 'Bank O\'tkazmasi'}
                             </span>
                         </td>
-                        <td className="py-8 text-[var(--crm-text-muted)] text-[10px] font-mono opacity-50 uppercase">
-                             {new Date(p.paymentDate).toLocaleDateString("ru-RU")}
+                        <td className="py-8">
+                             <div className="text-[var(--crm-text-muted)] text-[10px] font-mono opacity-50 uppercase mb-1">
+                                {new Date(p.paymentDate).toLocaleDateString("ru-RU")}
+                             </div>
+                             {p.user && (
+                                <div className="flex items-center gap-2 group-hover:opacity-100 transition-all">
+                                   <div className="w-5 h-5 rounded-md bg-purple-500/10 border border-purple-500/10 flex items-center justify-center text-purple-600 text-[9px] font-black uppercase tracking-tighter shadow-sm">
+                                      {p.user.name?.[0] || 'A'}
+                                   </div>
+                                   <span className="text-[9px] font-black uppercase tracking-widest text-[var(--crm-text-muted)] opacity-60 group-hover:opacity-100 group-hover:text-purple-600 transition-colors truncate max-w-[100px]">
+                                      {p.user.name?.split(' ')[0] || 'Admin'}
+                                   </span>
+                                </div>
+                             )}
                         </td>
                         <td className="py-8 pr-12 text-right">
                            <div className="flex items-center justify-end gap-3 sm:translate-x-4 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:translate-x-0 transition-all duration-300">
