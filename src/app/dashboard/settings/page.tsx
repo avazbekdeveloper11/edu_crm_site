@@ -788,7 +788,8 @@ export default function SettingsPage() {
                                 students="100"
                                 staff="5"
                                 features={["CRM Lead boshqaruv", "To'lovlar va Kassa", "Telegram Bot xabarnomalari", "SMS xizmati (Eskiz)"]}
-                                active={fullCenter?.tariff === "Standart"}
+                                active={fullCenter?.tariff === "Standart" && fullCenter?.tariffType === billingCycle}
+                                isCurrent={fullCenter?.tariff === "Standart" && fullCenter?.tariffType !== billingCycle}
                                 themeColor="blue"
                                 icon={<Plus className="w-8 h-8" />}
                                 onSelect={() => handleRequestUpgrade("Standart")}
@@ -801,7 +802,8 @@ export default function SettingsPage() {
                                 students="400"
                                 staff="25"
                                 features={["Barcha Standart imkoniyatlar", "Kengaytirilgan Statistika", "Davomat va Jurnallar", "Prioritetli qo'llab-quvvatlash"]}
-                                active={fullCenter?.tariff === "Premium"}
+                                active={fullCenter?.tariff === "Premium" && fullCenter?.tariffType === billingCycle}
+                                isCurrent={fullCenter?.tariff === "Premium" && fullCenter?.tariffType !== billingCycle}
                                 themeColor="purple"
                                 popular
                                 icon={<CheckCircle2 className="w-8 h-8" />}
@@ -815,7 +817,8 @@ export default function SettingsPage() {
                                 students="CHEKSIZ"
                                 staff="CHEKSIZ"
                                 features={["Barcha Premium imkoniyatlar", "Shaxsiy menejer", "Brand xabarlar", "Maxsus funksiyalar (Custom)"]}
-                                active={fullCenter?.tariff === "VIP"}
+                                active={fullCenter?.tariff === "VIP" && fullCenter?.tariffType === billingCycle}
+                                isCurrent={fullCenter?.tariff === "VIP" && fullCenter?.tariffType !== billingCycle}
                                 themeColor="orange"
                                 icon={<ShieldCheck className="w-8 h-8" />}
                                 onSelect={() => handleRequestUpgrade("VIP")}
@@ -988,7 +991,7 @@ function SettingsCard({ icon, title, desc, onClick }: any) {
     );
 }
 
-function TariffCard({ name, price, yearlyTotal, billingCycle, students, staff, features, active, themeColor, popular, icon, onSelect }: any) {
+function TariffCard({ name, price, yearlyTotal, billingCycle, students, staff, features, active, isCurrent, themeColor, popular, icon, onSelect }: any) {
     const colors: any = {
         blue: "text-blue-500 bg-blue-500 border-blue-500/20",
         purple: "text-purple-500 bg-purple-500 border-purple-500/20",
@@ -1043,6 +1046,11 @@ function TariffCard({ name, price, yearlyTotal, billingCycle, students, staff, f
             {active && (
                 <div className="w-full py-3 rounded-2xl font-black text-[10px] uppercase tracking-[.2em] bg-green-500/10 text-green-500 border border-green-500/20 text-center mb-3">
                     ✓ HOZIRGI TARIF
+                </div>
+            )}
+            {isCurrent && (
+                <div className="w-full py-3 rounded-2xl font-black text-[10px] uppercase tracking-[.2em] bg-yellow-500/10 text-yellow-500 border border-yellow-500/20 text-center mb-3">
+                    Hozirgi tarifingiz ({billingCycle === 'Yearly' ? 'Oylik' : 'Yillik'} rejada)
                 </div>
             )}
             <button 
