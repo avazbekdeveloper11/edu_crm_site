@@ -33,7 +33,9 @@ export default function SetupDashboard() {
     pass: "", 
     botToken: "",
     tariff: "Standart",
-    tariffType: "Monthly"
+    tariffType: "Monthly",
+    tariffStartedAt: "",
+    tariffExpiresAt: ""
   });
   const [config, setConfig] = useState({
     botToken: "**********",
@@ -81,8 +83,8 @@ export default function SetupDashboard() {
         },
         body: JSON.stringify({
            ...newCenter,
-           // Default to 7 days for new centers if no expiry is set
-           tariffExpiresAt: isEditing ? undefined : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+           tariffStartedAt: newCenter.tariffStartedAt || new Date().toISOString(),
+           tariffExpiresAt: newCenter.tariffExpiresAt || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
         }),
       });
 
@@ -102,7 +104,9 @@ export default function SetupDashboard() {
       pass: center.password || center.pass,
       botToken: center.botToken || "",
       tariff: center.tariff || "Standart",
-      tariffType: center.tariffType || "Monthly"
+      tariffType: center.tariffType || "Monthly",
+      tariffStartedAt: center.tariffStartedAt ? new Date(center.tariffStartedAt).toISOString().split('T')[0] : "",
+      tariffExpiresAt: center.tariffExpiresAt ? new Date(center.tariffExpiresAt).toISOString().split('T')[0] : ""
     });
     setEditingId(center.id);
     setIsEditing(true);
@@ -112,7 +116,7 @@ export default function SetupDashboard() {
   const closeModal = () => {
     setShowModal(false);
     setIsEditing(false);
-    setNewCenter({ name: "", login: "", pass: "", botToken: "", tariff: "Standart", tariffType: "Monthly" });
+    setNewCenter({ name: "", login: "", pass: "", botToken: "", tariff: "Standart", tariffType: "Monthly", tariffStartedAt: "", tariffExpiresAt: "" });
     setEditingId(null);
   };
 
@@ -145,11 +149,32 @@ export default function SetupDashboard() {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="w-full max-w-md bg-[#0a0a0a] border border-white/10 p-8 rounded-3xl shadow-2xl relative"
+              className="w-full max-w-md bg-[#0a0a0a] border border-white/10 p-8 rounded-3xl shadow-2xl relative max-h-[90vh] overflow-y-auto no-scrollbar"
             >
-              <h2 className="text-2xl font-bold mb-6 text-white">
-                {isEditing ? "Markazni Tahrirlash" : "Yangi Markaz Qo'shish"}
-              </h2>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-white">
+                  {isEditing ? "Markazni Tahrirlash" : "Yangi Markaz Qo'shish"}
+                </h2>
+                {!isEditing && (
+                  <button 
+                    onClick={() => {
+                        const now = new Date();
+                        const nextWeek = new Date();
+                        nextWeek.setDate(now.getDate() + 7);
+                        setNewCenter({
+                          ...newCenter,
+                          tariff: "Standart",
+                          tariffType: "Monthly",
+                          tariffStartedAt: now.toISOString().split('T')[0],
+                          tariffExpiresAt: nextWeek.toISOString().split('T')[0]
+                        });
+                    }}
+                    className="text-[10px] bg-purple-600/20 text-purple-500 border border-purple-500/20 px-3 py-1.5 rounded-lg font-black uppercase tracking-widest hover:bg-purple-600 hover:text-white transition-all"
+                  >
+                    7 Kunlik Demo
+                  </button>
+                )}
+              </div>
               <div className="space-y-4">
                 <InputField
                   label="Markaz Nomi"
@@ -194,6 +219,21 @@ export default function SetupDashboard() {
                          <option value="Yearly" className="bg-[#0a0a0a]">Yillik</option>
                       </select>
                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                   <InputField 
+                    label="Boshlanish sanasi" 
+                    type="date" 
+                    value={newCenter.tariffStartedAt} 
+                    onChange={(e: any) => setNewCenter({ ...newCenter, tariffStartedAt: e.target.value })} 
+                   />
+                   <InputField 
+                    label="Tugash sanasi" 
+                    type="date" 
+                    value={newCenter.tariffExpiresAt} 
+                    onChange={(e: any) => setNewCenter({ ...newCenter, tariffExpiresAt: e.target.value })} 
+                   />
                 </div>
               </div>
               <div className="flex gap-3 mt-8">
