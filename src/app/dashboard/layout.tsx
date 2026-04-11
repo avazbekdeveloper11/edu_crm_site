@@ -51,7 +51,8 @@ export default function DashboardLayout({
   };
 
   const daysRemaining = getDaysRemaining();
-  const showWarning = daysRemaining !== null && daysRemaining <= 5;
+  const showWarning = daysRemaining !== null && daysRemaining <= 3;
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
 
   if (loading || !user) {
     return (
@@ -64,31 +65,37 @@ export default function DashboardLayout({
     );
   }
 
+  const BannerX = () => (
+    <button 
+        onClick={() => setIsBannerVisible(false)}
+        className="ml-4 p-1 hover:bg-black/20 rounded-full transition-colors"
+    >
+        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+  );
+
   return (
     <div className="min-h-screen bg-[var(--crm-bg)] text-[var(--crm-text)] flex font-sans selection:bg-purple-500/30">
       <Sidebar centerName={user.centerName} role={user.role || "OWNER"} />
       <main className="flex-1 min-w-0 pb-32 sm:pb-0 relative flex flex-col">
-        {showWarning && (
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[100] w-max max-w-[90vw]">
-                <div className="bg-black/80 backdrop-blur-xl border border-red-500/30 px-4 py-2 rounded-2xl flex items-center gap-3 shadow-2xl shadow-red-500/20 animate-bounce-subtle">
-                    <div className="flex h-2 w-2 relative">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="text-[10px] font-black text-white/90 uppercase tracking-widest leading-none">
-                            Obuna muddati {daysRemaining <= 0 ? "tugadi" : "yaqin"}
-                        </span>
-                        <span className="text-[8px] font-bold text-red-500 uppercase tracking-tighter mt-1 opacity-80">
-                            {daysRemaining <= 0 ? "Darhol yangilang" : `${daysRemaining} kun qoldi`}
-                        </span>
-                    </div>
-                    <Link 
+        {showWarning && isBannerVisible && (
+            <div className="w-full h-8 bg-red-600 flex items-center justify-center relative px-4 z-[110] animate-in slide-in-from-top duration-500">
+                <div className="flex items-center gap-2">
+                   <AlertTriangle className="w-3.5 h-3.5 text-white animate-pulse" />
+                   <span className="text-[10px] font-black uppercase tracking-[0.1em] text-white">
+                       DIQQAT! TO'LOVINGIZGA {daysRemaining <= 0 ? "BIR OZ" : `${daysRemaining} KUN`} QOLDI. ILTIMOS, DARHOL YANGILANG!
+                   </span>
+                   <Link 
                         href="/dashboard/settings" 
-                        className="ml-2 px-3 py-1.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-[9px] font-black uppercase tracking-widest transition-all active:scale-95 shadow-lg shadow-red-600/20"
+                        className="ml-4 px-3 py-1 bg-white text-red-600 rounded text-[9px] font-black uppercase tracking-widest hover:bg-red-50 transition-all active:scale-95"
                     >
                         Yangilash
                     </Link>
+                </div>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                    <BannerX />
                 </div>
             </div>
         )}
