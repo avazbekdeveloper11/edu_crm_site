@@ -244,7 +244,7 @@ export default function StudentsPage() {
               value={search} 
               onChange={(e) => setSearch(e.target.value)} 
               placeholder="Qidiruv..." 
-              className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl sm:rounded-2xl py-2 sm:py-3.5 pl-10 sm:pl-14 pr-4 text-[10px] sm:text-sm font-bold focus:outline-none focus:border-[var(--crm-accent)] transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner" 
+              className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl sm:rounded-2xl py-2 sm:py-3.5 pl-9 sm:pl-14 pr-4 text-[10px] sm:text-sm font-bold focus:outline-none focus:border-[var(--crm-accent)] transition-all text-[var(--crm-text)] placeholder:text-[var(--crm-text-muted)]/40 shadow-inner" 
             />
           </div>
           <button 
@@ -253,37 +253,37 @@ export default function StudentsPage() {
           >
             <Plus className="w-4 h-4 sm:w-5 sm:h-5 shadow-lg" />
             <span className="hidden xs:inline">Yangi Talaba</span>
-            <span className="xs:hidden">Talaba</span>
+            <span className="xs:hidden">Yangi</span>
           </button>
         </header>
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 sm:gap-8 mb-10 sm:mb-16 px-2 sm:px-0">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-8 mb-8 sm:mb-16 px-1 sm:px-0">
             <div className="space-y-1">
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Talabalar</h1>
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-20">Talabalar</h1>
               <div className="flex items-center gap-3 sm:gap-4">
-                  <p className="text-[var(--crm-text-muted)] font-black text-[8px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Bazadagi talabalar</p>
-                  <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2 py-0.5 rounded-lg text-[8px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)]">{filteredStudents.length} ta topildi</span>
+                  <p className="text-[var(--crm-text-muted)] font-black text-[7px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] opacity-60">Bazadagi talabalar</p>
+                  <span className="bg-[var(--crm-accent-soft)] text-[var(--crm-accent)] px-2 py-0.5 rounded-lg text-[7px] sm:text-[9px] font-black uppercase tracking-widest border border-[var(--crm-accent-soft)]">{filteredStudents.length} ta topildi</span>
               </div>
             </div>
             
-            <div className="flex flex-wrap items-center gap-2 sm:gap-4 bg-[var(--crm-card)] p-2 sm:p-3 rounded-2xl sm:rounded-[2rem] border border-[var(--crm-border)] shadow-xl w-full lg:w-auto">
-                <div className="relative group flex-1 sm:flex-none min-w-[140px]">
-                    <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--crm-text-muted)] pointer-events-none" />
-                    <select value={filterCourse} onChange={(e) => setFilterCourse(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2.5 pl-10 pr-8 outline-none focus:border-[var(--crm-accent)] text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
-                        <option value="" className="bg-[var(--crm-card)]">Barcha Kurslar</option>
+            <div className="flex items-center gap-2 sm:gap-4 bg-[var(--crm-card)] p-1.5 sm:p-3 rounded-2xl sm:rounded-[2rem] border border-[var(--crm-border)] shadow-xl w-full lg:w-auto">
+                <div className="relative group flex-1 sm:flex-none">
+                    <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
+                    <select value={filterCourse} onChange={(e) => setFilterCourse(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-[var(--crm-accent)] text-[7px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
+                        <option value="" className="bg-[var(--crm-card)]">Kurslar</option>
                         {courses.map(c => <option key={c.id} value={c.id} className="bg-[var(--crm-card)]">{c.name}</option>)}
                     </select>
                 </div>
-                <div className="relative group flex-1 sm:flex-none min-w-[140px]">
-                    <Layers className="absolute left-4 top-1/2 -translate-y-1/2 w-3 h-3 text-[var(--crm-text-muted)] pointer-events-none" />
-                    <select value={filterGroup} onChange={(e) => setFilterGroup(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2.5 pl-10 pr-8 outline-none focus:border-[var(--crm-accent)]/50 text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
-                        <option value="" className="bg-[var(--crm-card)]">Barcha Guruhlar</option>
-                        <option value="none" className="bg-[var(--crm-card)] text-blue-500 text-[8px]">Guruhsizlar</option>
+                <div className="relative group flex-1 sm:flex-none">
+                    <Layers className="absolute left-3 top-1/2 -translate-y-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 text-[var(--crm-text-muted)] pointer-events-none" />
+                    <select value={filterGroup} onChange={(e) => setFilterGroup(e.target.value)} className="w-full bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl py-2 sm:py-2.5 pl-8 sm:pl-10 pr-6 sm:pr-8 outline-none focus:border-[var(--crm-accent)]/50 text-[7px] sm:text-[9px] font-black uppercase tracking-widest text-[var(--crm-text)] appearance-none cursor-pointer transition-all">
+                        <option value="" className="bg-[var(--crm-card)]">Guruhlar</option>
+                        <option value="none" className="bg-[var(--crm-card)] text-blue-500">Hech biri</option>
                         {groups.map(g => <option key={g.id} value={g.id} className="bg-[var(--crm-card)]">{g.name}</option>)}
                     </select>
                 </div>
-                <button onClick={() => { setSearch(""); setFilterCourse(""); setFilterGroup(""); }} className="p-2 sm:p-2.5 text-[var(--crm-text-muted)] hover:text-red-500 transition-colors"><X className="w-4 h-4" /></button>
+                <button onClick={() => { setSearch(""); setFilterCourse(""); setFilterGroup(""); }} className="p-1 px-2 text-[var(--crm-text-muted)] hover:text-red-500 transition-colors"><X className="w-3 h-3" /></button>
             </div>
           </div>
 
@@ -292,86 +292,153 @@ export default function StudentsPage() {
               <div className="w-16 h-16 border-[6px] border-[var(--crm-accent)]/10 border-t-[var(--crm-accent)] rounded-full animate-spin" />
             </div>
           ) : (
-            <div className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2.5rem] sm:rounded-[3.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.2)] relative overflow-x-auto no-scrollbar">
-              <table className="w-full text-left min-w-[800px] sm:min-w-[1000px]">
-                <thead>
-                    <tr className="bg-[var(--crm-bg)]/30 border-b border-[var(--crm-border)] text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em]">
-                        <th className="py-8 pl-12">Ism Familiya</th>
-                        <th className="py-8">Telefon</th>
-                        <th className="py-8">Kurs / Guruh</th>
-                        <th className="py-8 text-center px-4">Qabul</th>
-                        <th className="py-8">Qarz</th>
-                        <th className="py-8 pr-12 text-right">Amallar</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-[var(--crm-border)] font-bold uppercase transition-colors">
-                  {filteredStudents.map((std) => {
-                    const debt = totalDebt(std);
-                    return (
-                        <tr key={std.id} className="group hover:bg-[var(--crm-accent)]/[0.02] transition-all">
-                            <td className="py-8 pl-12">
-                                <div className="flex items-center gap-5">
-                                    <div className="w-12 h-12 rounded-[1.25rem] bg-[var(--crm-accent-soft)] border border-[var(--crm-accent-soft)] flex items-center justify-center font-black text-[var(--crm-accent)] text-lg group-hover:bg-[var(--crm-accent)] group-hover:text-white transition-all duration-500 shrink-0 uppercase shadow-lg">
-                                        {std.name[0]}
-                                    </div>
-                                    <div className="min-w-0">
-                                        <Link href={`/dashboard/students/${std.id}`} className="text-[var(--crm-text)] text-lg tracking-tighter leading-none mb-1 group-hover:text-[var(--crm-accent)] transition-colors truncate block hover:underline">
-                                            {std.name}
-                                        </Link>
-                                        <span className={`text-[8px] font-black tracking-widest px-2 py-0.5 rounded-md border ${std.status === 'Active' ? 'bg-[var(--crm-success-soft)] text-green-500 border-[var(--crm-success-soft)]' : 'bg-[var(--crm-error-soft)] text-red-500 border-[var(--crm-error-soft)]'}`}>
-                                            {std.status === 'Active' ? 'FAOL' : 'ARKHIVED'}
-                                        </span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td className="py-8 text-[var(--crm-text-muted)] font-mono text-sm tracking-tight">{formatPhone(std.phone)}</td>
-                            <td className="py-8 px-4">
-                                <div className="flex flex-wrap gap-2 max-w-[240px]">
-                                    {(std.courses || []).map((c: any) => {
-                                        const grp = (std.groups || []).find((g: any) => g.courseId === c.id);
-                                        return (
-                                            <div 
-                                                key={c.id} 
-                                                title={grp ? `Guruh: ${grp.name}\nUstoz: ${grp.teacher || 'Belgilanmagan'}` : "Guruhsiz"}
-                                                className="flex flex-col bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl p-2 min-w-[100px] hover:border-[var(--crm-accent)] hover:bg-[var(--crm-accent-soft)] transition-all cursor-help group/badge"
-                                            >
-                                                <span className="text-[9px] text-[var(--crm-text)] font-black truncate group-hover/badge:text-[var(--crm-accent)]">{c.name}</span>
-                                                <div className="flex flex-col">
-                                                    <span className="text-[8px] text-[var(--crm-text-muted)] font-bold italic truncate opacity-60">{grp ? grp.name : 'Guruhsiz'}</span>
-                                                    {grp && <span className="text-[7px] text-[var(--crm-accent)] font-black uppercase tracking-tighter sm:opacity-0 sm:group-hover/badge:opacity-100 transition-opacity leading-none mt-0.5">{grp.teacher || 'Ustozsiz'}</span>}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </td>
-                            <td className="py-8 text-center px-4">
-                                <div className="text-[10px] font-black text-[var(--crm-text-muted)] opacity-60 tracking-widest">
-                                    {formatDate(std.createdAt)}
-                                </div>
-                            </td>
-                            <td className="py-8">
-                                <div className={`text-xl font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
-                                    {formatMoney(debt)} <span className="text-[9px] font-bold opacity-40">UZS</span>
-                                </div>
-                            </td>
-                            <td className="py-8 pr-12 text-right">
-                                <div className="flex justify-end gap-3 sm:translate-x-4 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-hover:translate-x-0 transition-all duration-300">
-                                    {debt > 0 && (
-                                        <button onClick={() => openPayment(std)} className="p-4 bg-green-600/10 border border-green-500/10 text-green-500 hover:bg-green-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
-                                            <Wallet className="w-5 h-5 shadow-lg" />
-                                        </button>
-                                    )}
-                                    <button onClick={() => openEdit(std)} className="p-4 bg-blue-600/10 border border-blue-500/10 text-blue-500 hover:bg-blue-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
-                                        <Edit3 className="w-5 h-5 shadow-lg" />
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+            <div className="space-y-4">
+              {/* Desktop Table */}
+              <div className="hidden md:block bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[3.5rem] overflow-hidden shadow-[0_30px_100px_rgba(0,0,0,0.2)]">
+                <table className="w-full text-left min-w-[1000px]">
+                  <thead>
+                      <tr className="bg-[var(--crm-bg)]/30 border-b border-[var(--crm-border)] text-[var(--crm-text-muted)] text-[10px] font-black uppercase tracking-[0.2em]">
+                          <th className="py-8 pl-12">Ism Familiya</th>
+                          <th className="py-8">Telefon</th>
+                          <th className="py-8">Kurs / Guruh</th>
+                          <th className="py-8 text-center px-4">Qabul</th>
+                          <th className="py-8">Qarz</th>
+                          <th className="py-8 pr-12 text-right">Amallar</th>
+                      </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--crm-border)] font-bold uppercase transition-colors">
+                    {filteredStudents.map((std) => {
+                      const debt = totalDebt(std);
+                      return (
+                          <tr key={std.id} className="group hover:bg-[var(--crm-accent)]/[0.02] transition-all">
+                              <td className="py-8 pl-12">
+                                  <div className="flex items-center gap-5">
+                                      <div className="w-12 h-12 rounded-[1.25rem] bg-[var(--crm-accent-soft)] border border-[var(--crm-accent-soft)] flex items-center justify-center font-black text-[var(--crm-accent)] text-lg group-hover:bg-[var(--crm-accent)] group-hover:text-white transition-all duration-500 shrink-0 uppercase shadow-lg">
+                                          {std.name[0]}
+                                      </div>
+                                      <div className="min-w-0">
+                                          <Link href={`/dashboard/students/${std.id}`} className="text-[var(--crm-text)] text-lg tracking-tighter leading-none mb-1 group-hover:text-[var(--crm-accent)] transition-colors truncate block hover:underline">
+                                              {std.name}
+                                          </Link>
+                                          <span className={`text-[8px] font-black tracking-widest px-2 py-0.5 rounded-md border ${std.status === 'Active' ? 'bg-[var(--crm-success-soft)] text-green-500 border-[var(--crm-success-soft)]' : 'bg-[var(--crm-error-soft)] text-red-500 border-[var(--crm-error-soft)]'}`}>
+                                              {std.status === 'Active' ? 'FAOL' : 'ARKHIVED'}
+                                          </span>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td className="py-8 text-[var(--crm-text-muted)] font-mono text-sm tracking-tight">{formatPhone(std.phone)}</td>
+                              <td className="py-8 px-4">
+                                  <div className="flex flex-wrap gap-2 max-w-[240px]">
+                                      {(std.courses || []).map((c: any) => {
+                                          const grp = (std.groups || []).find((g: any) => g.courseId === c.id);
+                                          return (
+                                              <div 
+                                                  key={c.id} 
+                                                  title={grp ? `Guruh: ${grp.name}\nUstoz: ${grp.teacher || 'Belgilanmagan'}` : "Guruhsiz"}
+                                                  className="flex flex-col bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-xl p-2 min-w-[100px] hover:border-[var(--crm-accent)] hover:bg-[var(--crm-accent-soft)] transition-all cursor-help group/badge"
+                                              >
+                                                  <span className="text-[9px] text-[var(--crm-text)] font-black truncate group-hover/badge:text-[var(--crm-accent)]">{c.name}</span>
+                                                  <div className="flex flex-col">
+                                                      <span className="text-[8px] text-[var(--crm-text-muted)] font-bold italic truncate opacity-60">{grp ? grp.name : 'Guruhsiz'}</span>
+                                                      {grp && <span className="text-[7px] text-[var(--crm-accent)] font-black uppercase tracking-tighter sm:opacity-0 sm:group-hover/badge:opacity-100 transition-opacity leading-none mt-0.5">{grp.teacher || 'Ustozsiz'}</span>}
+                                                  </div>
+                                              </div>
+                                          );
+                                      })}
+                                  </div>
+                              </td>
+                              <td className="py-8 text-center px-4">
+                                  <div className="text-[10px] font-black text-[var(--crm-text-muted)] opacity-60 tracking-widest">
+                                      {formatDate(std.createdAt)}
+                                  </div>
+                              </td>
+                              <td className="py-8">
+                                  <div className={`text-xl font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
+                                      {formatMoney(debt)} <span className="text-[9px] font-bold opacity-40">UZS</span>
+                                  </div>
+                              </td>
+                              <td className="py-8 pr-12 text-right">
+                                  <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                      {debt > 0 && (
+                                          <button onClick={() => openPayment(std)} className="p-4 bg-green-600/10 border border-green-500/10 text-green-500 hover:bg-green-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
+                                              <Wallet className="w-5 h-5 shadow-lg" />
+                                          </button>
+                                      )}
+                                      <button onClick={() => openEdit(std)} className="p-4 bg-blue-600/10 border border-blue-500/10 text-blue-500 hover:bg-blue-600 hover:text-white rounded-2xl transition-all shadow-xl active:scale-90">
+                                          <Edit3 className="w-5 h-5 shadow-lg" />
+                                      </button>
+                                  </div>
+                              </td>
+                          </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Cards */}
+              <div className="grid grid-cols-1 gap-4 md:hidden pb-20">
+                {filteredStudents.map((std) => {
+                  const debt = totalDebt(std);
+                  return (
+                    <motion.div 
+                      layout
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      key={std.id} 
+                      className="bg-[var(--crm-card)] border border-[var(--crm-border)] rounded-[2rem] p-5 shadow-xl space-y-4"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-2xl bg-[var(--crm-accent-soft)] flex items-center justify-center font-black text-[var(--crm-accent)] shadow-inner uppercase">
+                            {std.name[0]}
+                          </div>
+                          <div className="min-w-0">
+                            <Link href={`/dashboard/students/${std.id}`} className="text-sm font-black text-[var(--crm-text)] tracking-tight truncate block mb-1">
+                              {std.name}
+                            </Link>
+                            <span className={`text-[7px] font-black tracking-widest px-2 py-0.5 rounded-md border ${std.status === 'Active' ? 'bg-green-500/10 text-green-500 border-green-500/10' : 'bg-red-500/10 text-red-500 border-red-500/10'}`}>
+                              {std.status === 'Active' ? 'FAOL' : 'ARKHIV'}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className={`text-sm font-black tracking-tighter ${debt > 0 ? 'text-red-500' : 'text-green-500'}`}>
+                            {formatMoney(debt)}
+                          </div>
+                          <div className="text-[7px] font-black text-[var(--crm-text-muted)] opacity-40 uppercase tracking-widest">Qarz</div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap gap-1.5 py-4 border-y border-[var(--crm-border)]/50">
+                        {(std.courses || []).map((c: any) => (
+                           <span key={c.id} className="px-2 py-1 bg-[var(--crm-bg)]/50 border border-[var(--crm-border)] rounded-lg text-[7px] font-black text-[var(--crm-text-muted)] uppercase tracking-tighter">
+                             {c.name}
+                           </span>
+                        ))}
+                        {(std.courses || []).length === 0 && <span className="text-[7px] text-[var(--crm-text-muted)] opacity-30 italic uppercase font-black">Yo'nalishsiz</span>}
+                      </div>
+
+                      <div className="flex items-center justify-between pt-1">
+                         <div className="flex flex-col">
+                            <span className="text-[9px] font-mono text-[var(--crm-text-muted)] opacity-60">{formatPhone(std.phone)}</span>
+                            <span className="text-[7px] font-black text-[var(--crm-text-muted)] opacity-30 mt-0.5">{formatDate(std.createdAt)} QABUL</span>
+                         </div>
+                         <div className="flex gap-2">
+                            {debt > 0 && (
+                              <button onClick={() => openPayment(std)} className="w-10 h-10 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center active:scale-90 transition-all">
+                                <Wallet className="w-4 h-4" />
+                              </button>
+                            )}
+                            <button onClick={() => openEdit(std)} className="w-10 h-10 bg-blue-500/10 text-blue-500 rounded-xl flex items-center justify-center active:scale-90 transition-all">
+                              <Edit3 className="w-4 h-4" />
+                            </button>
+                         </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
           )}
         </section>
