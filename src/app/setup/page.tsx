@@ -27,6 +27,7 @@ export default function SetupDashboard() {
   const [isAuth, setIsAuth] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [centers, setCenters] = useState<any[]>([]);
+  const [upgradeRequests, setUpgradeRequests] = useState<any[]>([]);
   const [newCenter, setNewCenter] = useState({ 
     name: "", 
     login: "", 
@@ -65,6 +66,28 @@ export default function SetupDashboard() {
       console.error("Failed to fetch centers", err);
     }
   };
+
+  const fetchUpgradeRequests = async () => {
+    const token = localStorage.getItem("access_token");
+    const currentApiUrl = getApiBaseUrl();
+    try {
+      const response = await fetch(`${currentApiUrl}/centers/upgrade-requests`, {
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUpgradeRequests(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch upgrade requests", err);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuth) {
+      fetchUpgradeRequests();
+    }
+  }, [isAuth]);
 
   const handleCreateOrUpdate = async () => {
     if (!newCenter.name || !newCenter.login || !newCenter.pass) return;
@@ -354,6 +377,41 @@ export default function SetupDashboard() {
                     </div>
                   )
                })}
+            </div>
+          </section>
+        )}
+
+        {/* Upgrade Requests */}
+        {upgradeRequests.length > 0 && (
+          <section className="mb-10 p-8 rounded-3xl bg-purple-600/10 border border-purple-500/20 space-y-6">
+            <div className="flex items-center gap-3">
+              <PlusCircle className="w-6 h-6 text-purple-500" />
+              <h2 className="text-xl font-bold">Tarifni O'zgartirish So'rovlari</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+               {upgradeRequests.map(req => (
+                 <div key={req.id} className="p-6 rounded-2xl bg-black/40 border border-white/5 space-y-4">
+                    <div className="flex justify-between items-start">
+                       <div>
+                          <h4 className="font-bold text-white uppercase tracking-tight">{req.center?.name}</h4>
+                          <p className="text-[10px] text-gray-500 uppercase tracking-widest">{new Date(req.createdAt).toLocaleDateString()}</p>
+                       </div>
+                       <span className="px-2 py-0.5 bg-purple-500 text-white text-[10px] font-black rounded-full uppercase italic animate-pulse">
+                          Yangi So'rov
+                       </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                       <span className="text-xs text-gray-400">Kerakli Tarif:</span>
+                       <span className="px-2 py-1 bg-white/5 rounded-lg text-xs font-black text-purple-400 border border-purple-500/20">{req.tariff}</span>
+                    </div>
+                    <button 
+                      onClick={() => openEdit(req.center)}
+                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all"
+                    >
+                      Tarifni Tasdiqlash
+                    </button>
+                 </div>
+               ))}
             </div>
           </section>
         )}

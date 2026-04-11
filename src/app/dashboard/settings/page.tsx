@@ -82,7 +82,45 @@ export default function SettingsPage() {
   });
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [showSystemModal, setShowSystemModal] = useState(false);
+  const [showTariffsModal, setShowTariffsModal] = useState(false);
+  const [requestingUpgrade, setRequestingUpgrade] = useState(false);
+  const [fullCenter, setFullCenter] = useState<any>(null);
   const { theme, toggleTheme } = useTheme();
+
+  const fetchFullCenter = async () => {
+    const token = localStorage.getItem("access_token");
+    try {
+        const res = await fetch(`${API_BASE_URL}/centers/me/profile`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (res.ok) setFullCenter(await res.json());
+    } catch (err) { console.error("Fetch full center failed", err); }
+  };
+
+  useEffect(() => {
+    fetchFullCenter();
+  }, []);
+
+  const handleRequestUpgrade = async (tariff: string) => {
+    if (fullCenter?.tariff === tariff) {
+        alert("Siz allaqachon ushbu tarifdasiz!");
+        return;
+    }
+    setRequestingUpgrade(true);
+    const token = localStorage.getItem("access_token");
+    try {
+        const res = await fetch(`${API_BASE_URL}/centers/request-upgrade`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+            body: JSON.stringify({ tariff })
+        });
+        if (res.ok) {
+            alert("So'rov yuborildi! Tez orada Super Admin siz bilan bog'lanadi.");
+            setShowTariffsModal(false);
+        }
+    } catch (err) { console.error("Upgrade request failed", err); }
+    finally { setRequestingUpgrade(false); }
+  };
 
   const fetchUsers = async () => {
     const token = localStorage.getItem("access_token");
@@ -272,10 +310,11 @@ export default function SettingsPage() {
         </header>
 
         <section className="p-4 sm:p-12 max-w-7xl mx-auto min-h-screen">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-12 sm:mb-20 px-2 sm:px-0">
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
                 <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />
                 <SettingsCard onClick={() => { setCredentialsForm({...credentialsForm, login: center?.login}); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
                 <SettingsCard onClick={() => setShowNotificationModal(true)} icon={<Bell className="w-5 h-5 sm:w-6 sm:h-6" />} title="Xabar" desc="Xabarnomalar" />
+                <SettingsCard onClick={() => setShowTariffsModal(true)} icon={<Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-orange-500" />} title="Tarif" desc="Subscription plan" />
                 <SettingsCard onClick={() => setShowSystemModal(true)} icon={<Layers className="w-5 h-5 sm:w-6 sm:h-6" />} title="Tizim" desc="Vizual sozlamalar" />
             </div>
 
@@ -694,6 +733,69 @@ export default function SettingsPage() {
                 </div>
             )}
         </AnimatePresence>
+        
+        {/* Tariffs / Subscription Modal */}
+        <AnimatePresence>
+            {showTariffsModal && (
+                <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6 backdrop-blur-2xl">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowTariffsModal(false)} className="absolute inset-0 bg-black/80" />
+                    <motion.div initial={{ scale: 0.9, opacity: 0, y: 50 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 50 }} className="w-full max-w-6xl bg-[#0a0a0a]/90 border border-white/10 rounded-[3rem] sm:rounded-[4rem] p-8 sm:p-14 relative z-10 shadow-[0_0_150px_rgba(139,92,246,0.15)] overflow-y-auto max-h-[92vh] no-scrollbar">
+                        <header className="mb-14 text-center">
+                            <h2 className="text-4xl sm:text-6xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-4">FAOL TARIFLAR</h2>
+                            <p className="text-[var(--crm-text-muted)] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] opacity-60">Markazingiz uchun mukammal rejani tanlang</p>
+                            
+                            {fullCenter && (
+                                <div className="mt-8 inline-flex items-center gap-4 px-6 py-2 bg-purple-600/10 border border-purple-500/20 rounded-full">
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">Hozirgi Tarif:</span>
+                                    <span className="text-sm font-black text-purple-500 uppercase italic">{fullCenter.tariff}</span>
+                                </div>
+                            )}
+                        </header>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <TariffCard 
+                                name="Standart"
+                                price="299 000"
+                                students="100"
+                                staff="5"
+                                features={["CRM Lead boshqaruv", "To'lovlar va Kassa", "Telegram Bot xabarnomalari", "SMS xizmati (Eskiz)"]}
+                                active={fullCenter?.tariff === "Standart"}
+                                themeColor="blue"
+                                icon={<Plus className="w-8 h-8" />}
+                                onSelect={() => handleRequestUpgrade("Standart")}
+                            />
+                            <TariffCard 
+                                name="Premium"
+                                price="499 000"
+                                students="400"
+                                staff="25"
+                                features={["Barcha Standart imkoniyatlar", "Kengaytirilgan Statistika", "Davomat va Jurnallar", "Prioritetli qo'llab-quvvatlash"]}
+                                active={fullCenter?.tariff === "Premium"}
+                                themeColor="purple"
+                                popular
+                                icon={<CheckCircle2 className="w-8 h-8" />}
+                                onSelect={() => handleRequestUpgrade("Premium")}
+                            />
+                            <TariffCard 
+                                name="VIP"
+                                price="999 000"
+                                students="CHEKSIZ"
+                                staff="CHEKSIZ"
+                                features={["Barcha Premium imkoniyatlar", "Shaxsiy menejer", "Brand xabarlar", "Maxsus funksiyalar (Custom)"]}
+                                active={fullCenter?.tariff === "VIP"}
+                                themeColor="orange"
+                                icon={<ShieldCheck className="w-8 h-8" />}
+                                onSelect={() => handleRequestUpgrade("VIP")}
+                            />
+                        </div>
+
+                        <div className="mt-16 text-center text-gray-500">
+                             <p className="text-[10px] uppercase font-black tracking-[.2em] opacity-40 italic">Barcha to'lovlar oylik asosda amalga oshiriladi</p>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
+        </AnimatePresence>
 
         {/* System / Visual Modal */}
         <AnimatePresence>
@@ -765,6 +867,63 @@ function SettingsCard({ icon, title, desc, onClick }: any) {
                 <h4 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-[var(--crm-text)] leading-none mb-2 sm:mb-3">{title}</h4>
                 <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest leading-relaxed opacity-60 line-clamp-1 sm:line-clamp-2 italic">{desc}</p>
             </div>
+        </div>
+    );
+}
+
+function TariffCard({ name, price, students, staff, features, active, themeColor, popular, icon, onSelect }: any) {
+    const colors: any = {
+        blue: "text-blue-500 bg-blue-500 border-blue-500/20",
+        purple: "text-purple-500 bg-purple-500 border-purple-500/20",
+        orange: "text-orange-500 bg-orange-500 border-orange-500/20"
+    };
+
+    return (
+        <div className={`relative group p-8 sm:p-10 rounded-[3rem] bg-white/5 border ${active ? 'border-purple-500 shadow-[0_0_80px_rgba(139,92,246,0.1)]' : 'border-white/5'} hover:border-white/20 transition-all duration-500 active:scale-[0.98]`}>
+            {popular && (
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600 px-4 py-1 rounded-full text-[8px] font-black uppercase tracking-[.25em] shadow-xl">
+                    Ommabop
+                </div>
+            )}
+            
+            <div className="flex justify-between items-start mb-10">
+                <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center bg-white/5 ${colors[themeColor].split(' ')[0]} shadow-inner`}>
+                    {icon}
+                </div>
+                <div className="text-right">
+                    <p className="text-[8px] font-black uppercase tracking-[.3em] opacity-40 mb-1 leading-none">Oylik To'lov</p>
+                    <div className="text-2xl sm:text-3xl font-black italic tracking-tighter leading-none">{price} <span className="text-xs uppercase ml-1 opacity-40 italic">UZS</span></div>
+                </div>
+            </div>
+
+            <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter italic mb-8 bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent">{name}</h3>
+            
+            <div className="flex flex-wrap gap-2 mb-10">
+                <div className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 flex items-center gap-2">
+                    <Users className="w-3 h-3 opacity-40" />
+                    <span className="text-[10px] font-black uppercase italic">{students} O'QUVCHI</span>
+                </div>
+                <div className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 flex items-center gap-2">
+                    <Building2 className="w-3 h-3 opacity-40" />
+                    <span className="text-[10px] font-black uppercase italic">{staff} XODIM</span>
+                </div>
+            </div>
+
+            <ul className="space-y-4 mb-12">
+                {features.map((f: string, i: number) => (
+                    <li key={i} className="flex items-center gap-3 group/item">
+                        <CheckCircle2 className={`w-4 h-4 ${active ? 'text-purple-500' : 'text-green-500'} opacity-60 group-hover/item:opacity-100 transition-opacity`} />
+                        <span className="text-xs font-bold text-gray-400 group-hover/item:text-white transition-colors">{f}</span>
+                    </li>
+                ))}
+            </ul>
+
+            <button 
+                onClick={onSelect}
+                className={`w-full py-5 rounded-2xl font-black text-[10px] uppercase tracking-[.2em] transition-all duration-300 shadow-xl ${active ? 'bg-purple-600/10 text-purple-500 border border-purple-500/20 cursor-default' : 'bg-white hover:bg-white/90 text-black active:scale-95'}`}
+            >
+                {active ? "FAOL TARIF" : "TARIFNI TANLASH"}
+            </button>
         </div>
     );
 }
