@@ -353,17 +353,17 @@ export default function SettingsPage() {
   return (
     <>
         <header className="min-h-[60px] sm:min-h-24 border-b border-[var(--crm-border)] flex items-center justify-between px-4 sm:px-10 bg-[var(--crm-sidebar)]/50 backdrop-blur-xl sticky top-0 z-40 py-2 sm:py-0 gap-4">
-          <div className="flex flex-col items-start min-w-0">
-              <h1 className="text-2xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-10 truncate w-full">Sozlamalar</h1>
-              <p className="text-[var(--crm-text-muted)] text-[10px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1 opacity-60 italic">Xavfsizlik va Attributes</p>
+          <div className="flex flex-col items-start min-w-0 max-w-[40%] sm:max-w-none">
+              <h1 className="text-xl sm:text-5xl font-black tracking-tighter uppercase leading-none italic opacity-10">Sozlamalar</h1>
+              <p className="text-[var(--crm-text-muted)] text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] mt-1 opacity-60 italic whitespace-nowrap">Xavfsizlik va Attributes</p>
           </div>
           <div className="flex items-center gap-2 sm:gap-6">
-              <div className="flex flex-col items-end">
-                  <span className="text-[9px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] opacity-60 leading-none mb-1 shadow-sm">{isTeacher ? "O'qituvchi" : "Boshqaruvchi"}</span>
-                  <span className="text-sm sm:text-lg font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[150px] sm:max-w-[300px]">{center?.displayName || center?.login || center?.name}</span>
+              <div className="flex flex-col items-end min-w-0">
+                  <span className="text-[9px] sm:text-[9px] text-[var(--crm-text-muted)] font-black uppercase tracking-[0.2em] opacity-60 leading-none mb-1 shadow-sm whitespace-nowrap">{isTeacher ? "Xodim" : "Boshqaruvchi"}</span>
+                  <span className="text-xs sm:text-lg font-black text-[var(--crm-accent)] tracking-tighter leading-none uppercase italic truncate max-w-[100px] sm:max-w-[300px]">{center?.displayName || center?.login || center?.name}</span>
               </div>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-[1.25rem] bg-[var(--crm-accent)]/10 border border-[var(--crm-accent)]/10 flex items-center justify-center text-[var(--crm-accent)] shadow-xl shrink-0">
-                  <User className="w-5 h-5 sm:w-6 sm:h-6" />
+              <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-[1.25rem] bg-[var(--crm-accent)]/10 border border-[var(--crm-accent)]/10 flex items-center justify-center text-[var(--crm-accent)] shadow-xl shrink-0">
+                  <User className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
               <button 
                 onClick={() => {
@@ -379,7 +379,7 @@ export default function SettingsPage() {
         </header>
 
         <section className="p-4 sm:p-12 pb-40 sm:pb-40 max-w-7xl mx-auto min-h-screen">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-20 px-2 sm:px-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6 mb-12 sm:mb-20 px-1 sm:px-0">
                 {isOwner && <SettingsCard onClick={() => { setProfileForm({ name: center?.centerName || center?.name || "", botToken: center?.botToken || "", eskizEmail: center?.eskizEmail || "", eskizPassword: center?.eskizPassword || "", smsEnabled: center?.smsEnabled || false }); setShowProfileModal(true); }} icon={<Building2 className="w-5 h-5 sm:w-6 sm:h-6" />} title="Markaz" desc="Profil va brend" />}
                 <SettingsCard onClick={() => { setCredentialsForm({ name: center?.name || "", login: center?.login || "", password: "", confirmPassword: "" }); setShowCredentialsModal(true); }} icon={<ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />} title="Ximoya" desc="Login va parol" />
                 {(isOwner || role === 'TEACHER') && <SettingsCard onClick={() => {
