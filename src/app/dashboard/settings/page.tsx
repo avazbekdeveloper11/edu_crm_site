@@ -26,7 +26,8 @@ import {
   HelpCircle,
   Phone,
   MessageCircle,
-  ExternalLink
+  ExternalLink,
+  TrendingUp
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeContext";
@@ -834,10 +835,18 @@ export default function SettingsPage() {
             {showTariffsModal && (
                 <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center p-0 sm:p-6 backdrop-blur-2xl">
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowTariffsModal(false)} className="absolute inset-0 bg-black/80" />
-                    <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-6xl bg-[#0a0a0a]/90 border-t sm:border border-white/10 rounded-t-[2.5rem] sm:rounded-[4rem] p-8 sm:p-14 relative z-10 shadow-[0_0_150px_rgba(139,92,246,0.15)] overflow-y-auto max-h-[92vh] no-scrollbar">
-                        <header className="mb-10 text-center">
-                            <h2 className="text-4xl sm:text-6xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-4">FAOL TARIFLAR</h2>
-                            <p className="text-[var(--crm-text-muted)] text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] opacity-60">Markazingiz uchun mukammal rejani tanlang</p>
+                    <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 100, opacity: 0 }} className="w-full max-w-6xl bg-[#0a0a0a]/95 border-t sm:border border-white/10 rounded-t-[2.5rem] sm:rounded-[4rem] relative z-10 shadow-[0_0_150px_rgba(139,92,246,0.15)] flex flex-col max-h-[95vh] overflow-hidden">
+                        <header className="p-6 sm:p-14 pb-0 sm:pb-0 relative flex sm:block items-center justify-between shrink-0 z-10">
+                            <div className="text-left sm:text-center">
+                                <h2 className="text-2xl sm:text-6xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-1 sm:mb-4">FAOL TARIFLAR</h2>
+                                <p className="text-[8px] sm:text-xs font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] opacity-60">Tanlang va rivojlaning</p>
+                            </div>
+                            <button onClick={() => setShowTariffsModal(false)} className="p-3 sm:p-6 bg-white/5 sm:absolute sm:top-10 sm:right-10 rounded-full hover:bg-white/10 text-gray-400 transition-all">
+                                <X className="w-5 h-5 sm:w-8 sm:h-8" />
+                            </button>
+                        </header>
+
+                        <div className="flex-1 overflow-y-auto no-scrollbar p-6 sm:p-14 pt-4 sm:pt-4">
                             
                             {/* Billing Cycle Toggle */}
                             <div className="mt-10 flex items-center justify-center gap-6">
@@ -865,7 +874,6 @@ export default function SettingsPage() {
                                     </span>
                                 </div>
                             )}
-                        </header>
 
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <TariffCard 
@@ -908,7 +916,7 @@ export default function SettingsPage() {
                                 active={fullCenter?.tariff === "VIP" && fullCenter?.tariffType === billingCycle}
                                 isCurrent={fullCenter?.tariff === "VIP" && fullCenter?.tariffType !== billingCycle}
                                 themeColor="orange"
-                                icon={<ShieldCheck className="w-8 h-8" />}
+                                icon={<TrendingUp className="w-8 h-8" />}
                                 onSelect={() => handleRequestUpgrade("VIP")}
                             />
                         </div>
@@ -917,6 +925,7 @@ export default function SettingsPage() {
                              <p className="text-[10px] uppercase font-black tracking-[.2em] opacity-40 italic">
                                 {billingCycle === 'Monthly' ? 'Barcha to\'lovlar oylik asosda amalga oshiriladi' : 'Yillik to\'lovda 2 oylik qiymat tejaladi'}
                              </p>
+                        </div>
                         </div>
                     </motion.div>
                 </div>
@@ -1127,7 +1136,7 @@ function TariffCard({ name, price, yearlyTotal, billingCycle, students, staff, f
     };
 
     return (
-        <div className={`relative group p-8 sm:p-10 rounded-[3rem] bg-white/5 border ${active ? 'border-purple-500 shadow-[0_0_80px_rgba(139,92,246,0.1)]' : 'border-white/5'} hover:border-white/20 transition-all duration-500 active:scale-[0.98]`}>
+        <div className={`relative group p-6 sm:p-10 rounded-[2.5rem] sm:rounded-[3rem] bg-white/5 border ${active ? 'border-purple-500 shadow-[0_0_80px_rgba(139,92,246,0.1)]' : 'border-white/5'} hover:border-white/20 transition-all duration-500 active:scale-[0.98]`}>
             {popular && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-purple-600 px-4 py-1 rounded-full text-[8px] font-black uppercase tracking-[.25em] shadow-xl">
                     Ommabop
@@ -1149,7 +1158,7 @@ function TariffCard({ name, price, yearlyTotal, billingCycle, students, staff, f
                 </div>
             </div>
 
-            <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter italic mb-8 bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent">{name}</h3>
+            <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter italic mb-8 bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent">{name}</h3>
             
             <div className="flex flex-wrap gap-2 mb-10">
                 <div className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 flex items-center gap-2">
