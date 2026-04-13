@@ -54,7 +54,7 @@ export default function CenterLogin() {
           <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mb-5 shadow-2xl shadow-purple-600/40">
             <LayoutDashboard className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-3xl font-black tracking-tighter text-white uppercase italic">EduMarkaz</h1>
+          <h1 className="text-3xl font-black tracking-tighter text-white uppercase italic">UNEX-EDU</h1>
           <p className="text-gray-400 text-[9px] uppercase font-black tracking-[0.3em] mt-3 opacity-80">Boshqaruv Tizimiga Kirish</p>
         </div>
 
@@ -110,8 +110,9 @@ export default function CenterLogin() {
           </button>
         </form>
 
-        <div className="mt-12 text-center text-[7px] font-black uppercase tracking-[0.4em] text-gray-600 opacity-50">
-          Admin Panel / v1.0 / © 2026 
+        <div className="mt-12 text-center text-[7px] font-black uppercase tracking-[0.4em] text-gray-600 opacity-50 flex flex-col gap-2">
+          <span>Admin Panel / v1.0 / © 2026 UNEX-EDU</span>
+          <span>Development by UNEX LLC</span>
         </div>
       </div>
     </div>
