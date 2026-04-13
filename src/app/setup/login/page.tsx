@@ -6,8 +6,8 @@ import { Lock, User, CheckCircle, AlertCircle } from "lucide-react";
 import { getApiBaseUrl } from "@/app/constants";
 
 export default function SetupLogin() {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+  const [login, setLogin] = useState("admin");
+  const [password, setPassword] = useState("avazbekdeveloper");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
